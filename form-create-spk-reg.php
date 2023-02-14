@@ -104,7 +104,7 @@
                 </div>
                 <div class="text-center mt-3">
                   <button type="submit" class="btn btn-primary btn-md m-2"><i class="bx bx-save"></i> Simpan Data</button>
-                  <a href="spk.php" class="btn btn-secondary m-2"><i class="bi bi-x-circle"></i> Cancel</a>
+                  <a href="spk-reg.php" class="btn btn-secondary m-2"><i class="bi bi-x-circle"></i> Cancel</a>
                 </div>
               </div>
             </div>
