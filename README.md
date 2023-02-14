@@ -1,0 +1,2 @@
+# project-kma
+ inventory
