@@ -69,6 +69,10 @@
                 <div class="col-sm-6">
                   <div class="card-body">
                     <div class="mt-3">
+                      <label for="instansi" class="form-label">Instansi</label>
+                      <input type="text" class="form-control" id="instansi" name="instansi">
+                    </div>
+                    <div class="mt-3">
                       <label for="order_via" class="form-label">Order Via</label>
                       <select class="selectize-js form-select" name="order_via" required>
                         <option value=""></option>
@@ -94,7 +98,7 @@
                 </div>
                 <div class="text-center mt-3">
                   <button type="submit" class="btn btn-primary btn-md m-2"><i class="bx bx-save"></i> Simpan Data</button>
-                  <a href="spk.php" class="btn btn-secondary m-2"><i class="bi bi-x-circle"></i> Cancel</a>
+                  <a href="spk-ecat.php" class="btn btn-secondary m-2"><i class="bi bi-x-circle"></i> Cancel</a>
                 </div>
               </div>
             </div>

@@ -102,7 +102,7 @@
                   <div class="card-header bg-body">
                     <div class="row">
                       <div class="col-sm-10 text-dark"><a class="text-primary">SPK/ECAT/001/1/2023</a> / <a>PO-001</a> / <a><i class="bi bi-clock"></i> 01 Jan 2023, 08.30 WIB</a></div>
-                      <div class="col-sm-2"><a class="btn btn-warning btn-sm">Belum Diproses <i class="bi bi-info-circle"></i></a></div>
+                      <div class="col-sm-2"><a class="btn btn-warning btn-sm">Kirim Hari Ini <i class="bi bi-info-circle"></i></a></div>
                     </div>
                   </div>
                   <div class="card-body">
