@@ -129,7 +129,7 @@
                         <p style="float: right;">:</p>
                       </div>
                       <div class="col-7">
-                        L2 , Pasar Glodok City , JL. Pancoran , Glodok, Tanah Abang, 11120 Jakarta Pusat, DKI Jakarta, RT.2/RW.1, Glodok, Taman Sari, West Jakarta City, Jakarta 11120
+                        Jakarta
                       </div>
                     </div>
                     <div class="row">
