@@ -40,7 +40,7 @@
       <div class="container-fluid">
         <div class="card shadow p-2">
           <div class="card-header text-center"><h5><strong>FORM SPK REGULER ORDER</strong></h5></div>
-          <form action="input-produk-spk.php" method="POST">
+          <form action="input-produk-spk-reg.php" method="POST">
             <?php 
               date_default_timezone_set('Asia/Jakarta');
             ?>
