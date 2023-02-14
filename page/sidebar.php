@@ -115,7 +115,7 @@
       </a>
       <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
-          <a class="<?php if($page2 =='spk'){echo 'active';} ?>" href="spk.php">
+          <a class="<?php if($page2 =='spk'){echo 'active';} ?>" href="spk-reg.php">
             <i class="bi bi-circle"></i><span>SPK</span>
           </a>
         </li>
