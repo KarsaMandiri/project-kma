@@ -181,14 +181,14 @@
     <li class="nav-heading">Pages</li>
 
     <li class="nav-item">
-      <a class="nav-link collapsed" href="#">
+      <a class="nav-link" href="#">
         <i class="bi bi-person"></i>
         <span>Data User</span>
       </a>
     </li><!-- End Data User Page Nav -->
 
     <li class="nav-item">
-      <a class="nav-link collapsed" href="#">
+      <a class="nav-link <?php if($page =='role-user'){echo 'active-link';} ?>" href="data-user-role.php">
         <i class="bi bi-arrows-fullscreen"></i>
         <span>Role User</span>
       </a>

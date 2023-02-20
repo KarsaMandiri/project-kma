@@ -43,14 +43,14 @@
             <h4>Data Customer</h4>
           </div>
           <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-striped table-bordered">
+            <div class="table-responsive mt-3">
+              <table class="table table-striped table-bordered" id="table2">
                 <thead>
-                  <tr class="bg-primary text-center text-white">
-                    <td class="col-1">No</td>
-                    <td class="col-4">Nama Customer</td>
-                    <td class="col-5">Alamat</td>
-                    <td class="col-2">Telepon</td>
+                  <tr class="text-white" style="background-color: #051683;">
+                    <td class="text-center p-3 col-1">No</td>
+                    <td class="text-center p-3 col-4">Nama Customer</td>
+                    <td class="text-center p-3 col-5">Alamat</td>
+                    <td class="text-center p-3 col-2">Telepon</td>
                   </tr>
                 </thead>
                 <tbody>
@@ -66,7 +66,7 @@
           </div>
         </div>
       </div>
-
+    </section>
   </main><!-- End #main -->
 
   <!-- Footer -->
