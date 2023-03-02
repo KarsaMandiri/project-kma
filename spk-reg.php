@@ -230,9 +230,14 @@
                           <option value="2">Paling Lama</option>
                         </select>
                       </div>
+                      <div class="col-6">
+                        <button class="btn btn-primary btn-md" id="checkButton-nonppn">Create Invoice Non PPN</button>
+                        <button class="btn btn-secondary btn-md" id="checkButton-ppn">Buat Invoice PPN</button>
+                      </div>
                     </div>          
                     <div class="table-responsive">
-                      <table class="table table-striped table-bordered" id="table2" style="width:100%">
+                      <form action="test.php" method="post">
+                        <table class="table table-striped table-bordered" id="table2" style="width:100%">
                         <thead>
                           <tr class="text-white bg-secondary">
                             <td class="text-center" style="width: 80px">Pilih</td>
@@ -242,27 +247,181 @@
                             <td class="text-center" style="width: 250px">Nama Pelanggan</td>
                             <td class="text-center" style="width: 300px">Alamat</td>
                             <td class="text-center" style="width: 150px">Tanggal</td>
-                            <td class="text-center" style="width: 150px">Aksi</td>
                           </tr>
                         </thead>
                         <tbody>
                           <tr>
-                            <td class="text-center"><input type="checkbox" name=""></td>
+                            <td class="text-center"><input type="checkbox" name="" value="Ibu Melly"></td>
                             <td class="text-center">1</td>
                             <td class="text-center">SPK/001/01/2023</td>
                             <td class="text-center">PO-001</td>
                             <td class="">Ibu Melly</td>
                             <td class="">Jakarta</td>
                             <td class=" text-center">01 Jan 2023</td>
-                            <td class=" text-center">
-                              <a href="#" class="btn btn-primary btn-sm"><i class="bi bi-plus-circle"></i> Buat Invoice</a>
-                            </td>
+                          </tr>
+                          <tr>
+                            <td class="text-center"><input type="checkbox" name="" value="Ibu Jhon"></td>
+                            <td class="text-center">2</td>
+                            <td class="text-center">SPK/001/01/2023</td>
+                            <td class="text-center">PO-001</td>
+                            <td class="">Ibu Jhon</td>
+                            <td class="">Jakarta</td>
+                            <td class=" text-center">01 Jan 2023</td>
+                          </tr>
+                          <tr>
+                            <td class="text-center"><input type="checkbox" name="" value="Ibu Melly"></td>
+                            <td class="text-center">3</td>
+                            <td class="text-center">SPK/001/01/2023</td>
+                            <td class="text-center">PO-001</td>
+                            <td class="">Ibu Melly</td>
+                            <td class="">Jakarta</td>
+                            <td class=" text-center">01 Jan 2023</td>
+                          </tr>
+                          <tr>
+                            <td class="text-center"><input type="checkbox" name="" value="Ibu Jhon"></td>
+                            <td class="text-center">4</td>
+                            <td class="text-center">SPK/001/01/2023</td>
+                            <td class="text-center">PO-001</td>
+                            <td class="">Ibu Jhon</td>
+                            <td class="">Jakarta</td>
+                            <td class=" text-center">01 Jan 2023</td>
+                          </tr>
+                          <tr>
+                            <td class="text-center"><input type="checkbox" name="" value="Ibu Melly"></td>
+                            <td class="text-center">5</td>
+                            <td class="text-center">SPK/001/01/2023</td>
+                            <td class="text-center">PO-001</td>
+                            <td class="">Ibu Melly</td>
+                            <td class="">Jakarta</td>
+                            <td class=" text-center">01 Jan 2023</td>
+                          </tr>
+                          <tr>
+                            <td class="text-center"><input type="checkbox" name="" value="Ibu Jhon"></td>
+                            <td class="text-center">6</td>
+                            <td class="text-center">SPK/001/01/2023</td>
+                            <td class="text-center">PO-001</td>
+                            <td class="">Ibu Jhon</td>
+                            <td class="">Jakarta</td>
+                            <td class=" text-center">01 Jan 2023</td>
+                          </tr>
+                          <tr>
+                            <td class="text-center"><input type="checkbox" name="" value="Ibu Melly"></td>
+                            <td class="text-center">7</td>
+                            <td class="text-center">SPK/001/01/2023</td>
+                            <td class="text-center">PO-001</td>
+                            <td class="">Ibu Melly</td>
+                            <td class="">Jakarta</td>
+                            <td class=" text-center">01 Jan 2023</td>
+                          </tr>
+                          <tr>
+                            <td class="text-center"><input type="checkbox" name="" value="Ibu Melly"></td>
+                            <td class="text-center">7</td>
+                            <td class="text-center">SPK/001/01/2023</td>
+                            <td class="text-center">PO-001</td>
+                            <td class="">Ibu Melly</td>
+                            <td class="">Jakarta</td>
+                            <td class=" text-center">01 Jan 2023</td>
+                          </tr>
+                          <tr>
+                            <td class="text-center"><input type="checkbox" name="" value="Ibu Melly"></td>
+                            <td class="text-center">7</td>
+                            <td class="text-center">SPK/001/01/2023</td>
+                            <td class="text-center">PO-001</td>
+                            <td class="">Ibu Melly</td>
+                            <td class="">Jakarta</td>
+                            <td class=" text-center">01 Jan 2023</td>
                           </tr>
                         </tbody>
-                      </table>
+                        </table>
+                      </form>
                     </div>
                   </div>   
-                </div>
+                </div> 
+                <script>
+  // Get the "Create Invoice Non PPN" button
+  const btnNonPPN = document.getElementById("checkButton-nonppn");
+
+  // Get all the checkboxes in the table
+  const checkboxes5 = document.querySelectorAll("#table2 tbody input[type='checkbox']");
+
+  // Add a click event listener to each checkbox
+  checkboxes5.forEach((checkbox) => {
+    checkbox.addEventListener("click", () => {
+      // Get the number of checkboxes that are checked
+      const checkedCount = document.querySelectorAll("#table2 tbody input[type='checkbox']:checked").length;
+
+      // Disable the "Create Invoice Non PPN" button if more than 5 checkboxes are checked
+      if (checkedCount > 5) {
+        btnNonPPN.disabled = true;
+      } else {
+        btnNonPPN.disabled = false;
+      }
+    });
+  });
+</script>
+
+                <script>
+                  let checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                  let checkButton1 = document.querySelector('#checkButton-nonppn');
+
+                  checkButton1.addEventListener('click', () => {
+                    let values = new Set();
+                    checkboxes.forEach(checkbox => {
+                      if (checkbox.checked) {
+                        values.add(checkbox.value);
+                      }
+                    });
+                    if (values.size === 0) {
+                      alert('No checkboxes are checked.');
+                    } else if (values.size === 1) {
+                        let nextPage = 'form-invoice-nonppn.php'; // replace with the URL of the next page
+                        window.location.href = nextPage;
+                    } else {
+                      alert('Nama customer berbeda, silahkan pilih data customer yang sama');
+                    }
+                  });
+                </script>   
+                <script>
+                  let checkboxes2 = document.querySelectorAll('input[type="checkbox"]');
+                  let checkButton2 = document.querySelector('#checkButton-ppn');
+
+                  checkButton2.addEventListener('click', () => {
+                    let values = new Set();
+                    checkboxes2.forEach(checkbox => {
+                      if (checkbox.checked) {
+                        values.add(checkbox.value);
+                      }
+                    });
+                    if (values.size === 0) {
+                      alert('No checkboxes are checked.');
+                    } else if (values.size === 1) {
+                        let nextPage = 'form-invoice-ppn.php'; // replace with the URL of the next page
+                        window.location.href = nextPage;
+                    } else {
+                      alert('Nama customer berbeda, silahkan pilih data customer yang sama');
+                    }
+                  });
+                </script>    
+                <script>
+                  let checkboxes3 = document.querySelectorAll('input[type="checkbox"]');
+                  let checkButton3 = document.querySelector('#checkButton-nonppn');
+
+                  checkboxes3.forEach(checkbox => {
+                    checkbox.addEventListener('change', () => {
+                      let values = new Set();
+                      checkboxes3.forEach(cb => {
+                        if (cb.checked) {
+                          values.add(cb.value);
+                        }
+                      });
+                      if (values.size === 0 || values.size > 1) {
+                        checkButton3.disabled = true;
+                      } else {
+                        checkButton3.disabled = false;
+                      }
+                    });
+                  });
+                </script>           
                 <!-- End Siap Kirim -->
                 <!-- ================================================ -->
 

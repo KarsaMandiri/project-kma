@@ -22,7 +22,6 @@
   <!-- sidebar  -->
   <?php include "page/sidebar.php"; ?>
   <!-- end sidebar -->
-  
 
   <main id="main" class="main">
 
@@ -37,6 +36,7 @@
     </div><!-- End Page Title -->
 
     <section class="section dashboard">
+    
     </section>
 
   </main><!-- End #main -->

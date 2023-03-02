@@ -102,7 +102,7 @@
                  $UUID = generate_uuid();
               ?>
               <label class="form-label">Hak Akses</label>
-              <input type="hidden" class="form-control" name="id_user_role" value="<?php echo $UUID; ?>">
+              <input type="hidden" class="form-control" name="id_user_role" value="ROLE<?php echo $UUID; ?>">
               <input type="text" class="form-control" name="role" required>
               <input type="hidden" class="form-control" name="created" value="<?php echo date('d/m/Y, G:i') ?>">
             </div>
