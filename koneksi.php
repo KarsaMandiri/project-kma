@@ -5,7 +5,11 @@
 	$db = "db_inventory";//database
 
 	// Koneksi dan memilih database di server
-	$connect = mysqli_connect($server,$user,$password,$db) or die(mysqli_error());
+	$connect = mysqli_connect($server,$user,$password,$db);
 
-	//echo "Terhubung";
+	if (!$connect) {
+		die("Koneksi gagal: " . mysqli_connect_error());
+	}
+		// echo "Koneksi berhasil";
+	// mysqli_close($connect);
 ?>

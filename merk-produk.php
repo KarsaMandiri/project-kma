@@ -1,6 +1,6 @@
 <?php
     $page = 'data';
-    $page2 = 'data-kat-prod';
+    $page2 = 'data-merk';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,7 +31,7 @@
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.php">Home</a></li>
-          <li class="breadcrumb-item active">Kategori Produk</li>
+          <li class="breadcrumb-item active">Merk Produk</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -40,23 +40,23 @@
       <div class="container-fluid">
         <div class="card">
           <div class="card-header text-center">
-            <h4>Kategori Produk</h4>
+            <h4>Merk Produk</h4>
           </div>
           <div class="card-body p-3">
-            <a href="#" class="btn btn-primary btn-md" data-bs-toggle="modal" data-bs-target="#modal1"><i class="bi bi-plus-circle"></i> Tambah data kategori produk</a>
+            <a href="#" class="btn btn-primary btn-md" data-bs-toggle="modal" data-bs-target="#modal1"><i class="bi bi-plus-circle"></i> Tambah data merk</a>
             <div class="table-responsive mt-3">
               <table class="table table-striped table-bordered" id="table1">
                 <thead>
                   <tr class="text-white" style="background-color: #051683;">
                     <td class="text-center p-3 col-1">No</td>
-                    <td class="text-center p-3 col-9">Nama Kategori Produk</td>
+                    <td class="text-center p-3 col-9">Nama Merk</td>
                     <td class="text-center p-3 col-2">Aksi</td>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td class="text-center">1</td>
-                    <td>Surgical Instrument</td>
+                    <td>Marwa</td>
                     <td class="text-center">
                       <a href="#" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modal2"><i class="bi bi-pencil"></i></a>
                       <a href="#" class="btn btn-danger btn-sm delete-button"><i class="bi bi-trash"></i></a>
@@ -66,23 +66,20 @@
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h1 class="modal-title fs-5">Edit Data Kategori Produk</h1>
+                                    <h1 class="modal-title fs-5">Edit Data Merk</h1>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                                <form action="proses/proses-kat-produk.php" method="POST">
+                                <form action="proses/proses-merk.php" method="POST">
                                     <div class="modal-body">
-                                      <div class="mb-3">
-                                        <label class="form-label">Nama Kategori Produk</label>
-                                        <input type="hidden" class="form-control" name="id_kat_produk" value="">
-                                        <input type="text" class="form-control" name="nama_kat_br" value="Surgical Instrument" required>
-                                      </div>
-                                      <div class="mb-3">
-                                        <label class="form-label">Nomor Izin Edar</label>
-                                        <input type="text" class="form-control" name="no_izin_edar" value="00013255" required>
-                                      </div>
+                                        <div class="mb-3">
+                                            <div class="mb-3">
+                                            <label class="form-label">Nama Merk</label>
+                                            <input type="hidden" class="form-control" name="id_merk" value="">
+                                            <input type="text" class="form-control" name="nama_merk" value="Marwa" required>
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="submit" name="edit-kat-br" class="btn btn-primary btn-md"><i class="bx bx-save"></i> Simpan Data</button>
+                                        <button type="submit" name="edit-merk" class="btn btn-primary btn-md"><i class="bx bx-save"></i> Simpan Data</button>
                                         <button type="button" class="btn btn-secondary btn-md" data-bs-dismiss="modal"><i class="bi bi-x"></i> Tutup</button>
                                     </div>
                                 </form>
@@ -104,7 +101,7 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5">Tambah Data Kategori Produk</h1>
+          <h1 class="modal-title fs-5">Tambah Data Merk</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <form action="proses/proses-sp.php" method="POST">
@@ -114,13 +111,13 @@
                   $UUID = generate_uuid();
               ?>
               <div class="mb-3">
-              <label class="form-label">Nama Kategori Produk</label>
-              <input type="hidden" class="form-control" name="id_kat_produk" value="KATPROD<?php echo $UUID; ?>">
-              <input type="text" class="form-control" name="nama_kat_br" required>
+              <label class="form-label">Nama Merk</label>
+              <input type="hidden" class="form-control" name="id_merk" value="MERK<?php echo $UUID; ?>">
+              <input type="text" class="form-control" name="merk" required>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="submit" name="simpan-kat-prod" class="btn btn-primary btn-md"><i class="bx bx-save"></i> Simpan Data</button>
+            <button type="submit" name="simpan-merk" class="btn btn-primary btn-md"><i class="bx bx-save"></i> Simpan Data</button>
             <button type="button" class="btn btn-secondary btn-md" data-bs-dismiss="modal"><i class="bi bi-x"></i> Tutup</button>
           </div>
         </form>

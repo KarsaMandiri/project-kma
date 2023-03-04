@@ -56,50 +56,54 @@
                   </tr>
                 </thead>
                 <tbody>
+                  <?php 
+                    include "koneksi.php";
+                    
+                  ?>
                   <tr>
                     <td class="text-center">1</td>
                     <td>Patwal</td>
                     <td>Pakistan</td>
                     <td>0813xxx</td>
-                    <td>
+                    <td class="text-center">
                       <a href="#" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modal2"><i class="bi bi-pencil"></i></a>
                       <a href="#" class="btn btn-danger btn-sm delete-button"><i class="bi bi-trash"></i></a>
-                      <!-- Modal Edit SP -->
-                        <div class="modal fade" id="modal2" tabindex="-1">
-                          <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <h1 class="modal-title fs-5">Tambah Data Supplier</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                              </div>
-                              <form action="proses/proses-sp.php" method="POST">
-                                <div class="modal-body">
-                                  <div class="mb-3">
-                                    <div class="mb-3">
-                                    <label class="form-label">Nama Supplier</label>
-                                    <input type="hidden" class="form-control" name="id_user_role" value="">
-                                    <input type="text" class="form-control" name="nama_sp" value="Patwal" required>
-                                  </div>
-                                  <div class="mb-3">
-                                    <label class="form-label">Alamat</label>
-                                    <input type="text" class="form-control" name="alamat_sp" value="Pakistan" required>
-                                  </div>
-                                  <div class="mb-3">
-                                    <label class="form-label">Telepon</label>
-                                    <input type="text" class="form-control" name="telp_sp" value="0813xxx" required>
-                                    <input type="hidden" class="form-control" name="created" value="<?php echo date('d/m/Y, G:i') ?>">
-                                  </div>
-                                </div>
-                                <div class="modal-footer">
-                                  <button type="submit" name="simpan-cs" class="btn btn-primary btn-md"><i class="bx bx-save"></i> Simpan Data</button>
-                                  <button type="button" class="btn btn-secondary btn-md" data-bs-dismiss="modal"><i class="bi bi-x"></i> Tutup</button>
-                                </div>
-                              </form>
-                            </div>
-                          </div>
-                        </div>
-                        <!-- End Modal Edit SP -->
                     </td>
+                    <!-- Modal Edit SP -->
+                    <div class="modal fade" id="modal2" tabindex="-1">
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5">Edit Data Supplier</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <form action="proses/proses-sp.php" method="POST">
+                            <div class="modal-body">
+                              <div class="mb-3">
+                                <div class="mb-3">
+                                <label class="form-label">Nama Supplier</label>
+                                <input type="hidden" class="form-control" name="id_user_role" value="">
+                                <input type="text" class="form-control" name="nama_sp" value="Patwal" required>
+                              </div>
+                              <div class="mb-3">
+                                <label class="form-label">Alamat</label>
+                                <input type="text" class="form-control" name="alamat_sp" value="Pakistan" required>
+                              </div>
+                              <div class="mb-3">
+                                <label class="form-label">Telepon</label>
+                                <input type="text" class="form-control" name="telp_sp" value="0813xxx" required>
+                                <input type="hidden" class="form-control" name="created" value="<?php echo date('d/m/Y, G:i') ?>">
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="submit" name="edit-sp" class="btn btn-primary btn-md"><i class="bx bx-save"></i> Simpan Data</button>
+                              <button type="button" class="btn btn-secondary btn-md" data-bs-dismiss="modal"><i class="bi bi-x"></i> Tutup</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End Modal Edit SP -->
                   </tr>
                 </tbody>
               </table>

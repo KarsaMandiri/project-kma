@@ -21,27 +21,27 @@
           </a>
         </li>
         <li>
-          <a href="#">
+          <a class="<?php if($page2 =='data-kat-prod'){echo 'active';} ?>" href="kategori-produk.php">
             <i class="bi bi-circle"></i><span>Katergori Produk</span>
           </a>
         </li>
         <li>
-          <a href="#">
+          <a class="<?php if($page2 =='data-kat-penj'){echo 'active';} ?>" href="kategori-penjualan.php">
             <i class="bi bi-circle"></i><span>Kategori Pejualan</span>
           </a>
         </li>
         <li>
-          <a href="#">
+          <a class="<?php if($page2 =='data-merk'){echo 'active';} ?>" href="merk-produk.php">
             <i class="bi bi-circle"></i><span>Merk Produk</span>
           </a>
         </li>
         <li>
-          <a href="#">
+          <a class="<?php if($page2 =='data-produk'){echo 'active';} ?>" href="data-produk.php">
             <i class="bi bi-circle"></i><span>Data Produk</span>
           </a>
         </li>
         <li>
-          <a href="#">
+          <a class="<?php if($page2 =='data-produk-set-marwa'){echo 'active';} ?>" href="data-produk-set-marwa.php">
             <i class="bi bi-circle"></i><span>Data Set Produk</span>
           </a>
         </li>
