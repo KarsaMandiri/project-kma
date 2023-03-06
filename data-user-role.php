@@ -1,5 +1,6 @@
 <?php
   $page = 'role-user';
+  include "akses.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,7 +46,7 @@
             <div class="card-body rounded-3">
               <!-- Button trigger modal -->
               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-user-role">
-                <i class="bi bi-plus-circle"> Tambah Data</i>
+                <i class="bi bi-plus-circle"> Tambah data user role</i>
               </button>
               <div class="table-responsive mt-3">
                 <table class="table table-hover table-striped table-bordered" id="table2">
@@ -69,7 +70,7 @@
                     <tr>
                       <td class="text-center"><?php echo $no; ?></td>
                       <td><?php echo $data['role']; ?></td>
-                      <td class="text-center"><?php echo date($data['created']) ; ?></td>
+                      <td class="text-center"><?php echo date($data['created_date']) ; ?></td>
                       <td class="text-center">
                         <a href="" name="edit-data" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#edit-role<?php echo $data['id_user_role']?>"><i class="bi bi-pencil"></i></a>
                         <a href="proses/proses-role.php?hapus-role=<?php echo $data['id_user_role'] ?>" class="btn btn-danger btn-sm delete-data"><i class="bi bi-trash"></i></a>

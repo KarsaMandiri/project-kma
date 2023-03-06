@@ -177,11 +177,17 @@
         </li>
       </ul>
     </li><!-- End Charts Nav -->
-
+    <?php 
+      include "koneksi.php";
+      $id_role = $_SESSION['tiket_role'];
+      $sql = "SELECT * FROM user_role WHERE id_user_role='$id_role'";
+      $query = mysqli_query($connect,$sql) or die(mysqli_error($connect));
+      $data = mysqli_fetch_array($query);
+        if ($data['role'] == "Super Admin") { ?>
     <li class="nav-heading">Pages</li>
 
     <li class="nav-item">
-      <a class="nav-link" href="#">
+      <a class="nav-link <?php if($page =='data-user'){echo 'active-link';} ?>" href="data-user.php">
         <i class="bi bi-person"></i>
         <span>Data User</span>
       </a>
@@ -193,5 +199,13 @@
         <span>Role User</span>
       </a>
     </li><!-- End Role User Page Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link <?php if($page =='history-user'){echo 'active-link';} ?>" href="data-user-history.php">
+      <i class="bi bi-clock-history"></i>
+        <span>History User</span>
+      </a>
+    </li><!-- End History User Page Nav -->
+    <?php } ?>
   </ul>
 </aside><!-- End Sidebar-->

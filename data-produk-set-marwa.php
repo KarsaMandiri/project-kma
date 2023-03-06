@@ -1,6 +1,7 @@
 <?php
     $page = 'data';
     $page2 = 'data-produk-set-marwa';
+    include "akses.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">

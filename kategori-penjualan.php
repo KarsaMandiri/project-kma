@@ -1,6 +1,7 @@
 <?php
     $page = 'data';
     $page2 = 'data-kat-penj';
+    include "akses.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">

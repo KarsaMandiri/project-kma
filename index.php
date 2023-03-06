@@ -1,5 +1,6 @@
 <?php
   $page = 'index';
+  include "akses.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
