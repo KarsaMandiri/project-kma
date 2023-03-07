@@ -4,32 +4,36 @@
     include "koneksi.php";
 
     if (isset($_POST['login'])) {
-        //maka kirimkan hasil inputan dari user
-        //kemudian dengan username dan password yang ada di database
+        // Ambil data dari formulir login
+        $username = $_POST['username'];
+        $password = $_POST['password'];
 
-        $us = $_POST['user'];
-        $ps = md5($_POST['pass']);
+        // Query untuk mencari data user dari database
+        $query = "SELECT * FROM user WHERE username = '$username'";
+        $result = mysqli_query($connect, $query);
 
-        //cocokan dengan kolom yang ada di tabel user
-        $sql = "SELECT * FROM user WHERE username='$us' AND password='$ps'";
-        $query = mysqli_query($connect,$sql) or die (mysqli_error($connect));
+        // Periksa apakah username ditemukan
+        if (mysqli_num_rows($result) == 1) {
+          // Ambil data password dari database
+          $row = mysqli_fetch_assoc($result);
+          $password_hash = $row['password'];
 
-        //tarik data dari database
-        $data = mysqli_fetch_array($query);
-
-        //cek jika ada data atau record
-        if (mysqli_num_rows($query) > 0) {
-            $_SESSION['tiket_user'] = $data['username'];//di ambil dari nama kolom operator
-            $_SESSION['tiket_pass']  = $data['password'];
-            $_SESSION['tiket_nama']  = $data['nama_user'];
-            $_SESSION['tiket_role'] = $data['id_user_role'];
-            $_SESSION['tiket_jenkel'] = $data['jenkel'];
-
-            //arahkan ke halaman index.php
-            header("location: index.php");
-        }else{
-            //error atau gagal login
-            header("location: login.php?gagal");
+          // Verifikasi password
+          if (password_verify($password, $password_hash)) {
+            // Password benar, simpan data user ke session dan arahkan ke halaman dashboard
+            $_SESSION['tiket_user'] = $row['username'];//di ambil dari nama kolom operator
+            $_SESSION['tiket_pass'] = $row['password'];
+            $_SESSION['tiket_nama'] = $row['nama_user'];
+            $_SESSION['tiket_role'] = $row['id_user_role'];
+            $_SESSION['tiket_jenkel'] = $row['jenkel'];
+            header("Location: index.php");
+          } else {
+            // Password salah, kembali ke halaman login
+            header("Location: login.php?gagal");
+          }
+        } else {
+          // Username tidak ditemukan, kembali ke halaman login
+          header("Location: login.php?gagal");
         }
     }
 ?>
@@ -70,14 +74,14 @@
                     <div class="col-12">
                       <label for="yourUsername" class="form-label">Username</label>
                       <div class="input-group has-validation">
-                        <input type="text" name="user" class="form-control form-control" placeholder="Masukan username" required>
+                        <input type="text" name="username" class="form-control form-control" placeholder="Masukan username" required>
                         <div class="invalid-feedback">Please enter your username!</div>
                       </div>
                     </div>
 
                     <div class="col-12">
                       <label for="yourPassword" class="form-label">Password</label>
-                      <input type="password" name="pass" class="form-control form-control form-password" placeholder="Masukan password" required> 
+                      <input type="password" name="password" class="form-control form-control form-password" placeholder="Masukan password" required> 
                       <div class="invalid-feedback">Please enter your password!</div>
                     </div>
 

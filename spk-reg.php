@@ -88,63 +88,140 @@
                   <div class="card-body pt-3">
                     <div class="row">
                       <div class="col-2">
-                        <select class="form-select" aria-label="Default select example">
-                          <option value="1">Paling Baru</option>
-                          <option value="2">Paling Lama</option>
-                        </select>
+                      <select id="sort" class="form-select">
+                        <option value="oldest">Paling Lama</option>
+                        <option value="newest">Paling Baru</option>
+                      </select>
                       </div>
                       <div class="col-3"> 
                         <div class="input-group">
                           <div class="form-outline">
-                            <input type="search" id="form1" class="form-control" placeholder="Cari di sini">
+                            <input type="search" id="filter" class="form-control" placeholder="Cari di sini">
                           </div>
-                          <button type="button" class="btn btn-primary">
-                            <i class="bi bi-search"></i>
-                          </button>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div class="card">
-                    <div class="card-header">
-                      <div class="row">
-                        <div class="col-sm-10 text-dark"><a class="text-primary">SPK/REG/001/1/2023</a> / <a>PO-001</a> / <a><i class="bi bi-clock"></i> 01 Jan 2023, 08.30 WIB</a></div>
-                        <div class="col-sm-2"><a class="btn btn-warning btn-sm">Kirim Hari Ini <i class="bi bi-info-circle"></i></a></div>
+                  <div id="items">
+                    <div class="card item">
+                      <div class="card-header">
+                        <div class="row">
+                          <div class="col-sm-10 text-dark"><a class="text-primary">SPK/REG/001/1/2023</a> / <a>PO-001</a> / <a><i class="bi bi-clock"></i> 01 Jan 2023, 08.30 WIB</a></div>
+                          <div class="col-sm-2"><a class="btn btn-warning btn-sm">Kirim Hari Ini <i class="bi bi-info-circle"></i></a></div>
+                        </div>
+                      </div>
+                      <div class="card-body p-2">
+                        <div class="row p-1">
+                          <div class="col-sm-4 m-1 border">
+                            <p>
+                              Customer :<br>
+                              Ibu Melly
+                            </p>
+                          </div>
+                          <div class="col-sm-5 m-1 border">
+                            <p>
+                              Alamat :<br>
+                              Jakarta
+                            </p>
+                          </div>
+                          <div class="col-sm-2 p-2">
+                            <a href="#" class="btn btn-primary btn-sm m-1"><i class="bi bi-eye-fill"></i> Lihat Data</a>
+                            <a href="#" class="btn btn-secondary btn-sm m-1"><i class="bi bi-send"></i> Proses Pesanan</a>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    <div class="card-body p-2">
-                      <div class="row p-1">
-                        <div class="col-sm-4 m-1 border">
-                          <p>
-                            Customer :<br>
-                            Ibu Melly
-                          </p>
+                    <div class="card item">
+                      <div class="card-header">
+                        <div class="row">
+                          <div class="col-sm-10 text-dark"><a class="text-primary">SPK/REG/001/1/2023</a> / <a>PO-001</a> / <a><i class="bi bi-clock"></i> 02 Jan 2023, 08.30 WIB</a></div>
+                          <div class="col-sm-2"><a class="btn btn-warning btn-sm">Kirim Besok <i class="bi bi-info-circle"></i></a></div>
                         </div>
-                        <div class="col-sm-5 m-1 border">
-                          <p>
-                            Alamat :<br>
-                            Jakarta
-                          </p>
+                      </div>
+                      <div class="card-body p-2">
+                        <div class="row p-1">
+                          <div class="col-sm-4 m-1 border">
+                            <p>
+                              Customer :<br>
+                              Ibu Momoy
+                            </p>
+                          </div>
+                          <div class="col-sm-5 m-1 border">
+                            <p>
+                              Alamat :<br>
+                              Jakarta
+                            </p>
+                          </div>
+                          <div class="col-sm-2 p-2">
+                            <a href="#" class="btn btn-primary btn-sm m-1"><i class="bi bi-eye-fill"></i> Lihat Data</a>
+                            <a href="#" class="btn btn-secondary btn-sm m-1"><i class="bi bi-send"></i> Proses Pesanan</a>
+                          </div>
                         </div>
-                        <div class="col-sm-2 p-2">
-                          <a href="#" class="btn btn-primary btn-sm m-1"><i class="bi bi-eye-fill"></i> Lihat Data</a>
-                          <a href="#" class="btn btn-secondary btn-sm m-1"><i class="bi bi-send"></i> Proses Pesanan</a>
+                      </div>
+                    </div>
+                    <div class="card item">
+                      <div class="card-header">
+                        <div class="row">
+                          <div class="col-sm-10 text-dark"><a class="text-primary">SPK/REG/001/1/2023</a> / <a>PO-001</a> / <a><i class="bi bi-clock"></i> 03 Jan 2023, 08.30 WIB</a></div>
+                          <div class="col-sm-2"><a class="btn btn-warning btn-sm">Kirim Besok <i class="bi bi-info-circle"></i></a></div>
+                        </div>
+                      </div>
+                      <div class="card-body p-2">
+                        <div class="row p-1">
+                          <div class="col-sm-4 m-1 border">
+                            <p>
+                              Customer :<br>
+                              Ibu Momoy
+                            </p>
+                          </div>
+                          <div class="col-sm-5 m-1 border">
+                            <p>
+                              Alamat :<br>
+                              Jakarta
+                            </p>
+                          </div>
+                          <div class="col-sm-2 p-2">
+                            <a href="#" class="btn btn-primary btn-sm m-1"><i class="bi bi-eye-fill"></i> Lihat Data</a>
+                            <a href="#" class="btn btn-secondary btn-sm m-1"><i class="bi bi-send"></i> Proses Pesanan</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card item">
+                      <div class="card-header">
+                        <div class="row">
+                          <div class="col-sm-10 text-dark"><a class="text-primary">SPK/REG/001/1/2023</a> / <a>PO-001</a> / <a><i class="bi bi-clock"></i> 04 Jan 2023, 08.30 WIB</a></div>
+                          <div class="col-sm-2"><a class="btn btn-warning btn-sm">Kirim Besok <i class="bi bi-info-circle"></i></a></div>
+                        </div>
+                      </div>
+                      <div class="card-body p-2">
+                        <div class="row p-1">
+                          <div class="col-sm-4 m-1 border">
+                            <p>
+                              Customer :<br>
+                              Ibu Momoy
+                            </p>
+                          </div>
+                          <div class="col-sm-5 m-1 border">
+                            <p>
+                              Alamat :<br>
+                              Jakarta
+                            </p>
+                          </div>
+                          <div class="col-sm-2 p-2">
+                            <a href="#" class="btn btn-primary btn-sm m-1"><i class="bi bi-eye-fill"></i> Lihat Data</a>
+                            <a href="#" class="btn btn-secondary btn-sm m-1"><i class="bi bi-send"></i> Proses Pesanan</a>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                   <!-- Pagination -->
                   <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-end">
-                      <li class="page-item disabled">
-                        <a class="page-link">Previous</a>
-                      </li>
+                    <ul id="pagination" class="pagination justify-content-end">
                       <li class="page-item"><a class="page-link" href="#">1</a></li>
-                      <li class="page-item"><a class="page-link active" href="#">2</a></li>
+                      <li class="page-item"><a class="page-link" href="#">2</a></li>
                       <li class="page-item"><a class="page-link" href="#">3</a></li>
-                      <li class="page-item">
-                        <a class="page-link" href="#">Next</a>
-                      </li>
                     </ul>
                   </nav>
                   <!-- End Pagination -->
@@ -203,7 +280,7 @@
                     </div>
                   </div>
                   <!-- Pagination -->
-                  <nav aria-label="Page navigation example">
+                  <!-- <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-end">
                       <li class="page-item disabled">
                         <a class="page-link">Previous</a>
@@ -215,7 +292,7 @@
                         <a class="page-link" href="#">Next</a>
                       </li>
                     </ul>
-                  </nav>
+                  </nav> -->
                   <!-- End Pagination -->
                 </div>
                 <!-- End Dalam Proses -->
@@ -459,6 +536,14 @@
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <?php include "page/script.php" ?>
-</body>
 
+</body>
 </html>
+<!-- pagination -->
+<script src="assets/js/pagination.js"></script>
+
+<!-- search -->
+<script src="assets/js/search.js"></script>
+
+<!-- sort data -->
+<script src="assets/js/sorting.js"></script>

@@ -13,7 +13,7 @@
 <script type="text/javascript">
 	$('.selectize-js').selectize();
 </script>
-<!-- ================================================================= -->
+<!-- End Selectize JS -->
 
 <!-- date picker with flatpick -->
 <script type="text/javascript">
@@ -24,38 +24,7 @@
 <!-- end date picker -->
 
 <!-- DataTable -->
-<script>
-    $(function () {
-    $("#table1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["csv", "excel", "pdf", "print"]
-    }).buttons().container().appendTo('#table1_wrapper .col-md-6:eq(0)');
-
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
-});
-
-    $(document).ready(function() {
-    var table = $('#table2').DataTable({
-        "lengthChange": false,
-        "ordering": false,
-        "autoWidth": false
-    });
-} );
-
-</script>
-<!-- End DataTable -->
-
-<!-- Alert -->
-<script src="assets/js/alert.js"></script>
-
+<script src="assets/js/datatables-show.js"></script>
 <!-- DataTables Bootstrap 5 -->
 <script src="assets/DataTables/js/jquery-3.5.1.js"></script>
 <script src="assets/DataTables/js/jquery.dataTables.min.js"></script>
@@ -68,3 +37,8 @@
 <script src="assets/DataTables/jszip/jszip.min.js"></script>
 <script src="assets/DataTables/pdfmake/pdfmake.js"></script>
 <script src="assets/DataTables/pdfmake/vfs_fonts.js"></script>
+<!-- End Datatable Bootstraps 5 -->
+<!-- End DataTable -->
+
+<!-- Alert -->
+<script src="assets/js/alert.js"></script>

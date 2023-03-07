@@ -10,22 +10,25 @@
         $email = $_POST['email'];
         $id_role = $_POST['role'];
         $username = $_POST['username'];
-        $password = md5($_POST['password']);
+        $password = $_POST['password'];
 		$created = $_POST['created'];
+
+        // Hash password
+        $password_hash = password_hash($password, PASSWORD_DEFAULT);
 
 		$cek_user = mysqli_query($connect, "SELECT username, email FROM user WHERE username = '$username' OR email = '$email' ");
 
 		if ($cek_user->num_rows > 0) {
-			$_SESSION['info'] = 'Data Gagal Disimpan';
-            echo "<script>document.location.href='../data-user-role.php'</script>";
+            echo "error";
+			header("Location: ../registrasi-user.php?gagal");
 		}else{
 			mysqli_query($connect, "INSERT INTO user 
                       (id_user, nama_user, jenkel, email, id_user_role, username, password, created_date) 
                       VALUES 
-                      ('$id_user', '$nama_lengkap', '$jenkel', '$email', '$id_role', '$username', '$password', '$created')");
+                      ('$id_user', '$nama_lengkap', '$jenkel', '$email', '$id_role', '$username', '$password_hash', '$created')");
 
-			$_SESSION['info'] = 'Disimpan';
-            echo "<script>document.location.href='../data-user.php'</script>";
+			echo "success";
+			header("Location: ../registrasi-user.php");
 		}
 
 	//Edit Role 
@@ -47,18 +50,18 @@
     // Hapus Role
 	}elseif($_GET['hapus-user']){
 		//tangkap URL dengan $_GET
-	    $idh = $_GET['hapus-role'];
+	    $idh = $_GET['hapus-user'];
 
 	    // perintah queery sql untuk hapus data
-	    $sql = "DELETE FROM user_role WHERE id_user_role='$idh'";
+	    $sql = "DELETE FROM user WHERE id_user='$idh'";
 	    $query_del = mysqli_query($connect,$sql) or die (mysqli_error($connect));
 
 	    if($query_del){
 	        $_SESSION['info'] = 'Dihapus';
-	        echo "<script>document.location.href='../data-user-role.php'</script>";
+	        echo "<script>document.location.href='../data-user.php'</script>";
 	    }else{
 	        $_SESSION['info'] = 'Data Gagal Dihapus';
-	        echo "<script>document.location.href='../data-user-role.php'</script>";
+	        echo "<script>document.location.href='../data-user.php'</script>";
 	    }
 	}
 ?>

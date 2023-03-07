@@ -17,6 +17,9 @@
 
 <body>
   <main>
+    <!-- SWEET ALERT -->
+    <div class="info-data" data-infodata="<?php if(isset($_SESSION['info'])){ echo $_SESSION['info']; } unset($_SESSION['info']); ?>"></div>
+    <!-- END SWEET ALERT -->
     <div class="container">
       <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
         <div class="container">
@@ -27,6 +30,22 @@
                   <div class="pt-2 pb-2">
                     <h5 class="card-title text-center pb-0 fs-4">Buat Akun</h5>
                   </div>
+                  <?php 
+                      if (isset($_GET["gagal"])) {?>
+                          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                              <strong><i class="bi bi-info-circle-fill"></i></strong> Username atau Email sudah di gunakan.
+                              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                          </div>
+
+                          <script>
+                              // menambahkan event listener untuk klik pada tombol close
+                              document.querySelector(".alert button").addEventListener("click", function() {
+                                  // menghapus parameter GET dan menavigasi ulang halaman
+                                  var newUrl = window.location.href.split("?")[0];
+                                  window.location.replace(newUrl);
+                              });
+                          </script>
+                  <?php } ?>
                   <form action="proses/proses-user.php" class="row g-3 needs-validation" method="POST">
                     <div class="col-12">
                       <label for="yourName" class="form-label">Nama Lengkap</label>
@@ -92,7 +111,7 @@
                       </div>
                     </div>
                     <div class="col-12">
-                      <button class="btn btn-primary w-100" type="submit" name="simpan-user">Buat Akun</button>
+                      <button class="btn btn-primary w-100" type="submit" id="insert-btn" name="simpan-user">Buat Akun</button>
                     </div>
                     <div class="col-12">
                       <p class="small mb-0">Sudah punya akun? <a href="login.php">Login</a></p>
@@ -135,6 +154,51 @@
             }
         });
     });       
+</script>
+
+<script>
+  document.getElementById('insert-btn').addEventListener('click', function() {
+  // get the data to insert
+  var data = {
+    // your data here
+  };
+
+  // send the data to your server-side script
+  $.ajax({
+    type: 'POST',
+    url: 'proses-user.php',
+    data: data,
+    success: function(response) {
+      // show the SweetAlert success message
+      swal({
+        title: 'Data inserted!',
+        text: 'Your data has been successfully inserted.',
+        icon: 'success',
+      });
+    },
+    error: function(xhr, status, error) {
+      // show the SweetAlert error message
+      swal({
+        title: 'Error!',
+        text: 'There was an error inserting your data.',
+        icon: 'error',
+      });
+    }
+  });
+});
+
+</script>
+
+<script>
+  if (typeof window !== "undefined") {
+  // hapus parameter GET
+  var newUrl = window.location.href.split("?")[0];
+  return;
+} 
+
+// reload halaman
+window.location.href = newUrl;
+
 </script>
 
 

@@ -27,7 +27,7 @@
 
   <main id="main" class="main">
     <div class="pagetitle">
-      <h1>Dashboard</h1>
+      <h1>Data Supplier</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.php">Home</a></li>
@@ -42,9 +42,6 @@
       <!-- END SWEET ALERT -->
       <div class="container-fluid">
         <div class="card">
-          <div class="card-header text-center">
-            <h4>Data Supplier</h4>
-          </div>
           <div class="card-body p-3">
             <a href="#" class="btn btn-primary btn-md" data-bs-toggle="modal" data-bs-target="#modal1"><i class="bi bi-plus-circle"></i> Tambah data supllier</a>
             <div class="table-responsive mt-3">
@@ -63,7 +60,7 @@
                     date_default_timezone_set('Asia/Jakarta');
                     include "koneksi.php";
                     $no = 1;
-                    $sql = "SELECT * FROM tb_supplier";
+                    $sql = "SELECT * FROM tb_supplier ORDER BY nama_sp ASC";
                     $query = mysqli_query($connect,$sql) or die (mysqli_error($connect));
                     while($data = mysqli_fetch_array($query)){ ?>                  
                   <tr>
@@ -78,7 +75,6 @@
                       <a href="proses/proses-sp.php?hapus-sp=<?php echo $data['id_sp'] ?>" class="btn btn-danger btn-sm delete-data"><i class="bi bi-trash"></i></a>
                     </td>
                     <!-- Modal Edit SP -->
-                    
                     <div class="modal fade" id="modal2" tabindex="-1">
                       <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
@@ -109,7 +105,6 @@
                               <button type="submit" name="edit-sp" class="btn btn-primary btn-md"><i class="bx bx-save"></i> Simpan Data</button>
                               <button type="button" class="btn btn-secondary btn-md" data-bs-dismiss="modal"><i class="bi bi-x"></i> Tutup</button>
                             </div>
-                           
                           </form>
                         </div>
                       </div>
@@ -126,45 +121,6 @@
       </div>
     </section>
   </main><!-- End #main -->
-  <!-- Modal Add SP -->
-  <div class="modal fade" id="modal1" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5">Tambah Data Supplier</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <form action="proses/proses-sp.php" method="POST">
-          <div class="modal-body">
-            <div class="mb-3">
-              <?php 
-                  $UUID = generate_uuid();
-              ?>
-              <div class="mb-3">
-              <label class="form-label">Nama Supplier</label>
-              <input type="hidden" class="form-control" name="id_sp" value="SP<?php echo $UUID; ?>">
-              <input type="text" class="form-control" name="nama_sp" required>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Alamat</label>
-              <input type="text" class="form-control" name="alamat_sp" required>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Telepon</label>
-              <input type="text" class="form-control" name="telp_sp" required>
-              <input type="hidden" class="form-control" name="created" value="<?php echo date('d/m/Y, G:i') ?>">
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="submit" name="simpan-sp" class="btn btn-primary btn-md"><i class="bx bx-save"></i> Simpan Data</button>
-            <button type="button" class="btn btn-secondary btn-md" data-bs-dismiss="modal"><i class="bi bi-x"></i> Tutup</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-  <!-- End Modal Add SP -->
-
   <!-- Footer -->
   <?php include "page/footer.php" ?>
   <!-- End Footer -->
@@ -173,6 +129,44 @@
   <?php include "page/script.php" ?>
 </body>
 </html>
+<!-- Modal Add SP -->
+<div class="modal fade" id="modal1" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5">Tambah Data Supplier</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="proses/proses-sp.php" method="POST">
+        <div class="modal-body">
+          <div class="mb-3">
+            <?php 
+                $UUID = generate_uuid();
+            ?>
+            <div class="mb-3">
+            <label class="form-label">Nama Supplier</label>
+            <input type="hidden" class="form-control" name="id_sp" value="SP<?php echo $UUID; ?>">
+            <input type="text" class="form-control" name="nama_sp" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Alamat</label>
+            <input type="text" class="form-control" name="alamat_sp" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Telepon</label>
+            <input type="text" class="form-control" name="telp_sp" required>
+            <input type="hidden" class="form-control" name="created" value="<?php echo date('d/m/Y, G:i') ?>">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" name="simpan-sp" class="btn btn-primary btn-md"><i class="bx bx-save"></i> Simpan Data</button>
+          <button type="button" class="btn btn-secondary btn-md" data-bs-dismiss="modal"><i class="bi bi-x"></i> Tutup</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- End Modal Add SP -->
 
 <!-- Generat UUID -->
 <?php

@@ -26,9 +26,8 @@
   
 
   <main id="main" class="main">
-
     <div class="pagetitle">
-      <h1>Dashboard</h1>
+      <h1>Data Customer</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.php">Home</a></li>
@@ -36,15 +35,14 @@
         </ol>
       </nav>
     </div><!-- End Page Title -->
-
     <section>
+      <!-- SWEET ALERT -->
+      <div class="info-data" data-infodata="<?php if(isset($_SESSION['info'])){ echo $_SESSION['info']; } unset($_SESSION['info']); ?>"></div>
+      <!-- END SWEET ALERT -->
       <div class="container-fluid">
         <div class="card">
-          <div class="card-header text-center">
-            <h4>Data Customer</h4>
-          </div>
-          <div class="card-body p-3">
-            <button class="btn btn-primary btn-md" data-bs-toggle="modal" data-bs-target="#modal-cs"><i class="bi bi-plus-circle"></i> Tambah data customer</button>
+          <div class="card-body p-2">
+            <a href="#" class="btn btn-primary btn-md" data-bs-toggle="modal" data-bs-target="#modal1"><i class="bi bi-plus-circle"></i> Tambah data customer</a>
             <div class="table-responsive mt-3">
               <table class="table table-striped table-bordered" id="table1">
                 <thead>
@@ -57,45 +55,53 @@
                   </tr>
                 </thead>
                 <tbody>
+                  <?php 
+                    date_default_timezone_set('Asia/Jakarta');
+                    include "koneksi.php";
+                    $no = 1;
+                    $sql = "SELECT * FROM tb_customer ORDER BY nama_cs ASC";
+                    $query = mysqli_query($connect,$sql) or die (mysqli_error($connect));
+                    while($data = mysqli_fetch_array($query)){ ?>                  
                   <tr>
-                    <td class="text-center">1</td>
-                    <td>Ibu Melly</td>
-                    <td>Jakarta</td>
-                    <td>0812xxxx</td>
+                    <td class="text-center"><?php echo $no ?></td>
+                    <td><?php echo $data['nama_cs']; ?></td>
+                    <td><?php echo $data['alamat']; ?></td>
+                    <td><?php echo $data['no_telp']; ?></td>
                     <td class="text-center">
-                      <!-- Edit Data -->
-                      <a class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modal2"><i class="bi bi-pencil"></i></a>
-                      <!-- Hapus Data -->
-                      <a class="btn btn-danger btn-sm delete-button"><i class="bi bi-trash"></i></a>
+                      <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modal2" data-id="<?php echo $data['id_cs']; ?>" data-nama="<?php echo $data['nama_cs']; ?>" data-alamat="<?php echo $data['alamat']; ?>" data-telp="<?php echo $data['no_telp']; ?>">
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                      <a href="proses/proses-sp.php?hapus-cs=<?php echo $data['id_cs'] ?>" class="btn btn-danger btn-sm delete-data"><i class="bi bi-trash"></i></a>
                     </td>
                     <!-- Modal Edit CS -->
-                    <div class="modal fade" id="modal2" tabindex="-1">
+                    <div class="modal" id="modal2" tabindex="-1">
                       <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                           <div class="modal-header">
                             <h1 class="modal-title fs-5">Edit Data Customer</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
-                          <form action="proses/proses-cs.php" method="POST">
+                          <form action="proses/proses-sp.php" method="POST">
+                          
                             <div class="modal-body">
                               <div class="mb-3">
                                 <div class="mb-3">
-                                <label class="form-label">Nama Customer</label>
-                                <input type="hidden" class="form-control" name="id_user_role" value="">
-                                <input type="text" class="form-control" name="nama_sp" value="Ibu Melly" required>
+                                <label class="form-label">Nama Supplier</label>
+                                <input type="hidden" class="form-control" name="id_sp" id="id_cs">
+                                <input type="text" class="form-control" name="nama_sp" id="nama" required>
                               </div>
                               <div class="mb-3">
                                 <label class="form-label">Alamat</label>
-                                <input type="text" class="form-control" name="alamat_sp" value="Jakarata" required>
+                                <input type="text" class="form-control" name="alamat_sp" id="alamat" required>
                               </div>
                               <div class="mb-3">
                                 <label class="form-label">Telepon</label>
-                                <input type="text" class="form-control" name="telp_sp" value="0812xxx" required>
-                                <input type="hidden" class="form-control" name="created" value="<?php echo date('d/m/Y, G:i') ?>">
+                                <input type="text" class="form-control" name="telp_sp" id="telp" required>
+                                <input type="hidden" class="form-control" name="updated" value="<?php echo date('d/m/Y, G:i') ?>">
                               </div>
                             </div>
                             <div class="modal-footer">
-                              <button type="submit" name="edit-cs" class="btn btn-primary btn-md"><i class="bx bx-save"></i> Simpan Data</button>
+                              <button type="submit" name="edit-sp" class="btn btn-primary btn-md"><i class="bx bx-save"></i> Simpan Data</button>
                               <button type="button" class="btn btn-secondary btn-md" data-bs-dismiss="modal"><i class="bi bi-x"></i> Tutup</button>
                             </div>
                           </form>
@@ -104,6 +110,8 @@
                     </div>
                     <!-- End Modal Edit CS -->
                   </tr>
+                  <?php $no++; ?>
+                  <?php } ?>
                 </tbody>
               </table>
             </div>
@@ -112,76 +120,54 @@
       </div>
     </section>
   </main><!-- End #main -->
-
+                  
   <!-- Footer -->
   <?php include "page/footer.php" ?>
   <!-- End Footer -->
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-  <?php include "page/script.php" ?>
+  <?php include "page/script.php" ?>'
+
+  <!-- Modal Add CS -->
+  <div class="modal fade" id="modal1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5">Tambah Data Customer</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="proses/proses-cs.php" method="POST">
+          <div class="modal-body">
+            <div class="mb-3">
+              <?php 
+                  $UUID = generate_uuid();
+              ?>
+              <div class="mb-3">
+              <label class="form-label">Nama Custumer</label>
+              <input type="hidden" class="form-control" name="id_user_role" value="CS<?php echo $UUID; ?>">
+              <input type="text" class="form-control" name="nama_cs" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Alamat</label>
+              <input type="text" class="form-control" name="alamat_cs" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Telepon</label>
+              <input type="text" class="form-control" name="telp_cs" required>
+              <input type="hidden" class="form-control" name="created" value="<?php echo date('d/m/Y, G:i') ?>">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" name="simpan-cs" class="btn btn-primary btn-md"><i class="bx bx-save"></i> Simpan Data</button>
+            <button type="button" class="btn btn-secondary btn-md" data-bs-dismiss="modal"><i class="bi bi-x"></i> Tutup</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- End Modal Add CS -->
 </body>
 </html>
-
-<!-- Modal CS -->
-<div class="modal fade" id="modal-cs" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Data Customer</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <form action="proses/proses-cs.php" method="POST">
-        <div class="modal-body">
-          <div class="mb-3">
-            <?php 
-                $UUID = generate_uuid();
-            ?>
-            <div class="mb-3">
-            <label class="form-label">Nama Custumer</label>
-            <input type="hidden" class="form-control" name="id_user_role" value="CS<?php echo $UUID; ?>">
-            <input type="text" class="form-control" name="nama_cs" required>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Alamat</label>
-            <input type="text" class="form-control" name="alamat_cs" required>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Telepon</label>
-            <input type="text" class="form-control" name="telp_cs" required>
-            <input type="hidden" class="form-control" name="created" value="<?php echo date('d/m/Y, G:i') ?>">
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="submit" name="simpan-cs" class="btn btn-primary btn-md"><i class="bx bx-save"></i> Simpan Data</button>
-          <button type="button" class="btn btn-secondary btn-md" data-bs-dismiss="modal"><i class="bi bi-x"></i> Tutup</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-<!-- End Modal CS -->
-
-<!-- Modal Confirm Hapus -->
-<div class="modal fade" id="confirm-delete-modal" tabindex="-1" role="dialog"
-  aria-labelledby="confirm-delete-modal-label" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="confirm-delete-modal-label">Confirm Delete</h5>
-
-        </button>
-      </div>
-      <div class="modal-body">
-        Are you sure you want to delete this item?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-danger" id="confirm-delete-btn">Delete</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- End Modal Confirm Hapus -->
 
 <?php
   function generate_uuid() {
@@ -204,4 +190,20 @@
       $("#table1 tbody").append("<tr><td colspan='5' align='center'>Data not found</td></tr>");
     }
   });
+</script>
+
+<!-- Modal edit -->
+<script>
+    $('#modal2').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var id = button.data('id');
+        var nama = button.data('nama');
+        var alamat = button.data('alamat');
+        var telp = button.data('telp');
+        var modal = $(this);
+        modal.find('.modal-body #id_cs').val(id);
+        modal.find('.modal-body #nama').val(nama);
+        modal.find('.modal-body #alamat').val(alamat);
+        modal.find('.modal-body #telp').val(telp);
+    })
 </script>

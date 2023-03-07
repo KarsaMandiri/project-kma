@@ -81,7 +81,7 @@
                       <td><?php echo $data['created_date']; ?></td>
                       <td class="text-center">
                         <a href="" name="edit-user" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#edit-user<?php echo $data['id_user_role']?>"><i class="bi bi-pencil"></i></a>
-                        <a href="proses/proses-role.php?hapus-user=<?php echo $data['id_user'] ?>" class="btn btn-danger btn-sm delete-data"><i class="bi bi-trash"></i></a>
+                        <a href="proses/proses-user.php?hapus-user=<?php echo $data['id_user'] ?>" class="btn btn-danger btn-sm delete-data"><i class="bi bi-trash"></i></a>
                       </td>
                     </tr>
                     <?php $no++; ?>
