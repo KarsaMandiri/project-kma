@@ -6,7 +6,7 @@ if(notifikasi == "Disimpan" || notifikasi=="Dihapus" || notifikasi == "Diupdate"
 	  title: 'Sukses',
 	  text: 'Data Berhasil '+notifikasi,
 	})
-}else if(notifikasi == "Data Gagal Disimpan" || notifikasi == "Data Gagal Dihapus" || notifikasi == "Data Gagal Diupdate" || notifikasi == "Kode Barang Sudah Ada" || notifikasi == "Nama customer sudah ada" || notifikasi == "Nama supplier sudah ada" || notifikasi == "Nama kategori sudah ada" || notifikasi == "No faktur sudah ada"){
+}else if(notifikasi == "Data Gagal Disimpan" || notifikasi == "Data Gagal Dihapus" || notifikasi == "Data Gagal Diupdate" || notifikasi == "Kode Barang Sudah Ada" || notifikasi == "Nama customer sudah ada" || notifikasi == "Nama supplier sudah ada" || notifikasi == "Nama kategori sudah ada" || notifikasi == "No faktur sudah ada" || notifikasi == "Nama user sudah di gunakan" || notifikasi == "Nama role sudah ada" || notifikasi == "Data sudah ada" || notifikasi == "Nama merk sudah ada"){
 	Swal.fire({
 	  icon: 'error',
 	  title: 'GAGAL',
@@ -18,6 +18,12 @@ if(notifikasi == "Disimpan" || notifikasi=="Dihapus" || notifikasi == "Diupdate"
 	  title: 'Gagal',
 	  text: '' +notifikasi,
 	})
+}else if(notifikasi == "Tidak Ada Perubahan Data" || notifikasi == "No Izin Edar Berhasil Diubah"){
+	Swal.fire({
+		icon: 'success',
+		title: 'Sukses',
+		text: '' +notifikasi,
+	  })
 }
 
 

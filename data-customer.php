@@ -49,8 +49,9 @@
                   <tr class="text-white" style="background-color: #051683;">
                     <td class="text-center p-3 col-1">No</td>
                     <td class="text-center p-3 col-3">Nama Customer</td>
-                    <td class="text-center p-3 col-5">Alamat</td>
+                    <td class="text-center p-3 col-3">Alamat</td>
                     <td class="text-center p-3 col-2">Telepon</td>
+                    <td class="text-center p-3 col-2">Email</td>
                     <td class="text-center p-3 col-2">Aksi</td>
                   </tr>
                 </thead>
@@ -67,11 +68,12 @@
                     <td><?php echo $data['nama_cs']; ?></td>
                     <td><?php echo $data['alamat']; ?></td>
                     <td><?php echo $data['no_telp']; ?></td>
+                    <td><?php echo $data['email']; ?></td>
                     <td class="text-center">
-                      <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modal2" data-id="<?php echo $data['id_cs']; ?>" data-nama="<?php echo $data['nama_cs']; ?>" data-alamat="<?php echo $data['alamat']; ?>" data-telp="<?php echo $data['no_telp']; ?>">
+                      <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modal2" data-id="<?php echo $data['id_cs']; ?>" data-nama="<?php echo $data['nama_cs']; ?>" data-alamat="<?php echo $data['alamat']; ?>" data-telp="<?php echo $data['no_telp']; ?>" data-email="<?php echo $data['email']; ?>">
                         <i class="bi bi-pencil"></i>
                       </button>
-                      <a href="proses/proses-sp.php?hapus-cs=<?php echo $data['id_cs'] ?>" class="btn btn-danger btn-sm delete-data"><i class="bi bi-trash"></i></a>
+                      <a href="proses/proses-cs.php?hapus-cs=<?php echo $data['id_cs'] ?>" class="btn btn-danger btn-sm delete-data"><i class="bi bi-trash"></i></a>
                     </td>
                     <!-- Modal Edit CS -->
                     <div class="modal" id="modal2" tabindex="-1">
@@ -81,27 +83,31 @@
                             <h1 class="modal-title fs-5">Edit Data Customer</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
-                          <form action="proses/proses-sp.php" method="POST">
+                          <form action="proses/proses-cs.php" method="POST">
                           
                             <div class="modal-body">
                               <div class="mb-3">
                                 <div class="mb-3">
                                 <label class="form-label">Nama Supplier</label>
-                                <input type="hidden" class="form-control" name="id_sp" id="id_cs">
-                                <input type="text" class="form-control" name="nama_sp" id="nama" required>
+                                <input type="hidden" class="form-control" name="id_cs" id="id_cs">
+                                <input type="text" class="form-control" name="nama_cs" id="nama" required>
                               </div>
                               <div class="mb-3">
                                 <label class="form-label">Alamat</label>
-                                <input type="text" class="form-control" name="alamat_sp" id="alamat" required>
+                                <input type="text" class="form-control" name="alamat_cs" id="alamat" required>
                               </div>
                               <div class="mb-3">
                                 <label class="form-label">Telepon</label>
-                                <input type="text" class="form-control" name="telp_sp" id="telp" required>
+                                <input type="text" class="form-control" name="telp_cs" id="telp" required>
+                              </div>
+                              <div class="mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" name="email" id="email">
                                 <input type="hidden" class="form-control" name="updated" value="<?php echo date('d/m/Y, G:i') ?>">
                               </div>
                             </div>
                             <div class="modal-footer">
-                              <button type="submit" name="edit-sp" class="btn btn-primary btn-md"><i class="bx bx-save"></i> Simpan Data</button>
+                              <button type="submit" name="edit-cs" id="simpan" class="btn btn-primary btn-md" disabled><i class="bx bx-save"></i> Simpan Perubahan</button>
                               <button type="button" class="btn btn-secondary btn-md" data-bs-dismiss="modal"><i class="bi bi-x"></i> Tutup</button>
                             </div>
                           </form>
@@ -144,7 +150,7 @@
               ?>
               <div class="mb-3">
               <label class="form-label">Nama Custumer</label>
-              <input type="hidden" class="form-control" name="id_user_role" value="CS<?php echo $UUID; ?>">
+              <input type="hidden" class="form-control" name="id_cs" value="CS<?php echo $UUID; ?>">
               <input type="text" class="form-control" name="nama_cs" required>
             </div>
             <div class="mb-3">
@@ -154,6 +160,10 @@
             <div class="mb-3">
               <label class="form-label">Telepon</label>
               <input type="text" class="form-control" name="telp_cs" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control" name="email">
               <input type="hidden" class="form-control" name="created" value="<?php echo date('d/m/Y, G:i') ?>">
             </div>
           </div>
@@ -193,17 +203,91 @@
 </script>
 
 <!-- Modal edit -->
+
 <script>
-    $('#modal2').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var id = button.data('id');
-        var nama = button.data('nama');
-        var alamat = button.data('alamat');
-        var telp = button.data('telp');
-        var modal = $(this);
-        modal.find('.modal-body #id_cs').val(id);
-        modal.find('.modal-body #nama').val(nama);
-        modal.find('.modal-body #alamat').val(alamat);
-        modal.find('.modal-body #telp').val(telp);
-    })
+  $('#modal2').on('show.bs.modal', function (event) {
+      // Mendapatkan data dari tombol yang ditekan
+      var button = $(event.relatedTarget);
+      var id = button.data('id');
+      var nama = button.data('nama');
+      var alamat = button.data('alamat');
+      var telp = button.data('telp');
+      var email = button.data('email');
+      var modal = $(this);
+      var simpanBtn = modal.find('.modal-footer #simpan');
+      var namaInput = modal.find('.modal-body #nama');
+      var alamatInput = modal.find('.modal-body #alamat');
+      var telpInput = modal.find('.modal-body #telp');
+      var emailInput = modal.find('.modal-body #email');
+      
+      // Menampilkan data
+      modal.find('.modal-body #id_cs').val(id);
+      namaInput.val(nama);
+      alamatInput.val(alamat);
+      telpInput.val(telp);
+      emailInput.val(email);
+
+      // Pengecekan data, dan buttun disable or enable saat data di ubah
+      // dan data kembali ke nilai awal
+      var originalNama = namaInput.val();
+      var originalAlamat = alamatInput.val();
+      var originalTelp  = telpInput.val();
+      var originalEmail = emailInput.val();
+
+      namaInput.on('input', function () {
+          var currentNama = $(this).val();
+          var currentAlamat = alamatInput.val();
+          var currentTelp = telpInput.val();
+          var currentEmail = emailInput.val();
+          
+          if (currentNama != originalNama || currentAlamat != originalAlamat || currentTelp != originalTelp || currentEmail != originalEmail) {
+              simpanBtn.prop('disabled', false);
+          } else {
+              simpanBtn.prop('disabled', true);
+          }
+      });
+      
+      alamatInput.on('input', function () {
+          var currentAlamat = $(this).val();
+          var currentNama = namaInput.val();
+          var currentTelp = telpInput.val();
+          var currentEmail = emailInput.val();
+          
+          if (currentNama != originalNama || currentAlamat != originalAlamat || currentTelp != originalTelp || currentEmail != originalEmail) {
+              simpanBtn.prop('disabled', false);
+          } else {
+              simpanBtn.prop('disabled', true);
+          }
+      });
+
+      telpInput.on('input', function () {
+          var currentTelp = $(this).val();
+          var currentNama = namaInput.val();
+          var currentAlamat = alamatInput.val();
+          var currentEmail = emailInput.val();
+          
+          if (currentNama != originalNama || currentAlamat != originalAlamat || currentTelp != originalTelp || currentEmail != originalEmail) {
+              simpanBtn.prop('disabled', false);
+          } else {
+              simpanBtn.prop('disabled', true);
+          }
+      });
+
+      emailInput.on('input', function () {
+          var currentEmail = $(this).val();
+          var currentNama = namaInput.val();
+          var currentAlamat = alamatInput.val();
+          var currentTelp = telpInput.val();
+          
+          if (currentNama != originalNama || currentAlamat != originalAlamat || currentTelp != originalTelp || currentEmail != originalEmail) {
+              simpanBtn.prop('disabled', false);
+          } else {
+              simpanBtn.prop('disabled', true);
+          }
+      });
+      
+      modal.find('form').on('reset', function () {
+          simpanBtn.prop('disabled', true);
+      });
+  });
 </script>

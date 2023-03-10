@@ -21,7 +21,9 @@
           // Verifikasi password
           if (password_verify($password, $password_hash)) {
             // Password benar, simpan data user ke session dan arahkan ke halaman dashboard
-            $_SESSION['tiket_user'] = $row['username'];//di ambil dari nama kolom operator
+            //ambil data dari nama kolom operator
+            $_SESSION['tiket_id'] = $row['id_user'];
+            $_SESSION['tiket_user'] = $row['username'];
             $_SESSION['tiket_pass'] = $row['password'];
             $_SESSION['tiket_nama'] = $row['nama_user'];
             $_SESSION['tiket_role'] = $row['id_user_role'];

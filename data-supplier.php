@@ -83,7 +83,6 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
                           <form action="proses/proses-sp.php" method="POST">
-                          
                             <div class="modal-body">
                               <div class="mb-3">
                                 <div class="mb-3">
@@ -102,7 +101,7 @@
                               </div>
                             </div>
                             <div class="modal-footer">
-                              <button type="submit" name="edit-sp" class="btn btn-primary btn-md"><i class="bx bx-save"></i> Simpan Data</button>
+                              <button type="submit" name="edit-sp" id="simpan" class="btn btn-primary btn-md" disabled><i class="bx bx-save"></i> Simpan Perubahan</button>
                               <button type="button" class="btn btn-secondary btn-md" data-bs-dismiss="modal"><i class="bi bi-x"></i> Tutup</button>
                             </div>
                           </form>
@@ -192,18 +191,71 @@
   });
 </script>
 
-<!-- Modal edit -->
+<!-- Menampilkan data Modal edit dan disable or enable button -->
 <script>
-    $('#modal2').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var id = button.data('id');
-        var nama = button.data('nama');
-        var alamat = button.data('alamat');
-        var telp = button.data('telp');
-        var modal = $(this);
-        modal.find('.modal-body #id_sp').val(id);
-        modal.find('.modal-body #nama').val(nama);
-        modal.find('.modal-body #alamat').val(alamat);
-        modal.find('.modal-body #telp').val(telp);
-    })
+  $('#modal2').on('show.bs.modal', function (event) {
+      // Mendapatkan data dari tombol yang ditekan
+      var button = $(event.relatedTarget);
+      var id = button.data('id');
+      var nama = button.data('nama');
+      var alamat = button.data('alamat');
+      var telp = button.data('telp');
+      var modal = $(this);
+      var simpanBtn = modal.find('.modal-footer #simpan');
+      var namaInput = modal.find('.modal-body #nama');
+      var alamatInput = modal.find('.modal-body #alamat');
+      var telpInput = modal.find('.modal-body #telp');
+      
+      // Menampilkan data
+      modal.find('.modal-body #id_sp').val(id);
+      namaInput.val(nama);
+      alamatInput.val(alamat);
+      telpInput.val(telp);
+
+      // Pengecekan data, dan buttun disable or enable saat data di ubah
+      // dan data kembali ke nilai awal
+      var originalNama = namaInput.val();
+      var originalAlamat = alamatInput.val();
+      var originalTelp  = telpInput.val();
+
+      namaInput.on('input', function () {
+          var currentNama = $(this).val();
+          var currentAlamat = alamatInput.val();
+          var currentTelp = telpInput.val();
+          
+          if (currentNama != originalNama || currentAlamat != originalAlamat || currentTelp != originalTelp) {
+              simpanBtn.prop('disabled', false);
+          } else {
+              simpanBtn.prop('disabled', true);
+          }
+      });
+      
+      alamatInput.on('input', function () {
+          var currentAlamat = $(this).val();
+          var currentNama = namaInput.val();
+          var currentTelp = telpInput.val();
+          
+          if (currentNama != originalNama || currentAlamat != originalAlamat || currentTelp != originalTelp) {
+              simpanBtn.prop('disabled', false);
+          } else {
+              simpanBtn.prop('disabled', true);
+          }
+      });
+
+      telpInput.on('input', function () {
+          var currentTelp = $(this).val();
+          var currentNama = namaInput.val();
+          var currentAlamat = alamatInput.val();
+          
+          if (currentNama != originalNama || currentAlamat != originalAlamat || currentTelp != originalTelp) {
+              simpanBtn.prop('disabled', false);
+          } else {
+              simpanBtn.prop('disabled', true);
+          }
+      });
+      
+      modal.find('form').on('reset', function () {
+          simpanBtn.prop('disabled', true);
+      });
+  });
 </script>

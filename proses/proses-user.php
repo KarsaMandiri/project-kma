@@ -2,7 +2,7 @@
 	session_start();
 	include "../koneksi.php";
 
-	// Simpan Role
+	// Simpan
 	if (isset($_POST["simpan-user"])) {
 		$id_user = $_POST['id_user'];
 		$nama_lengkap = $_POST['nama_lengkap'];
@@ -31,7 +31,7 @@
 			header("Location: ../registrasi-user.php");
 		}
 
-	//Edit Role 
+	//Edit 
 	}elseif(isset($_POST["edit-user"])) {
 		$id_update = $_POST['id_user_role'];
 		$hak_akses = $_POST['role'];
@@ -47,7 +47,7 @@
             echo "<script>document.location.href='../data-user-role.php'</script>";
         }
 
-    // Hapus Role
+    // Hapus
 	}elseif($_GET['hapus-user']){
 		//tangkap URL dengan $_GET
 	    $idh = $_GET['hapus-user'];

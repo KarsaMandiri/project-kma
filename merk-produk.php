@@ -38,6 +38,9 @@
     </div><!-- End Page Title -->
 
     <section>
+      <!-- SWEET ALERT -->
+      <div class="info-data" data-infodata="<?php if(isset($_SESSION['info'])){ echo $_SESSION['info']; } unset($_SESSION['info']); ?>"></div>
+      <!-- END SWEET ALERT -->
       <div class="container-fluid">
         <div class="card">
           <div class="card-header text-center">
@@ -50,17 +53,31 @@
                 <thead>
                   <tr class="text-white" style="background-color: #051683;">
                     <td class="text-center p-3 col-1">No</td>
-                    <td class="text-center p-3 col-9">Nama Merk</td>
+                    <td class="text-center p-3 col-4">Nama Merk</td>
+                    <td class="text-center p-3 col-3">Dibuat Oleh</td>
+                    <td class="text-center p-3 col-2">Dibuat Tanggal</td>
                     <td class="text-center p-3 col-2">Aksi</td>
                   </tr>
                 </thead>
                 <tbody>
+                  <?php 
+                    date_default_timezone_set('Asia/Jakarta');
+                    include "koneksi.php";
+                    $no = 1;
+                    $sql = "SELECT * FROM tb_merk LEFT JOIN user ON(tb_merk.id_user = user.id_user) ORDER BY  nama_merk";
+                    $query = mysqli_query($connect, $sql) or die(mysqli_error($connect, $sql));
+                    while($data = mysqli_fetch_array($query)){
+                  ?>
                   <tr>
-                    <td class="text-center">1</td>
-                    <td>Marwa</td>
+                    <td class="text-center"><?php echo $no; ?></td>
+                    <td><?php echo $data['nama_merk']; ?></td>
+                    <td><?php echo $data['nama_user']; ?></td>
+                    <td><?php echo $data['created_date']; ?></td>
                     <td class="text-center">
-                      <a href="#" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modal2"><i class="bi bi-pencil"></i></a>
-                      <a href="#" class="btn btn-danger btn-sm delete-button"><i class="bi bi-trash"></i></a>
+                      <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modal2" data-id="<?php echo $data['id_merk']; ?>" data-nama="<?php echo $data['nama_merk']; ?>">
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                      <a href="proses/proses-merk.php?hapus-merk=<?php echo $data['id_merk'];?>" class="btn btn-danger btn-sm delete-data"><i class="bi bi-trash"></i></a>
                     </td>
                     <!-- Modal Edit SP -->
                     <div class="modal fade" id="modal2" tabindex="-1">
@@ -75,12 +92,12 @@
                                         <div class="mb-3">
                                             <div class="mb-3">
                                             <label class="form-label">Nama Merk</label>
-                                            <input type="hidden" class="form-control" name="id_merk" value="">
-                                            <input type="text" class="form-control" name="nama_merk" value="Marwa" required>
+                                            <input type="hidden" class="form-control" name="id_merk" id="id_merk">
+                                            <input type="text" class="form-control" name="nama_merk" id="nama_merk" required>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="submit" name="edit-merk" class="btn btn-primary btn-md"><i class="bx bx-save"></i> Simpan Data</button>
+                                        <button type="submit" name="edit-merk" id="simpan" class="btn btn-primary btn-md" disabled><i class="bx bx-save"></i> Simpan Perubahan</button>
                                         <button type="button" class="btn btn-secondary btn-md" data-bs-dismiss="modal"><i class="bi bi-x"></i> Tutup</button>
                                     </div>
                                 </form>
@@ -89,6 +106,8 @@
                     </div>
                     <!-- End Modal Edit SP -->
                   </tr>
+                   <?php $no++ ?>
+                  <?php } ?>
                 </tbody>
               </table>
             </div>
@@ -105,7 +124,7 @@
           <h1 class="modal-title fs-5">Tambah Data Merk</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form action="proses/proses-sp.php" method="POST">
+        <form action="proses/proses-merk.php" method="POST">
           <div class="modal-body">
             <div class="mb-3">
               <?php 
@@ -114,7 +133,9 @@
               <div class="mb-3">
               <label class="form-label">Nama Merk</label>
               <input type="hidden" class="form-control" name="id_merk" value="MERK<?php echo $UUID; ?>">
-              <input type="text" class="form-control" name="merk" required>
+              <input type="hidden" class="form-control" name="id_user" value="<?php echo $_SESSION['tiket_id']; ?>">
+              <input type="hidden" class="form-control" name="created" value="<?php echo date('d/m/Y, G:i') ?>">
+              <input type="text" class="form-control" name="nama_merk" required>
             </div>
           </div>
           <div class="modal-footer">
@@ -159,3 +180,38 @@
     }
   });
 </script>
+
+<!-- Script untuk modal edit -->
+<script>
+  $('#modal2').on('show.bs.modal', function (event) {
+      // Menampilkan data
+      var button = $(event.relatedTarget);
+      var id = button.data('id');
+      var nama = button.data('nama');
+      var modal = $(this);
+      var simpanBtn = modal.find('.modal-footer #simpan');
+      var namaInput = modal.find('.modal-body #nama_merk');
+      
+      modal.find('.modal-body #id_merk').val(id);
+      namaInput.val(nama);
+
+      // Pengecekan data, dan buttun disable or enable saat data di ubah
+      // dan data kembali ke nilai awal
+      var originalNama = namaInput.val();
+
+      namaInput.on('input', function () {
+          var currentNama = $(this).val();
+          
+          if (currentNama != originalNama) {
+              simpanBtn.prop('disabled', false);
+          } else {
+              simpanBtn.prop('disabled', true);
+          }
+      });
+      
+      modal.find('form').on('reset', function () {
+          simpanBtn.prop('disabled', true);
+      });
+  });
+</script>
+<!-- End Script modal edit -->
