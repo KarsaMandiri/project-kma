@@ -4,9 +4,6 @@
 <!-- jquery 3.6.3 -->
 <script src="assets/js/jquery.min.js"></script>
 
-<!-- Select Data -->
-<script src="assets/js/select-data.js"></script>
-
 <!-- Selectize JS -->
 <script src="assets/selectize-js/dist/js/selectize.min.js"></script>
 

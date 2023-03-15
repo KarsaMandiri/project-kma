@@ -28,7 +28,7 @@
             $_SESSION['tiket_nama'] = $row['nama_user'];
             $_SESSION['tiket_role'] = $row['id_user_role'];
             $_SESSION['tiket_jenkel'] = $row['jenkel'];
-            header("Location: index.php");
+            header("Location: dashboard.php");
           } else {
             // Password salah, kembali ke halaman login
             header("Location: login.php?gagal");
@@ -49,81 +49,56 @@
   <title>Inventory KMA</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
-  <?php include "page/head.php"; ?>
+  <link rel="stylesheet" href="assets/css/style-login.css">
+  <link href="assets/img/logo-kma.png" rel="icon">
+  <link href="assets/img/logo-kma.png" rel="apple-touch-icon">
 </head>
 
 <body>
-  <main>
-    <div class="container">
+  <div class="background">
+      <div class="shape"></div>
+      <div class="shape"></div>
+  </div>
+  <form action="" method="POST">
+    <?php 
+      if (isset($_GET["gagal"])) {?>
+          <div class="alert alert-danger d-none" role="alert">
+            Username atau password salah. Silakan coba lagi.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>  
+    <?php unset($_GET["gagal"]); } ?>
 
-      <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
-        <div class="container">
-          <div class="row justify-content-center">
-            <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
-              <div class="card mb-3">
-                <div class="card-body">
-                  <div class="pt-2 pb-2">
-                    <h5 class="card-title text-center pb-0 fs-4">LOGIN INVENTORY</h5>
-                  </div>
-                  <?php 
-                      if (isset($_GET["gagal"])) {?>
-                          <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                              <strong><i class="bi bi-info-circle-fill"></i></strong> Periksa kembali ussername dan password anda.
-                              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                          </div>
-                  <?php } ?>
-                  <form action="" method="POST" class="row g-3 needs-validation" novalidate>
-                    <div class="col-12">
-                      <label for="yourUsername" class="form-label">Username</label>
-                      <div class="input-group has-validation">
-                        <input type="text" name="username" class="form-control form-control" placeholder="Masukan username" required>
-                        <div class="invalid-feedback">Please enter your username!</div>
-                      </div>
-                    </div>
+    <script>
+      if ( window.history.replaceState ) {
+          window.history.replaceState( null, null, window.location.href.split('?')[0] );
+      }
+    </script>
+    <h3>Login</h3>
+    <label for="username">Username</label>
+    <input type="text" name="username" placeholder="Masukan username" id="username">
 
-                    <div class="col-12">
-                      <label for="yourPassword" class="form-label">Password</label>
-                      <input type="password" name="password" class="form-control form-control form-password" placeholder="Masukan password" required> 
-                      <div class="invalid-feedback">Please enter your password!</div>
-                    </div>
+    <label for="password">Password</label>
+    <input type="password" name="password" class="form-password" placeholder="Masukan password">
 
-                    <div class="col-12">
-                      <div class="form-check">
-                        <input class="form-check-input me-2 form-checkbox" type="checkbox" value="" id="form2Example3" />
-                        <label class="form-check-label" for="form2Example3">
-                        Lihat password
-                        </label>
-                      </div>
-                    </div>
-                    <div class="col-12">
-                      <input type="submit" class="btn btn-primary w-100" name="login" value="Login">
-                    </div>
-                    <div class="col-12">
-                      <p class="small mb-0">Belum punya akun? <a href="registrasi-user.php">Buat akun</a></p>
-                    </div>
-                  </form>
-
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+    <div class="password-wrapper">
+      <input type="checkbox" class="form-check-input me-2 form-checkbox" id="show-password">
+      <label style="font-size: 18px;" for="show-password">Lihat Password</label>
     </div>
-  </main><!-- End #main -->
 
-  <?php include "page/script.php" ?>
+    <button name="login">Log In</button>
+  </form>
 </body>
 </html>
 
-<script type="text/javascript">
-    $(document).ready(function(){       
-        $('.form-checkbox').click(function(){
-            if($(this).is(':checked')){
-                $('.form-password').attr('type','text');
-            }else{
-                $('.form-password').attr('type','password');
-            }
-        });
+<script>
+    var checkbox = document.getElementById('show-password');
+    var password = document.querySelector('.form-password');
+
+    checkbox.addEventListener('change', function() {
+        if (password.type === 'password') {
+            password.type = 'text';
+        } else {
+            password.type = 'password';
+        }
     });
 </script>

@@ -1,7 +1,7 @@
 <aside id="sidebar" class="sidebar">
   <ul class="sidebar-nav">
     <li class="nav-item">
-      <a class="nav-link <?php if($page =='index'){echo 'active-link';} ?>" href="index.php">
+      <a class="nav-link <?php if($page =='dashboard'){echo 'active-link';} ?>" href="dashboard.php">
         <i class="bi bi-grid"></i><span>Dasboard</span>
       </a>
     </li><!-- End Dashboard Nav -->
@@ -36,13 +36,23 @@
           </a>
         </li>
         <li>
-          <a class="<?php if($page2 =='data-produk'){echo 'active';} ?>" href="data-produk.php">
-            <i class="bi bi-circle"></i><span>Data Produk</span>
+          <a class="<?php if($page2 =='lokasi'){echo 'active';} ?>" href="lokasi-produk.php">
+            <i class="bi bi-circle"></i><span>Lokasi Produk</span>
+          </a>
+        </li>
+        <li>
+          <a class="<?php if($page2 =='grade'){echo 'active';} ?>" href="grade-produk.php">
+            <i class="bi bi-circle"></i><span>Grade Produk</span>
+          </a>
+        </li>
+        <li>
+          <a class="<?php if($page2 =='data-produk'){echo 'active';} ?>" href="data-produk-reg.php">
+            <i class="bi bi-circle"></i><span>Data Produk Reguler</span>
           </a>
         </li>
         <li>
           <a class="<?php if($page2 =='data-produk-set-marwa'){echo 'active';} ?>" href="data-produk-set-marwa.php">
-            <i class="bi bi-circle"></i><span>Data Set Produk</span>
+            <i class="bi bi-circle"></i><span>Data Set Produk Reguler</span>
           </a>
         </li>
         <li>

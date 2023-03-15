@@ -17,7 +17,7 @@
             echo "<script>document.location.href='../kategori-penjualan.php'</script>";
 		}else{
 			mysqli_query($connect, "INSERT INTO tb_kat_penjualan
-                      (id_kat_penjualan, id_user, nama_kategori, 'min_stock', created_date) 
+                      (id_kat_penjualan, id_user, nama_kategori, min_stock, created_date) 
                       VALUES 
                       ('$id_kat_penjualan', '$id_user', '$nama_kategori', '$min_stock', '$created')");
 
@@ -44,7 +44,8 @@
 	                SET
 					nama_kategori = '$nama_kategori',
 					min_stock = '$min_stock',
-					updated_date = '$updated'
+					updated_date = '$updated',
+					user_updated = '$user_updated'
 	                WHERE id_kat_penjualan='$id_kat_penjualan'");
             $_SESSION['info'] = 'Disimpan';
             echo "<script>document.location.href='../kategori-penjualan.php'</script>";

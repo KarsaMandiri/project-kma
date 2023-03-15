@@ -90,24 +90,24 @@
                                     <div class="table-responsive">
                                       <table class="table table-bordered table-striped">
                                         <tr>
-                                          <td class="col-3 text-start">Nama Kategori</td>
-                                          <td class="col-9"><input type="text" class="form-control" style="border:none; background-color: #f2f2f2; " id="nama_kategori" readonly></td>
+                                          <td class="col-4 text-start">Nama Kategori</td>
+                                          <td class="col-8 text-start" id="nama-kategori"></td>
                                         </tr>
                                         <tr>
-                                          <td class="col-3 text-start">Dibuat Oleh</td>
-                                          <td class="col-9"><input type="text" class="form-control" style="border:none;" id="id_user" readonly></td>
+                                          <td class="col-4 text-start">Dibuat Oleh</td>
+                                          <td class="col-8 text-start" id="user-created"></td>
                                         </tr>
                                         <tr>
-                                          <td class="col-3 text-start">Dibuat Tanggal</td>
-                                          <td class="col-9" id=""><input type="text" class="form-control" style="border:none; background-color: #f2f2f2;" id="created_date" readonly></td>
+                                          <td class="col-4 text-start">Dibuat Tanggal</td>
+                                          <td class="col-8 text-start" id="created-date"></td>
                                         </tr>
                                         <tr>
-                                          <td class="col-3 text-start">Diubah Oleh</td>
-                                          <td class="col-9"><input type="text" class="form-control" style="border:none;" id="user_updated" readonly></td>
+                                          <td class="col-4 text-start">Diubah Oleh</td>
+                                          <td class="col-8 text-start" id="user-updated"></td>
                                         </tr>
                                         <tr>
-                                          <td class="col-3 text-start">Diubah Tanggal</td>
-                                          <td class="col-9"><input type="text" class="form-control" style="border:none; background-color: #f2f2f2; " id="updated_date" readonly></td>
+                                          <td class="col-4 text-start">Diubah Tanggal</td>
+                                          <td class="col-8 text-start" id="updated-date"></td>
                                         </tr>
                                       </table>
                                     </div>             
@@ -116,7 +116,6 @@
                           </div>
                       </div>
                       <!-- End Info -->
-
                       <button  class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modal2" data-id="<?php echo $data['id_kat_penjualan']?>" data-nama="<?php echo $data['nama_kategori'] ?>" data-minstock="<?php echo $data['min_stock'] ?>">
                         <i class="bi bi-pencil"></i>
                       </button>
@@ -125,37 +124,35 @@
                     </td>
                     <!-- Modal Edit  -->
                     <div class="modal fade" id="modal2" tabindex="-1">
-                          <div class="modal-dialog modal-dialog-centered">
-                              <div class="modal-content">
-                                  <div class="modal-header">
-                                      <h1 class="modal-title fs-5">Edit Data Kategori Penjualan</h1>
-                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                  </div>
-                                  <form action="proses/proses-kat-penjualan.php" method="POST">
-                                      <div class="modal-body">
-                                          <div class="mb-3">
-                                              <div class="mb-3">
-                                              <label class="form-label">Nama Kategori Penjualan</label>
-                                              <input type="hidden" class="form-control" name="id_kat_penjualan" id="id_kat_penjualan">
-                                              <input type="text" class="form-control" name="nama_kategori" id="nama_kategori" required>
-                                          </div>
-                                          <div class="mb-3">
-                                              <div class="mb-3">
-                                              <label class="form-label">Minimal Stock</label>
-                                              <input type="text" class="form-control" name="min_stock" id="min_stock" required>
-                                              <input type="hidden" class="form-control" name="updated" value="<?php echo date('d/m/Y, G:i') ?>">
-                                              <input type="hidden" class="form-control" name="user_updated" value="<?php echo $_SESSION['tiket_id'] ?>">
-                                          </div>
-                                      </div>
-                                      <div class="modal-footer">
-                                          <button type="submit" name="edit-kat-penjualan" id="simpan" class="btn btn-primary btn-md" disabled><i class="bx bx-save"></i> Simpan Perubahan</button>
-                                          <button type="button" class="btn btn-secondary btn-md" data-bs-dismiss="modal"><i class="bi bi-x"></i> Tutup</button>
-                                      </div>
-                                  </form>
+                      <div class="modal-dialog modal-dialog-centered">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h1 class="modal-title fs-5">Edit Data Kategori Penjualan</h1>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                               </div>
+                              <form action="proses/proses-kat-penjualan.php" method="POST">
+                                  <div class="modal-body">
+                                      <div class="mb-3">
+                                          <label class="form-label">Nama Kategori Penjualan</label>
+                                          <input type="hidden" class="form-control" name="id_kat_penjualan" id="id_kat_penjualan">
+                                          <input type="text" class="form-control" name="nama_kategori" id="nama_kategori" required>
+                                      </div>
+                                      <div class="mb-3">
+                                          <label class="form-label">Minimal Stock</label>
+                                          <input type="text" class="form-control" name="min_stock" id="min_stock" required>
+                                          <input type="hidden" class="form-control" name="updated" value="<?php echo date('d/m/Y, G:i') ?>">
+                                          <input type="hidden" class="form-control" name="user_updated" value="<?php echo $_SESSION['tiket_id'] ?>">
+                                      </div>
+                                  </div>
+                                  <div class="modal-footer">
+                                      <button type="submit" name="edit-kat-penjualan" id="simpan" class="btn btn-primary btn-md" disabled><i class="bx bx-save"></i> Simpan Perubahan</button>
+                                      <button type="button" class="btn btn-secondary btn-md" data-bs-dismiss="modal"><i class="bi bi-x"></i> Tutup</button>
+                                  </div>
+                              </form>
                           </div>
                       </div>
-                      <!-- End Modal Edit -->
+                    </div>
+                    <!-- End Modal Edit -->
                   </tr>
                   <?php $no++; ?>
                   <?php } ?>
@@ -167,7 +164,7 @@
       </div>
     </section>
   </main><!-- End #main -->
-  <!-- Modal SP -->
+  <!-- Modal Input-->
   <div class="modal fade" id="modal1" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -188,6 +185,10 @@
               <input type="text" class="form-control" name="nama_kategori" required>
               <input type="hidden" class="form-control" name="created" value="<?php echo date('d/m/Y, G:i') ?>">
             </div>
+            <div class="mb-3">
+              <label class="form-label">Minimal Stock</label>
+              <input type="text" class="form-control" name="min_stock" required>
+            </div>
           </div>
           <div class="modal-footer">
             <button type="submit" name="simpan-kat-penjualan" class="btn btn-primary btn-md"><i class="bx bx-save"></i> Simpan Data</button>
@@ -197,7 +198,7 @@
       </div>
     </div>
   </div>
-  <!-- End Modal SP -->
+  <!-- End Modal Input-->
 
   <!-- Footer -->
   <?php include "page/footer.php" ?>
@@ -230,23 +231,6 @@
       $("#table1 tbody").append("<tr><td colspan='5' align='center'>Data not found</td></tr>");
     }
   });
-</script>
-
-<script>
-  $('#modal3').on('show.bs.modal', function (event) {
-      var button = $(event.relatedTarget);
-      var user = button.data('user');
-      var nama = button.data('nama');
-      var created = button.data('created');
-      var updated = button.data('updated');
-      var userupdated = button.data('userupdated');
-      var modal = $(this);
-      modal.find('.modal-body #id_user').val(user);
-      modal.find('.modal-body #nama_kategori').val(nama);
-      modal.find('.modal-body #created_date').val(created);
-      modal.find('.modal-body #updated_date').val(updated);
-      modal.find('.modal-body #user_updated').val(userupdated);
-  })
 </script>
 
 <script>
@@ -295,4 +279,28 @@
           simpanBtn.prop('disabled', true);
       });
   });
+</script>
+
+<script>
+  $('#modal3').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget);
+      var user = button.data('user');
+      var nama = button.data('nama');
+      var created = button.data('created');
+      var updated = button.data('updated');
+      var userupdated = button.data('userupdated');
+      var modal = $(this);
+      modal.find('.modal-body #id_user').val(user);
+      modal.find('.modal-body #nama_kategori').val(nama);
+      modal.find('.modal-body #created_date').val(created);
+      modal.find('.modal-body #updated_date').val(updated);
+      modal.find('.modal-body #user_updated').val(userupdated);
+
+      // untuk menampilkan data pada atribut <td>
+      $('#user-created').html(user);
+      $('#nama-kategori').html(nama);
+      $('#created-date').html(created);
+      $('#updated-date').html(updated);
+      $('#user-updated').html(userupdated);
+  })
 </script>
