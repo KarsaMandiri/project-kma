@@ -12,11 +12,6 @@
   <meta content="" name="description">
   <meta content="" name="keywords">
   <?php include "page/head.php"; ?>
-  <style>
-    .custom-tooltip {
-      --bs-tooltip-bg: var(--bs-primary);
-    }
-  </style>
 </head>
 
 <body>

@@ -84,7 +84,6 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
                           <form action="proses/proses-cs.php" method="POST">
-                          
                             <div class="modal-body">
                               <div class="mb-3">
                                 <div class="mb-3">

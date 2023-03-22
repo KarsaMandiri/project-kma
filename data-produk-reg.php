@@ -13,6 +13,14 @@
   <meta content="" name="description">
   <meta content="" name="keywords">
   <?php include "page/head.php"; ?>
+  <style>
+  #gambarProduk {
+    width: 500px;
+    height: 600px;
+    object-fit: contain;
+    object-position: top;
+  }
+</style>
 </head>
 
 <body>
@@ -38,152 +46,184 @@
     </div><!-- End Page Title -->
 
     <section>
+      <!-- SWEET ALERT -->
+      <div class="info-data" data-infodata="<?php if(isset($_SESSION['info'])){ echo $_SESSION['info']; } unset($_SESSION['info']); ?>"></div>
+      <!-- END SWEET ALERT -->
       <div class="container-fluid">
         <div class="card">
           <div class="card-header text-center">
             <h4>Data Produk</h4>
           </div>
           <div class="card-body p-3">
-            <form>
-              <a href="tambah-data-produk.php" class="btn btn-primary btn-md"><i class="bi bi-plus-circle"></i> Tambah data produk</a>
-              <a href="#" class="btn btn-warning btn-md"><i class="bi bi-pencil"></i> Edit produk</a>
-              <a href="#" class="btn btn-danger btn-md"><i class="bi bi-trash"></i> Hapus produk</a>
-              <div class="table-responsive mt-3">
-                <table class="table table-striped table-bordered" id="table1">
-                  <thead>
-                    <tr class="text-white" style="background-color: #051683;">
-                      <td class="text-center">Pilih</td>
-                      <td class="text-center p-3">No</td>
-                      <td class="text-center p-3">Kode Produk</td>
-                      <td class="text-center p-3">Nama Produk</td>
-                      <td class="text-center p-3">Merk</td>
-                      <td class="text-center p-3">Harga</td>
-                      <td class="text-center p-3">Lokasi Produk</td>
-                      <td class="text-center p-3">Kategori Produk</td>
-                      <td class="text-center p-3">Kategori Penjualan</td>
-                      <td class="text-center p-3">Stok</td>
-                      <td class="text-center p-3">Aksi</td>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td class="text-center"><input type="checkbox" class="checkbox"></td>
-                      <td class="text-center">1</td>
-                      <td>BR001</td>
-                      <td>DF 14 </td>
-                      <td class="text-center">Marwa</td>
-                      <td class="text-end">7.500</td>
-                      <td class="text-center">2-20</td>
-                      <td class="text-center">Surgical Instrument</td>
-                      <td class="text-center">Super Fast Market</td>
-                      <td class="text-center">100</td>
-                      <td class="text-center">
-                        <div class="dropdown">
-                          <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                            Pilih
-                          </a>
-                          <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <li><a class="dropdown-item">Detail</a></li>
-                            <li><a class="dropdown-item" href="form-edit-produk.php">Edit</a></li>
-                            <li><a class="dropdown-item" href="">Hapus</a></li>
-                          </ul>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </form>
+            <a href="tambah-data-produk.php" class="btn btn-primary btn-md"><i class="bi bi-plus-circle"></i> Tambah data produk</a>
+            <div class="table-responsive mt-3">
+              <table class="table table-striped table-bordered" id="table1">
+                <thead>
+                  <tr class="text-white" style="background-color: #051683;">
+                    <td class="text-center p-3" style="width: 50px">Pilih</td>
+                    <td class="text-center p-3" style="width: 50px">No</td>
+                    <td class="text-center p-3" style="width: 350px">Nama Produk</td>
+                    <td class="text-center p-3" style="width: 100px">Merk</td>
+                    <td class="text-center p-3" style="width: 100px">Harga</td>
+                    <td class="text-center p-3" style="width: 50px">Aksi</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php 
+                    date_default_timezone_set('Asia/Jakarta');
+                    
+                    include "koneksi.php";
+                    $no = 1;
+                    $sql = "SELECT pr.*,
+                            pr.created_date as 'produk_created',
+                            pr.created_date as 'produk_updated',    
+                            uc.nama_user as user_created, 
+                            uu.nama_user as user_updated,
+                            mr.*,
+                            kp.*,
+                            kj.*,
+                            kp.nama_kategori as kat_prod,
+                            kj.nama_kategori as kat_penj,
+                            gr.*,
+                            lok.*
+                            FROM tb_produk_reguler as pr
+                            LEFT JOIN user uc ON (pr.id_user = uc.id_user)
+                            LEFT JOIN user uu ON (pr.user_updated = uu.id_user)
+                            LEFT JOIN tb_merk mr ON (pr.id_merk = mr.id_merk)
+                            LEFT JOIN tb_kat_produk kp ON (pr.id_kat_produk = kp.id_kat_produk)
+                            LEFT JOIN tb_kat_penjualan kj ON (pr.id_kat_penjualan = kj.id_kat_penjualan)
+                            LEFT JOIN tb_produk_grade gr ON (pr.id_grade = gr.id_grade)
+                            LEFT JOIN tb_lokasi_produk lok ON (pr.id_lokasi = lok.id_lokasi)
+                            ";
+                    $query = mysqli_query($connect, $sql);
+                    while($data = mysqli_fetch_array($query)){
+                  ?>
+                  <tr>
+                    <td class="text-center"><input type="checkbox" class="checkbox"></td>
+                    <td class="text-center"><?php echo $no; ?></td>
+                    <td><?php echo $data['nama_produk']; ?></td>
+                    <td class="text-center"><?php echo $data['nama_merk']; ?></td>
+                    <td class="text-end">
+                      <a style="float:left; color:black;">Rp</a> 
+                      <a style="float:right; color:black;"> <?php echo number_format ($data['harga_produk'],0,',','.'); ?> </a>
+                    </td>
+                    <td class="text-center">
+                      <div class="dropdown">
+                        <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                          Pilih
+                        </a>
+                        <ul class="dropdown-menu mb-3" aria-labelledby="dropdownMenuLink">
+                          <li>
+                            <a class="dropdown-item btn-detail" href="#" data-kode-produk="<?php echo $data['kode_produk'] ?>" data-nama-produk="<?php echo $data['nama_produk']; ?>" data-merk-produk="<?php echo $data['nama_merk']; ?>" data-harga-produk="<?php echo format_rupiah($data['harga_produk']) ?>" 
+                            data-kategori-produk="<?php echo $data['kat_prod'] ?>" data-izin-edar="<?php echo $data['no_izin_edar'] ?>"  data-kategori-penjualan="<?php echo $data['kat_penj'] ?>" data-grade-produk="<?php echo $data['nama_grade'] ?>" data-lokasi-produk="<?php echo $data['nama_lokasi'] ?>" data-lantai-produk="<?php echo $data['no_lantai'] ?>" data-area-produk="<?php echo $data['nama_area'] ?>" data-rak-produk="<?php echo $data['no_rak'] ?>"  data-created-produk="<?php echo $data['produk_created'] ?>" data-user-created="<?php echo $data['user_created'] ?>" data-update-produk="<?php echo $data['produk_updated'] ?>" data-user-update="<?php echo $data['user_updated'] ?>" data-gambar-produk="<?php echo $data['gambar']; ?>">Detail</a>
+                          </li>
+                          <li><a class="dropdown-item" href="edit-produk-reg.php?edit-data=<?php echo $data['id_produk_reg'] ?>">Edit</a></li>
+                          <li><a class="dropdown-item delete-data" href="proses/proses-produk-reg.php?hapus-produk-reg=<?php echo $data['id_produk_reg'] ?>">Hapus</a></li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                  <?php $no++; ?>
+                  <?php } ?>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
     </section>
   </main><!-- End #main -->
-  <!-- Modal Input -->
-  <div class="modal fade" id="modal1" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5">Tambah Data Produk</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <form action="proses/proses-produk.php" method="POST">
-          <div class="modal-body">
-            <div class="mb-3">
-              <?php 
-                  $UUID = generate_uuid();
-              ?>
-              <div class="mb-3">
-                <label class="form-label"><strong>Kode Produk</strong></label>
-                <input type="text" class="form-control" name="id_produk" value="BR-REG<?php echo $UUID; ?>">
-                <input type="text" class="form-control" name="kode_barang" required>
+ <!-- Modal Detail -->
+ <div class="modal fade" id="modalDetail" tabindex="-1" aria-labelledby="modalDetailLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-body">
+         <div class="card">
+          <div class="card-header text-center"><h4><strong>Detail Produk Reguler</strong></h4></div>
+          <div class="card-body p-3">
+            <div class="row">
+              <div class="col-5">
+                <img alt="Gambar Produk" id="gambarProduk" class="img-fluid">
               </div>
-              <div class="mb-3">
-                <label class="form-label"><strong>Nama Produk</strong></label>
-                <input type="text" class="form-control" name="nama_barang" required>
+              <div class="col-7">
+                <table class="table table-bordered table-striped">
+                  <tr>
+                    <td>Kode Produk</td>
+                    <td id="kodeProduk"></td>
+                  </tr>
+                  <tr>
+                    <td>No Izin Edar</td>
+                    <td id="izinEdar"></td>
+                  </tr>
+                  <tr>
+                    <td>Nama Produk</td>
+                    <td id="namaProduk"></td>
+                  </tr>
+                  <tr>
+                    <td>Merk Produk</td>
+                    <td id="merkProduk"></td>
+                  </tr>
+                  <tr>
+                    <td>Harga Produk</td>
+                    <td id="hargaProduk"></td>
+                  </tr>
+                  <tr>
+                    <td>Kategori Produk</td>
+                    <td id="katProduk"></td>
+                  </tr>
+                  <tr>
+                    <td>Kategori Penjualan</td>
+                    <td id="katPenjualan"></td>
+                  </tr>
+                  <tr>
+                    <td>Kategori Penjualan</td>
+                    <td id="katGrade"></td>
+                  </tr>
+                  <tr>
+                    <td>Lokasi Produk</td>
+                    <td id="katLokasi"></td>
+                  </tr>
+                  <tr>
+                    <td>No. Lantai</td>
+                    <td id="lantaiLokasi"></td>
+                  </tr>
+                  <tr>
+                    <td>Area</td>
+                    <td id="areaLokasi"></td>
+                  </tr>
+                  <tr>
+                    <td>No. Rak</td>
+                    <td id="rakLokasi"></td>
+                  </tr>
+                  <tr>
+                    <td>Dibuat Tanggal</td>
+                    <td id="created"></td>
+                  </tr>
+                  <tr>
+                    <td>Dibuat Oleh</td>
+                    <td id="userCreated"></td>
+                  </tr>
+                  <tr>
+                    <td>Diubah Tanggal</td>
+                    <td id="updated"></td>
+                  </tr>
+                  <tr>
+                    <td>Diubah Oleh</td>
+                    <td id="userUpdated"></td>
+                  </tr>
+                </table>
               </div>
-              <div class="mb-3">
-                <label class="form-label"><strong>Merk</strong></label>
-                <select class="selectize-js form-select" name="merk" required>
-                  <option value="">Pilih...</option>
-                  <?php 
-                    include "koneksi.php";
-                    $sql = "SELECT * FROM tb_merk ";
-                    $query = mysqli_query($connect,$sql) or die (mysqli_error($connect));
-                    while ($data = mysqli_fetch_array($query)){?>
-                      <option value="<?php echo $data['id_merk']; ?>"><?php echo $data['nama_merk']; ?></option>
-                  <?php } ?>
-                </select>
-              </div>
-              <div class="mb-3">
-                <label class="form-label"><strong>Harga Produk</strong></label>
-                <input type="text" class="form-control" name="harga" id="inputBudget" required>
-              </div>
-              <div class="mb-3">
-                <label class="form-label"><strong>Lokasi Produk</strong></label>
-                <input type="text" class="form-control" name="lokasi" placeholder="Pilih..." data-bs-toggle="modal" data-bs-target="#modal2" required>
-              </div>
-              <div class="mb-3">
-                <label class="form-label"><strong>Kategori Produk</strong></label>
-                <select class="selectize-js form-select" name="kategori_produk" required>
-                  <option value="">Pilih...</option>
-                  <?php 
-                    include "koneksi.php";
-                    $sql = "SELECT * FROM tb_kat_produk 
-                            LEFT JOIN tb_merk ON (tb_kat_produk.id_merk = tb_merk.id_merk)
-                            ORDER BY nama_kategori ASC";
-                    $query = mysqli_query($connect,$sql) or die (mysqli_error($connect));
-                    while ($data = mysqli_fetch_array($query)){?>
-                      <option value="<?php echo $data['id_kat_produk']; ?>"><?php echo $data['nama_merk']; ?> - <?php echo $data['nama_kategori']; ?></option>
-                  <?php } ?>
-                </select>
-              </div>
-              <div class="mb-3">
-                <label class="form-label"><strong>Kategori Penjualan</strong></label>
-                <select class="selectize-js form-select" name="kategori_penjualan" required>
-                  <option value="">Pilih...</option>
-                  <?php 
-                    include "koneksi.php";
-                    $sql = "SELECT * FROM tb_kat_penjualan ";
-                    $query = mysqli_query($connect,$sql) or die (mysqli_error($connect));
-                    while ($data = mysqli_fetch_array($query)){?>
-                      <option value="<?php echo $data['id_kat_penjualan']; ?>"><?php echo $data['nama_kategori']; ?></option>
-                  <?php } ?>
-                </select>
-              </div>
-              <input type="text" class="form-control" name="id_user" value="<?php echo $_SESSION['tiket_id']; ?>">
-              <input type="text" class="form-control" name="created" id="datetime-input">
             </div>
           </div>
-          <div class="modal-footer">
-            <button type="submit" name="simpan-produk" class="btn btn-primary btn-md"><i class="bx bx-save"></i> Simpan Data</button>
-            <button type="button" class="btn btn-secondary btn-md" data-bs-dismiss="modal"><i class="bi bi-x"></i> Tutup</button>
-          </div>
-        </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
       </div>
     </div>
   </div>
-  <!-- End Modal Input -->
+</div>
+<!-- end modal detail -->
 
   <!-- Modal Lokasi -->
   <div class="modal fade" id="modal2" tabindex="-1" aria-hidden="true">
@@ -240,9 +280,6 @@
 </body>
 </html>
 
-<!-- Clock js -->
-<script src="assets/js/clock.js"></script>
-
 <!-- Generat UUID -->
 <?php
   function generate_uuid() {
@@ -257,6 +294,13 @@
 ?>
 <!-- End Generate UUID -->
 
+<?php 
+  function format_rupiah($angka){
+    $rupiah = "Rp " . number_format($angka,0,',','.');
+    return $rupiah;
+}
+?>
+
 <script>
   // delete button
   $("#table1").on("click", ".delete-button", function () {
@@ -267,16 +311,46 @@
   });
 </script>
 
-<!-- Format nominal Indo -->
 <script>
-  const inputBudget = document.getElementById('inputBudget');
-  
-  inputBudget.addEventListener('input', () => {
-    // Remove any non-digit characters
-    let input = inputBudget.value.replace(/[^\d]/g, '');
-    // Convert to a number and format with "." separator
-    let formattedInput = Number(input).toLocaleString('en-US');
-    // Update the input value with the formatted number
-    inputBudget.value = formattedInput;
+  $(document).ready(function() {
+  $('.btn-detail').click(function() {
+    var kodeProduk = $(this).data('kode-produk');
+    var izinEdar = $(this).data('izin-edar');
+    var namaProduk = $(this).data('nama-produk');
+    var merkProduk = $(this).data('merk-produk');
+    var hargaProduk = $(this).data('harga-produk');
+    var katProduk = $(this).data('kategori-produk');
+    var katPenjualan = $(this).data('kategori-penjualan');
+    var katGrade = $(this).data('grade-produk');
+    var katLokasi = $(this).data('lokasi-produk');
+    var lantaiLokasi = $(this).data('lantai-produk');
+    var areaLokasi = $(this).data('area-produk');
+    var rakLokasi = $(this).data('rak-produk');
+    var gambarProduk = $(this).data('gambar-produk');
+    var created = $(this).data('created-produk');
+    var userCreated = $(this).data('user-created');
+    var updated = $(this).data('updated-produk');
+    var userUpdated = $(this).data('user-updated');
+
+    $('#kodeProduk').html(kodeProduk);
+    $('#izinEdar').html(izinEdar);
+    $('#namaProduk').html(namaProduk);
+    $('#merkProduk').html(merkProduk);
+    $('#hargaProduk').html(hargaProduk);
+    $('#katProduk').html(katProduk);
+    $('#katPenjualan').html(katPenjualan);
+    $('#katGrade').html(katGrade);
+    $('#katLokasi').html(katLokasi);
+    $('#lantaiLokasi').html(lantaiLokasi);
+    $('#areaLokasi').html(areaLokasi);
+    $('#rakLokasi').html(rakLokasi);
+    $('#gambarProduk').attr('src', 'gambar/upload-marwa/' + gambarProduk);
+    $('#created').html(created);
+    $('#userCreated').html(userCreated);
+    $('#updated').html(updated);
+    $('#userUpdated').html(userUpdated);
+
+    $('#modalDetail').modal('show');
   });
+});
 </script>
