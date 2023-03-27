@@ -59,26 +59,76 @@
 		}
 
 	//Edit
-	}elseif(isset($_POST["edit-grade-produk"])) {
-		$id_grade = $_POST['id_grade'];
+	}elseif(isset($_POST["edit-produk-reg"])) {
+		$id_produk = $_POST['id_produk'];
+        $kode = $_POST['kode_produk'];
+        $nama = $_POST['nama_produk'];
+        $merk = $_POST['merk'];
+        $harga = $_POST['harga'];
+        $lokasi = $_POST['id_lokasi'];
+        $kat_produk = $_POST['id_kat_produk'];
+        $kat_penjualan = $_POST['kategori_penjualan'];
         $grade = $_POST['grade'];
+        $id_user = $_POST['id_user'];
+        $updated = $_POST['updated'];
+		// Convert budget to integer
+		$harga = intval(preg_replace("/[^0-9]/", "", $harga));
 
-		// cek data sebelum update
-        $cek_grade = mysqli_query($connect, "SELECT * FROM tb_produk_grade WHERE nama_grade = '$grade'");
+		// Mendapatkan informasi file
+		$nama_file = $_FILES["fileku"]["name"];
+		$tipe_file = $_FILES["fileku"]["type"];
+		$ukuran_file = $_FILES["fileku"]["size"];
+		$tmp_file = $_FILES["fileku"]["tmp_name"];
 
-		if($cek_grade->num_rows > 0) {
-			// Ada nama yang sama di database, tampilkan pesan error
-			$_SESSION['info'] = 'Data sudah ada';
-			echo "<script>document.location.href='../grade-produk.php'</script>";
+		//cek data sebelum update (Jika gambar tidak di ubah)
+		if($nama_file == '') {
+			//data di simpan
+			$update = mysqli_query($connect, "UPDATE tb_produk_reguler
+									SET 
+									id_merk = '$merk',
+									id_kat_produk = '$kat_produk',
+									id_kat_penjualan = '$kat_penjualan',
+									id_grade = '$grade',
+									id_lokasi = '$lokasi',
+									kode_produk = '$kode',
+									nama_produk = '$nama',
+									harga_produk = '$harga',
+									updated_date = '$updated'
+									WHERE id_produk_reg = '$id_produk'");
+			$_SESSION['info'] = 'Disimpan';
+			echo "<script>document.location.href='../data-produk-reg.php'</script>";
 		} else {
-			// Data belum ada, simpan data
-			$update = mysqli_query($connect, "UPDATE tb_produk_grade 
-				SET
-				nama_grade = '$grade'
-				WHERE id_grade='$id_grade'");
-				
+			$sql = "SELECT * FROM tb_produk_reguler WHERE id_produk_reg = '$id_produk'";
+			$result = mysqli_query($connect, $sql);
+			$row = mysqli_fetch_assoc($result);
+			$gambar = $row['gambar'];
+			unlink("../gambar/upload-marwa/$gambar");
+
+			// Enkripsi nama file
+			$ubah_nama = 'IMG';
+			$nama_file_baru = $ubah_nama . uniqid() . '.jpg';
+
+			// Simpan file ke direktori tujuan
+			$direktori_tujuan = "../gambar/upload-marwa/";
+			$target_file = $direktori_tujuan . $nama_file_baru;
+			move_uploaded_file($tmp_file, $target_file);
+
+			$update = mysqli_query($connect, "UPDATE tb_produk_reguler
+									SET 
+									id_merk = '$merk',
+									id_kat_produk = '$kat_produk',
+									id_kat_penjualan = '$kat_penjualan',
+									id_grade = '$grade',
+									id_lokasi = '$lokasi',
+									kode_produk = '$kode',
+									nama_produk = '$nama',
+									harga_produk = '$harga',
+									gambar = '$nama_file_baru',
+									updated_date = '$updated'
+									WHERE id_produk_reg = '$id_produk'");
+			
 			$_SESSION['info'] = 'Diupdate';
-			echo "<script>document.location.href='../grade-produk.php'</script>";
+			echo "<script>document.location.href='../data-produk-reg.php'</script>";
 		}
 
     // Hapus 
@@ -91,8 +141,6 @@
 		$result = mysqli_query($connect, $sql);
 		$row = mysqli_fetch_assoc($result);
 		$gambar = $row['gambar'];
-
-		echo $idh;
 
 		//query untuk menghapus data berdasarkan ID
 		$sql = "DELETE FROM tb_produk_reguler WHERE id_produk_reg = '$idh'";

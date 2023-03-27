@@ -21,4 +21,12 @@ $(function () {
         "ordering": false,
         "autoWidth": false
     });
-} );
+});
+
+$(document).ready(function() {
+  var table = $('#table3').DataTable({
+      "lengthChange": false,
+      "ordering": false,
+      "autoWidth": false
+  });
+});

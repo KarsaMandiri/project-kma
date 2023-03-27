@@ -13,28 +13,36 @@
   <meta content="" name="description">
   <meta content="" name="keywords">
   <?php include "page/head.php"; ?>
-
   <style>
     #table2{
       cursor: pointer;
     }
-      .fileUpload {
-      position: relative;
-      overflow: hidden;
-      margin: 10px;
+    #table3{
+      cursor: pointer;
     }
+    .fileUpload {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-    .fileUpload input.upload {
+  .fileUpload input.upload {
       position: absolute;
       top: 0;
       right: 0;
       margin: 0;
       padding: 0;
       font-size: 20px;
+      width: 10px;
       cursor: pointer;
       opacity: 0;
       filter: alpha(opacity=0);
     }
+
+    input[type="text"]:read-only {
+      background: #e9ecef;
+      }
   </style>
 </head>
 
@@ -101,7 +109,7 @@
                         <div class="mb-3">
                             <label class="form-label"><strong>Kode Produk</strong></label>
                             <input type="hidden" class="form-control" name="id_produk" value="<?php echo $row['id_produk_reg']; ?>">
-                            <input type="text" class="form-control" name="kode_produk" value="<?php echo $row['kode_produk'] ?>" required>
+                            <input type="text" class="form-control" name="kode_produk" value="<?php echo $row['kode_produk'] ?>" readonly>
                         </div>
                         <div class="mb-3">
                             <label class="form-label"><strong>Nama Produk</strong></label>
@@ -111,15 +119,15 @@
                           <div class="row">
                             <div class="col-sm mb-3">
                               <label class="form-label"><strong>Merk</strong></label>
-                              <select class="selectize-js form-select" name="merk" required>
-                                <option><?php echo $row['nama_merk']?></option>
-                                <?php 
+                                <select class="form-select" name="merk" required>
+                                  <option value="<?php echo $row['id_merk'] ?>"><?php echo $row['nama_merk']?></option>
+                                  <?php 
                                     include "koneksi.php";
                                     $sql = "SELECT * FROM tb_merk ";
                                     $query = mysqli_query($connect,$sql) or die (mysqli_error($connect));
                                     while ($data = mysqli_fetch_array($query)){?>
-                                    <option value="<?php echo $data['id_merk']; ?>"><?php echo $data['nama_merk']; ?></option>
-                                <?php } ?>
+                                  <option value="<?php echo $data['id_merk']; ?>"><?php echo $data['nama_merk']; ?></option>
+                                  <?php } ?>
                               </select>
                             </div>
                             <div class="col-sm">
@@ -132,20 +140,20 @@
                             <div class="row">
                               <div class="col-sm mb-3">
                                 <label class="form-label"><strong>Lokasi Produk</strong></label>
-                                <input type="hidden" class="form-control" name="id_lokasi" id="id_lokasi">
-                                <input disabled type="text" class="form-control" name="lokasi" id="nama_lokasi" data-bs-toggle="modal" data-bs-target="#modal2" value="<?php echo $row['nama_lokasi'] ?>" readonly>
+                                <input type="hidden" class="form-control" name="id_lokasi" id="id_lokasi" value="<?php echo $row['id_lokasi'] ?>">
+                                <input type="text" class="form-control" name="lokasi" id="nama_lokasi" data-bs-toggle="modal" data-bs-target="#modal2" value="<?php echo $row['nama_lokasi'] ?>" readonly>
                               </div>
                               <div class="col-sm mb-3">
                                 <label class="form-label"><strong>No. Lantai</strong></label>
-                                <input disabled type="text" class="form-control" name="no_lantai" id="no_lantai" value="<?php echo $row['no_lantai'] ?>" readonly>
+                                <input type="text" class="form-control" name="no_lantai" id="no_lantai" value="<?php echo $row['no_lantai'] ?>" readonly>
                               </div>
                               <div class="col-sm mb-3">
                                 <label class="form-label"><strong>Area</strong></label>
-                                <input disabled type="text" class="form-control" name="area" id="area" value="<?php echo $row['nama_area'] ?>" readonly>
+                                <input type="text" class="form-control" name="area" id="area" value="<?php echo $row['nama_area'] ?>" readonly>
                               </div>
                               <div class="col-sm">
                                 <label class="form-label"><strong>No. Rak</strong></label>
-                                <input disabled type="text" class="form-control" name="no_rak" id="no_rak" value="<?php echo $row['no_rak'] ?>" readonly>
+                                <input type="text" class="form-control" name="no_rak" id="no_rak" value="<?php echo $row['no_rak'] ?>" readonly>
                               </div>
                             </div>
                         </div>
@@ -153,23 +161,13 @@
                             <div class="row">
                               <div class="col-sm mb-3">
                                 <label class="form-label"><strong>Kategori Produk</strong></label>
-                                <select class="selectize-js form-select" name="kategori_produk" required>
-                                <option><?php echo $row['kat_prod']; ?></option>
-                                <?php 
-                                    include "koneksi.php";
-                                    $sql = "SELECT * FROM tb_kat_produk 
-                                            LEFT JOIN tb_merk ON (tb_kat_produk.id_merk = tb_merk.id_merk)
-                                            ORDER BY nama_kategori ASC";
-                                    $query = mysqli_query($connect,$sql) or die (mysqli_error($connect));
-                                    while ($data = mysqli_fetch_array($query)){?>
-                                    <option value="<?php echo $data['id_kat_produk']; ?>"><?php echo $data['nama_merk']; ?> - <?php echo $data['nama_kategori']; ?></option>
-                                <?php } ?>
-                                </select>
+                                <input type="hidden" class="form-control" name="id_kat_produk" id="idKatProduk" value="<?php echo $row['id_kat_produk']?>">
+                                <input type="text" class="form-control" name="nama_kat_produk" id="namaKatProduk" data-bs-toggle="modal" data-bs-target="#modalkatprod" value="<?php echo $row['kat_prod'] ?> - <?php echo $row['nama_merk'] ?>" readonly>
                               </div>
                               <div class="col-sm">
                                 <label class="form-label"><strong>Kategori Penjualan</strong></label>
-                                <select class="selectize-js form-select" name="kategori_penjualan" required>
-                                <option><?php echo $row['kat_penj']; ?></option>
+                                <select class="form-select" name="kategori_penjualan" required>
+                                <option value="<?php echo $row['id_kat_penjualan']; ?>"><?php echo $row['kat_penj']; ?></option>
                                 <?php 
                                     include "koneksi.php";
                                     $sql = "SELECT * FROM tb_kat_penjualan ";
@@ -181,8 +179,8 @@
                               </div>
                               <div class="col-sm">
                                 <label class="form-label"><strong>Grade Produk</strong></label>
-                                <select class="selectize-js form-select" name="grade" required>
-                                <option><?php echo $row['nama_grade']; ?></option>
+                                <select class="form-select" name="grade" required>
+                                <option value="<?php echo $row['id_grade']; ?>"><?php echo $row['nama_grade']; ?></option>
                                 <?php 
                                     include "koneksi.php";
                                     $sql = "SELECT * FROM tb_produk_grade ";
@@ -200,21 +198,21 @@
                         </div>
                         <div class="mb-3 col-sm-6">
                           <div class="input-group">
-                            <div class="fileUpload btn btn-primary">
+                            <div class="fileUpload btn btn-primary" id="fileUpload">
                               <span><i class="bi bi-upload"></i> Ubah Gambar</span>
                               <input class="upload" type="file" name="fileku" id="formFile" accept="image/*" onchange="compressImage(event)">
                             </div>
-                            <div class="fileUpload btn btn-danger">
+                            <div class="fileUpload btn btn-danger" id="resetButton">
                               <span><i class="bi bi-arrow-repeat"></i> Reset File</span>
-                              <input class="upload" onclick="resetForm()">
+                              <input class="upload" type="button">
                             </div>
                           </div>
                         </div>
                         <input type="hidden" class="form-control" name="id_user" value="<?php echo $_SESSION['tiket_id']; ?>">
-                        <input type="hidden" class="form-control" name="created" id="datetime-input">
+                        <input type="hidden" class="form-control" name="updated" id="datetime-input">
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" name="simpan-produk-reg" class="btn btn-primary btn-md m-1"><i class="bx bx-save"></i> Ubah Data</button>
+                        <button type="submit" name="edit-produk-reg" id="ubahData" class="btn btn-primary btn-md m-1" onclick="ubahData()"><i class="bx bx-save"></i> Ubah Data</button>
                         <a href="data-produk-reg.php" class="btn btn-secondary btn-md m-1"><i class="bi bi-x"></i> Tutup</a>
                     </div>
                   </form>
@@ -274,6 +272,53 @@
   </div>
   <!-- End Modal Lokasi -->
 
+<!-- Modal Kategori Produk -->
+<div class="modal fade" id="modalkatprod" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5">Pilih Data</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="card">
+          <div class="card-body mt-3">
+              <table class="table table-bordered table-striped katProd" id="table3">
+                  <thead>
+                      <tr class="text-white" style="background-color: #051683;">
+                          <td class="text-center p-3" style="width: 80px">No</td>
+                          <td class="text-center p-3" style="width: 200px">Nama Kategori</td>
+                          <td class="text-center p-3" style="width: 200px">Merk</td>
+                          <td class="text-center p-3" style="width: 200px">Nomor Izin Edar</td>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <?php 
+                          date_default_timezone_set('Asia/Jakarta');
+                          include "koneksi.php";
+                          $no = 1;
+                          $sql = "SELECT * FROM tb_kat_produk AS tkp
+                                  JOIN tb_merk AS m ON (tkp.id_merk = m.id_merk)
+                                  ORDER BY nama_kategori ASC"; 
+                          $query = mysqli_query($connect, $sql) OR DIE(mysqli_error($connect, $sql));
+                          while($data = mysqli_fetch_array($query)){
+                      ?>
+                      <tr data-idkat="<?php echo $data['id_kat_produk']; ?>" data-namakatprod="<?php echo $data['nama_kategori']?> - <?php echo $data['nama_merk'] ?>" data-bs-dismiss="modal">
+                          <td class="text-center"><?php echo $no;?></td>
+                          <td class="text-center"><?php echo $data['nama_kategori']; ?></td>
+                          <td class="text-center"><?php echo $data['nama_merk']; ?></td>
+                          <td class="text-center"><?php echo $data['no_izin_edar']; ?></td>
+                      </tr>
+                      <?php $no++; ?>
+                      <?php } ?>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Modal  -->
+
   <!-- Footer -->
   <?php include "page/footer.php" ?>
   <!-- End Footer -->
@@ -307,30 +352,11 @@
   setInterval(inputDateTime, 1000);
 </script>
 
-<!-- select data -->
-<script src="assets/js/select-data.js"></script>
-
-<!-- Generat UUID -->
-<?php
-  function generate_uuid() {
-  return sprintf( '%04x%04x%04x',
-    mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
-    mt_rand( 0, 0xffff ),
-    mt_rand( 0, 0x0fff ) | 0x4000,
-    mt_rand( 0, 0x3fff ) | 0x8000,
-    mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff )
-  );
-}
-?>
-<!-- End Generate UUID -->
-
-<!-- Format nominal Indo -->
 <script>
   const inputBudget = document.getElementById('inputBudget');
-  // Format value pada saat halaman dimuat
   let formattedValue = Number(inputBudget.value).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' });
   inputBudget.value = formattedValue.replace(",00", "");
-  // format value saat data di ubah
+  
   inputBudget.addEventListener('input', () => {
     // Remove any non-digit characters
     let input = inputBudget.value.replace(/[^\d]/g, '');
@@ -342,6 +368,135 @@
     inputBudget.value = formattedInput;
   });
 </script>
+
+<!-- Button enable or disable -->
+<script>
+//   function ubahData() {
+//     //implementasi untuk mengubah data
+//     // update nilai original setelah data berhasil diubah
+//     originalNamaProduk = namaProdukInput.value;
+//     originalMerkProduk = merkProdukInput.value;
+//     originalHargaProduk = hargaProdukInput.value;
+//     originalKatPenjualanProduk = katPenjualanInput.value;
+    
+    
+//     // dinonaktifkan tombol simpan kembali setelah data berhasil diubah
+//     simpanBtn.disabled = true;
+    
+//   }
+//     const inputBudget = document.getElementById('inputBudget');
+//     let formattedValue = Number(inputBudget.value).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' });
+//     inputBudget.value = formattedValue.replace(",00", "");
+//     const simpanBtn = document.getElementById('ubahData');
+//     const namaProdukInput = document.getElementsByName("nama_produk")[0];
+//     const merkProdukInput = document.getElementsByName("merk")[0];
+//     const hargaProdukInput = document.getElementsByName("harga")[0];
+//     const katPenjualanInput = document.getElementsByName("kategori_penjualan")[0];
+//     const gradeInput = document.getElementsByName("grade")[0];
+//     let originalNamaProduk = namaProdukInput.value;
+//     let originalMerkProduk = merkProdukInput.value;
+//     let originalHargaProduk = hargaProdukInput.value;
+//     let originalKatPenjualan = katPenjualanInput.value;
+//     let originalGrade = gradeInput.value;
+
+//     console.log(originalGrade);
+    
+
+  
+//   inputBudget.addEventListener('input', () => {
+//     let input = inputBudget.value.replace(/[^\d]/g, '');
+//     let formattedInput = Number(input).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' });
+//     formattedInput = formattedInput.replace(",00", "");
+//     inputBudget.value = formattedInput;
+
+//     let currentNamaProduk = namaProdukInput.value;
+//     let currentMerkProduk = merkProdukInput.value;
+//     let currentHargaProduk = inputBudget.value;
+//     let currentKatPenjualan = katPenjualanInput.value;
+//     let currentGrade = gradeInput.value;
+  
+//     if (currentNamaProduk !== originalNamaProduk || currentMerkProduk !== originalMerkProduk || currentHargaProduk !== originalHargaProduk
+//     || currentKatPenjualan !== originalKatPenjualan || currentGrade !== originalGrade) {
+//       simpanBtn.disabled = false;
+//     } else {
+//       simpanBtn.disabled = true;
+//     }
+//   });
+
+//   namaProdukInput.addEventListener('input', () => {
+//     let currentNamaProduk = namaProdukInput.value;
+//     let currentMerkProduk = merkProdukInput.value;
+//     let currentHargaProduk = inputBudget.value;
+//     let currentKatPenjualan = katPenjualanInput.value;
+//     let currentGrade = gradeInput.value;
+
+//     if (currentNamaProduk !== originalNamaProduk || currentMerkProduk !== originalMerkProduk || currentHargaProduk !== originalHargaProduk || currentKatPenjualan !== originalKatPenjualan || currentGrade !== originalGrade) {
+//       simpanBtn.disabled = false;
+//     } else {
+//       simpanBtn.disabled = true;
+//     }
+//   });
+
+//   merkProdukInput.addEventListener('change', () => {
+//     let currentNamaProduk = namaProdukInput.value;
+//     let currentMerkProduk = merkProdukInput.value;
+//     let currentHargaProduk = inputBudget.value;
+//     let currentKatPenjualan = katPenjualanInput.value;
+//     let currentGrade = gradeInput.value;
+
+//     if (currentNamaProduk !== originalNamaProduk || currentMerkProduk !== originalMerkProduk || currentHargaProduk !== originalHargaProduk || currentKatPenjualan !== originalKatPenjualan || currentGrade !== originalGrade) {
+//       simpanBtn.disabled = false;
+//     } else {
+//       simpanBtn.disabled = true;
+//     }
+//   });
+
+//   katPenjualanInput.addEventListener('change', () => {
+//     let currentNamaProduk = namaProdukInput.value;
+//     let currentMerkProduk = merkProdukInput.value;
+//     let currentHargaProduk = inputBudget.value;
+//     let currentKatPenjualan = katPenjualanInput.value;
+//     let currentGrade = gradeInput.value;
+
+//     if (currentNamaProduk !== originalNamaProduk || currentMerkProduk !== originalMerkProduk || currentHargaProduk !== originalHargaProduk || currentKatPenjualan !== originalKatPenjualan || currentGrade !== originalGrade) {
+//       simpanBtn.disabled = false;
+//     } else {
+//       simpanBtn.disabled = true;
+//     }
+//   });
+
+//   gradeInput.addEventListener('change', () => {
+//     let currentNamaProduk = namaProdukInput.value;
+//     let currentMerkProduk = merkProdukInput.value;
+//     let currentHargaProduk = inputBudget.value;
+//     let currentKatPenjualan = katPenjualanInput.value;
+//     let currentGrade = gradeInput.value;
+
+//     if (currentNamaProduk !== originalNamaProduk || currentMerkProduk !== originalMerkProduk || currentHargaProduk !== originalHargaProduk || currentKatPenjualan !== originalKatPenjualan || currentGrade !== originalGrade) {
+//       simpanBtn.disabled = false;
+//     } else {
+//       simpanBtn.disabled = true;
+//     }
+//     console.log(currentGrade);
+//   });
+
+//   function enableSubmitButton() {
+//   var fileInput = document.getElementById("formFile");
+//   var submitButton = document.getElementById("ubahData");
+
+//   if (fileInput.files.length > 0) {
+//     submitButton.disabled = false;
+//   } else {
+//     submitButton.disabled = true;
+//   }
+//   }
+//   document.getElementById("formFile").addEventListener("change", enableSubmitButton);
+// </script>
+<!-- End Button disable or enable -->
+
+<!-- select data -->
+<script src="assets/js/select-data.js"></script>
+
 
 <!-- Script untuk menjalankan fungsi previewImage() dan resetForm() -->
 <script>
@@ -412,12 +567,51 @@
   if (file) {
     reader.readAsDataURL(file);
   }
-}
+  }
 
-function resetForm() {
-  document.getElementById('formFile').value = '';
-  var preview = document.querySelector('#imagePreview');
-  preview.style.display = 'none';
-  preview.src = '#';
-}
+  function resetForm() {
+    document.getElementById('formFile').value = '';
+    var preview = document.querySelector('#imagePreview');
+    var console = document.querySelector('#console-output');
+    preview.style.display = 'none';
+    console.style.display = 'block';
+    preview.src = '#';
+    console.innerHTML = '';
+  }
+
+  document.querySelector('#resetButton').addEventListener('click', resetForm);
+</script>
+
+<script>
+  // Menyimpan nilai awal dari #idKatProduk
+const originalValue = $('#idKatProduk').val();
+
+// Menambahkan event listener pada elemen #table3 tbody tr
+$(document).on('click', '#table3 tbody tr', function (e) {
+  $('#idKatProduk').val($(this).data('idkat'));
+  $('#namaKatProduk').val($(this).data('namakatprod'));
+  $('#modalkatprod').modal('hide');
+
+  // Mengaktifkan button ubahData
+  $('#ubahData').prop('disabled', false);
+});
+
+// Menambahkan event listener pada perubahan nilai #idKatProduk
+$('#idKatProduk').on('change', function() {
+  if ($('#idKatProduk').val() == originalValue) {
+    $('#ubahData').prop('disabled', true);
+  } else {
+    $('#ubahData').prop('disabled', false);
+  }
+});
+
+</script>
+
+<script>
+  const fileUpload = document.getElementById('fileUpload');
+  const fileInput = document.getElementById('formFile');
+
+  fileUpload.addEventListener('click', function() {
+  fileInput.click();
+  });
 </script>
