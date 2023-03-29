@@ -16,7 +16,7 @@ $(document).on('click', '#table2 tbody tr', function (e) {
   $('#no_lantai').val($(this).data('lantai'));
   $('#area').val($(this).data('area'));
   $('#no_rak').val($(this).data('rak'));
-  $('#modal2').modal('hide');
+  $('#modalLokasi').modal('hide');
 });
 
 

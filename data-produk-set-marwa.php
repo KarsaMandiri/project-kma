@@ -37,48 +37,70 @@
     </div><!-- End Page Title -->
 
     <section>
+      <!-- SWEET ALERT -->
+      <div class="info-data" data-infodata="<?php if(isset($_SESSION['info'])){ echo $_SESSION['info']; } unset($_SESSION['info']); ?>"></div>
+      <!-- END SWEET ALERT -->
       <div class="container-fluid">
         <div class="card">
           <div class="card-header text-center">
-            <h4>Data Produk</h4>
+            <h4>Data Produk Set Marwa</h4>
           </div>
           <div class="card-body p-3">
             <form>
-              <a href="#" class="btn btn-primary btn-md" data-bs-toggle="modal" data-bs-target="#modal1"><i class="bi bi-plus-circle"></i> Tambah data produk set</a>
+              <a href="tambah-data-produk-set-marwa.php" class="btn btn-primary btn-md"><i class="bi bi-plus-circle"></i> Tambah data produk set</a>
+              <a href="tambah-stock-produk-set-marwa.php" class="btn btn-warning btn-md"><i class="bi bi-plus-circle"></i> Tambah stock produk set</a>
               <div class="table-responsive mt-3">
                 <table class="table table-striped table-bordered" id="table1">
                   <thead>
                     <tr class="text-white" style="background-color: #051683;">
-                      <td class="text-center p-3">No</td>
-                      <td class="text-center p-3">Kode Produk Set</td>
-                      <td class="text-center p-3">Nama Set Produk </td>
-                      <td class="text-center p-3">Merk</td>
-                      <td class="text-center p-3">Harga</td>
-                      <td class="text-center p-3">Lokasi Produk</td>
-                      <td class="text-center p-3">Kategori Penjualan</td>
-                      <td class="text-center p-3">Stok</td>
-                      <td class="text-center p-3">Aksi</td>
+                      <td class="text-center p-3" style="width: 50px">No</td>
+                      <td class="text-center p-3" style="width: 120px">Kode Produk Set</td>
+                      <td class="text-center p-3" style="width: 250px">Nama Set Produk </td>
+                      <td class="text-center p-3" style="width: 100px">Merk</td>
+                      <td class="text-center p-3" style="width: 100px">Harga</td>
+                      <td class="text-center p-3" style="width: 50px">Stok</td>
+                      <td class="text-center p-3" style="width: 100px">Aksi</td>
                     </tr>
                   </thead>
                   <tbody>
+                    <?php
+                      include "koneksi.php";
+
+                      $no = 1;
+                      $sql = "SELECT prs.*,
+                              prs.created_date as 'produk_created',
+                              prs.created_date as 'produk_updated',    
+                              uc.nama_user as user_created, 
+                              uu.nama_user as user_updated,
+                              mr.*,
+                              lok.*
+                              FROM tb_produk_set_marwa as prs
+                              LEFT JOIN user uc ON (prs.id_user = uc.id_user)
+                              LEFT JOIN user uu ON (prs.user_updated = uu.id_user)
+                              LEFT JOIN tb_merk mr ON (prs.id_merk = mr.id_merk)
+                              LEFT JOIN tb_lokasi_produk lok ON (prs.id_lokasi = lok.id_lokasi)
+                              ";
+                        $query = mysqli_query($connect, $sql) OR DIE (mysqli_error($connect, $sql));
+                        while ($data = mysqli_fetch_array($query)) {
+                    ?>
                     <tr>
-                      <td class="text-center">1</td>
-                      <td>MNRSET01</td>
-                      <td>Minor Instrument Set</td>
-                      <td class="text-center">Marwa</td>
-                      <td class="text-end">310.000</td>
-                      <td class="text-center">2-20</td>
-                      <td class="text-center">Super Fast Market</td>
-                      <td class="text-center">100</td>
+                      <td class="text-center"><?php echo $no; ?></td>
+                      <td><?php echo $data['kode_set_marwa']; ?></td>
+                      <td><?php echo $data['nama_set_marwa']; ?></td>
+                      <td class="text-center"><?php echo $data['nama_merk']; ?></td>
+                      <td class="text-end"><?php echo number_format($data['harga_set_marwa'],0,'.','.'); ?></td>
+                      <td class="text-end"><?php echo number_format($data['stock'],0,'.','.'); ?></td>
                       <td class="text-center">
                         <!-- Lihat Data -->
                         <a href="" class="btn btn-primary btn-sm"><i class="bi bi-eye-fill"></i></a>
                         <!-- Edit Data -->
-                        <a href="" class="btn btn-warning btn-sm"><i class="bi bi-pencil"></i></a>
+                        <a href="edit-data-set-marwa.php?edit-set-marwa=<?php echo $data['id_set_marwa'] ?>" class="btn btn-warning btn-sm"><i class="bi bi-pencil"></i></a>
                         <!-- Hapus Data -->
-                        <a href="" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></a>
+                        <a href="proses/proses-produk-set-marwa.php?hapus-set-marwa=<?php echo $data['id_set_marwa']?>" class="btn btn-danger btn-sm delete-data"><i class="bi bi-trash"></i></a>
                       </td>
                     </tr>
+                    <?php $no++; ?>
+                    <?php } ?>
                   </tbody>
                 </table>
               </div>
@@ -117,10 +139,10 @@
                 <select class="selectize-js form-select" name="merk" required>
                   <?php 
                     include "koneksi.php";
-                    $sql = "SELECT * FROM user_role ";
+                    $sql = "SELECT * FROM tb_merk ";
                     $query = mysqli_query($connect,$sql) or die (mysqli_error($connect));
                     while ($data = mysqli_fetch_array($query)){?>
-                      <option value="<?php echo $data['id_user_role']; ?>"><?php echo $data['role']; ?></option>
+                      <option value="<?php echo $data['id_merk']; ?>"><?php echo $data['nama_merk']; ?></option>
                   <?php } ?>
                 </select>
               </div>
@@ -130,7 +152,15 @@
               </div>
               <div class="mb-3">
                 <label class="form-label"><strong>Lokasi Produk</strong></label>
-                <input type="text" class="form-control" name="lokasi_produk" required>
+                <select class="selectize-js form-select" name="lokasi" required>
+                  <?php 
+                    include "koneksi.php";
+                    $sql = "SELECT * FROM tb_lokasi_produk ";
+                    $query = mysqli_query($connect,$sql) or die (mysqli_error($connect));
+                    while ($data = mysqli_fetch_array($query)){?>
+                      <option value="<?php echo $data['id_lokasi']?>>Nama Lokasi= <?php echo $data['nama_lokasi']?> No.Lantai= <?php echo $data['no_lantai']?> Area= <?php echo $data['nama_area']?> No.Rak= <?php echo $data['no_rak']?></option>
+                  <?php } ?>
+                </select>
               </div>
               <div class="mb-3">
                 <label class="form-label"><strong>Kategori Penjualan</strong></label>

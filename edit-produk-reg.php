@@ -141,7 +141,7 @@
                               <div class="col-sm mb-3">
                                 <label class="form-label"><strong>Lokasi Produk</strong></label>
                                 <input type="hidden" class="form-control" name="id_lokasi" id="id_lokasi" value="<?php echo $row['id_lokasi'] ?>">
-                                <input type="text" class="form-control" name="lokasi" id="nama_lokasi" data-bs-toggle="modal" data-bs-target="#modal2" value="<?php echo $row['nama_lokasi'] ?>" readonly>
+                                <input type="text" class="form-control" name="lokasi" id="nama_lokasi" data-bs-toggle="modal" data-bs-target="#modalLokasi" value="<?php echo $row['nama_lokasi'] ?>" readonly>
                               </div>
                               <div class="col-sm mb-3">
                                 <label class="form-label"><strong>No. Lantai</strong></label>
@@ -223,7 +223,7 @@
   </main><!-- End #main -->
  
   <!-- Modal Lokasi -->
-  <div class="modal fade" id="modal2" tabindex="-1" aria-hidden="true">
+  <div class="modal fade" id="modalLokasi" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
@@ -234,35 +234,35 @@
             <div class="card-body mt-3">
                 <table class="table table-bordered table-striped" id="table2">
                     <thead>
-                        <tr class="text-white" style="background-color: #051683;">
-                            <td class="text-center p-3" style="width: 80px">No</td>
-                            <td class="text-center p-3" style="width: 200px">Lokasi</td>
-                            <td class="text-center p-3" style="width: 200px">No. Lantai</td>
-                            <td class="text-center p-3" style="width: 300px">Area</td>
-                            <td class="text-center p-3" style="width: 150px">No. Rak</td>
-                        </tr>
+                      <tr class="text-white" style="background-color: #051683;">
+                        <td class="text-center p-3" style="width: 80px">No</td>
+                        <td class="text-center p-3" style="width: 200px">Lokasi</td>
+                        <td class="text-center p-3" style="width: 200px">No. Lantai</td>
+                        <td class="text-center p-3" style="width: 300px">Area</td>
+                        <td class="text-center p-3" style="width: 150px">No. Rak</td>
+                      </tr>
                     </thead>
                     <tbody>
-                        <?php 
-                            date_default_timezone_set('Asia/Jakarta');
-                            include "koneksi.php";
-                            $no = 1;
-                            $sql = "SELECT lp.*,  uc.nama_user as user_created, uu.nama_user as user_updated
-                                    FROM tb_lokasi_produk as lp
-                                    LEFT JOIN user uc ON (lp.id_user = uc.id_user)
-                                    LEFT JOIN user uu ON (lp.user_updated = uu.id_user)";
-                            $query = mysqli_query($connect, $sql) OR DIE(mysqli_error($connect, $sql));
-                            while($data = mysqli_fetch_array($query)){
-                        ?>
-                        <tr data-id="<?php echo $data['id_lokasi']; ?>" data-nama="<?php echo $data['nama_lokasi']; ?>" data-lantai="<?php echo $data['no_lantai']?>" data-area="<?php echo $data['nama_area']?>" data-rak="<?php echo $data['no_rak']; ?>" data-bs-dismiss="modal">
-                            <td class="text-center"><?php echo $no;?></td>
-                            <td class="text-center"><?php echo $data['nama_lokasi']; ?></td>
-                            <td class="text-center"><?php echo $data['no_lantai']; ?></td>
-                            <td class="text-center"><?php echo $data['nama_area']; ?></td>
-                            <td class="text-center"><?php echo $data['no_rak']; ?></td>
-                        </tr>
-                        <?php $no++; ?>
-                        <?php } ?>
+                      <?php 
+                          date_default_timezone_set('Asia/Jakarta');
+                          include "koneksi.php";
+                          $no = 1;
+                          $sql = "SELECT lp.*,  uc.nama_user as user_created, uu.nama_user as user_updated
+                                  FROM tb_lokasi_produk as lp
+                                  LEFT JOIN user uc ON (lp.id_user = uc.id_user)
+                                  LEFT JOIN user uu ON (lp.user_updated = uu.id_user)";
+                          $query = mysqli_query($connect, $sql) OR DIE(mysqli_error($connect, $sql));
+                          while($data = mysqli_fetch_array($query)){
+                      ?>
+                      <tr data-id="<?php echo $data['id_lokasi']; ?>" data-nama="<?php echo $data['nama_lokasi']; ?>" data-lantai="<?php echo $data['no_lantai']?>" data-area="<?php echo $data['nama_area']?>" data-rak="<?php echo $data['no_rak']; ?>" data-bs-dismiss="modal">
+                          <td class="text-center"><?php echo $no;?></td>
+                          <td class="text-center"><?php echo $data['nama_lokasi']; ?></td>
+                          <td class="text-center"><?php echo $data['no_lantai']; ?></td>
+                          <td class="text-center"><?php echo $data['nama_area']; ?></td>
+                          <td class="text-center"><?php echo $data['no_rak']; ?></td>
+                      </tr>
+                      <?php $no++; ?>
+                      <?php } ?>
                     </tbody>
                 </table>
             </div>

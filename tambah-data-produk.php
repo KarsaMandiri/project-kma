@@ -114,7 +114,7 @@
                               <div class="col-sm mb-3">
                                 <label class="form-label"><strong>Lokasi Produk</strong></label>
                                 <input type="hidden" class="form-control" name="id_lokasi" id="id_lokasi">
-                                <input  type="text" class="form-control" name="lokasi" id="nama_lokasi" placeholder="Pilih..." data-bs-toggle="modal" data-bs-target="#modal2" readonly>
+                                <input  type="text" class="form-control" name="lokasi" id="nama_lokasi" placeholder="Pilih..." data-bs-toggle="modal" data-bs-target="#modalLokasi" readonly>
                               </div>
                               <div class="col-sm mb-3">
                                 <label class="form-label"><strong>No. Lantai</strong></label>
@@ -196,7 +196,7 @@
   </main><!-- End #main -->
  
   <!-- Modal Lokasi -->
-  <div class="modal fade" id="modal2" tabindex="-1" aria-hidden="true">
+  <div class="modal fade" id="modalLokasi" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
