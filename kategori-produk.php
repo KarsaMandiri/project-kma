@@ -28,10 +28,10 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Dashboard</h1>
+      <h1>Kategori Produk</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.php">Home</a></li>
+          <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
           <li class="breadcrumb-item active">Kategori Produk</li>
         </ol>
       </nav>
@@ -43,9 +43,6 @@
       <!-- END SWEET ALERT -->
       <div class="container-fluid">
         <div class="card">
-          <div class="card-header text-center">
-            <h4>Kategori Produk</h4>
-          </div>
           <div class="card-body p-3">
             <a href="#" class="btn btn-primary btn-md" data-bs-toggle="modal" data-bs-target="#modal1"><i class="bi bi-plus-circle"></i> Tambah data kategori produk</a>
             <div class="table-responsive mt-3">

@@ -36,10 +36,10 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Dashboard</h1>
+      <h1>Data Produk Reguler</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.php">Home</a></li>
+          <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
           <li class="breadcrumb-item active">Data Produk</li>
         </ol>
       </nav>
@@ -51,9 +51,6 @@
       <!-- END SWEET ALERT -->
       <div class="container-fluid">
         <div class="card">
-          <div class="card-header text-center">
-            <h4>Data Produk</h4>
-          </div>
           <div class="card-body p-3">
             <a href="tambah-data-produk.php" class="btn btn-primary btn-md"><i class="bi bi-plus-circle"></i> Tambah data produk</a>
             <div class="table-responsive mt-3">

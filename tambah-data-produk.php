@@ -54,18 +54,7 @@
   <?php include "page/sidebar.php"; ?>
   <!-- end sidebar -->
   
-
   <main id="main" class="main">
-
-    <div class="pagetitle">
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.php">Home</a></li>
-          <li class="breadcrumb-item active">Data Produk</li>
-        </ol>
-      </nav>
-    </div><!-- End Page Title -->
-
     <section>
         <div class="container">
             <div class="card">

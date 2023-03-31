@@ -27,10 +27,10 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Dashboard</h1>
+      <h1>Data Produk Set Marwa</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.php">Home</a></li>
+          <li class="breadcrumb-item"><a href="dasboard.php">Home</a></li>
           <li class="breadcrumb-item active">Data Produk</li>
         </ol>
       </nav>
@@ -42,9 +42,6 @@
       <!-- END SWEET ALERT -->
       <div class="container-fluid">
         <div class="card">
-          <div class="card-header text-center">
-            <h4>Data Produk Set Marwa</h4>
-          </div>
           <div class="card-body p-3">
             <form>
               <a href="tambah-data-produk-set-marwa.php" class="btn btn-primary btn-md"><i class="bi bi-plus-circle"></i> Tambah data produk set</a>
@@ -92,7 +89,7 @@
                       <td class="text-end"><?php echo number_format($data['stock'],0,'.','.'); ?></td>
                       <td class="text-center">
                         <!-- Lihat Data -->
-                        <a href="" class="btn btn-primary btn-sm"><i class="bi bi-eye-fill"></i></a>
+                        <a href="detail-set-marwa.php?detail-id=<?php echo $data['id_set_marwa'] ?>" class="btn btn-primary btn-sm"><i class="bi bi-eye-fill"></i></a>
                         <!-- Edit Data -->
                         <a href="edit-data-set-marwa.php?edit-set-marwa=<?php echo $data['id_set_marwa'] ?>" class="btn btn-warning btn-sm"><i class="bi bi-pencil"></i></a>
                         <!-- Hapus Data -->

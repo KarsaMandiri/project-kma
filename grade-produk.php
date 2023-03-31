@@ -28,10 +28,10 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Dashboard</h1>
+      <h1>Grade Produk</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.php">Home</a></li>
+          <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
           <li class="breadcrumb-item active">Grade Produk</li>
         </ol>
       </nav>
@@ -42,7 +42,6 @@
         <!-- END SWEET ALERT -->
         <div class="container-fluid">
             <div class="card">
-                <div class="card-header text-center"><h4>Grade Produk</h4></div>
                 <div class="card-body mt-3">
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal1"><i class="bi bi-plus-circle"></i> Tambah Data Grade Produk</button>
                     <div class="table-responsive mt-3">
