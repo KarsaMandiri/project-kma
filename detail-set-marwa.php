@@ -22,21 +22,30 @@
   <!-- sidebar  -->
   <?php include "page/sidebar.php"; ?>
   <!-- end sidebar -->
-  
 
   <main id="main" class="main">
     <section>
+      <!-- SWEET ALERT -->
+      <div class="info-data" data-infodata="<?php if(isset($_SESSION['info'])){ echo $_SESSION['info']; } unset($_SESSION['info']); ?>"></div>
+      <!-- END SWEET ALERT -->
       <div class="container-fluid">
         <div class="card">
-          <div class="card-header text-center"><h5>Detail Produk Set Marwa</h5></div>
           <div class="card-body p-3">
+            <?php  
+              $id = $_GET['detail-id'];
+              $sql = "SELECT * FROM tb_produk_set_marwa AS tbsm 
+                      LEFT JOIN tb_lokasi_produk AS lk ON (tbsm.id_lokasi = lk.id_lokasi)
+                      WHERE id_set_marwa = '$id'";
+              $query = mysqli_query($connect, $sql) OR DIE(mysqli_error($connect, $sql));
+              $data = mysqli_fetch_array($query);
+            ?>
             <div class="row">
               <div class="col-sm-8">
-                <p>Nama Set : </p>
-                <p>Lokasi :   , Lantai :   , Area :   ,  No. Rak :  </p>
+                <p>Nama Set : <?php echo $data['nama_set_marwa']; ?></p>
+                <p>Lokasi : <?php echo $data['nama_lokasi'];?> / <?php echo $data['no_lantai'];?> / <?php echo $data['nama_area']; ?> / <?php echo $data['no_rak']; ?></p>
               </div>
               <div class="col-sm-4 text-end">
-                <a href="tambah-isi-produk-set-marwa.php" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Tambah produk set</a>
+                <a href="tambah-isi-produk-set-marwa.php?id-set=<?php echo $data['id_set_marwa'] ?>" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Tambah produk</a>
               </div>
             </div>
             <div class="table-responsive">
@@ -44,21 +53,47 @@
                 <thead>
                   <tr class="text-white" style="background-color: #051683;">
                     <th class="text-center p-3" style="width: 50px">No</th>
-                    <th class="text-center p-3" style="width: 350px">Nama Produk</th>
-                    <th class="text-center p-3" style="width: 80px">Qty</th>
+                    <th class="text-center p-3" style="width: 450px">Nama Produk</th>
+                    <th class="text-center p-3" style="width: 50px">Qty</th>
                     <th class="text-center p-3" style="width: 150px">Harga</th>
                     <th class="text-center p-3" style="width: 80px">Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <td class="text-center">1</td>
-                  <td>DF 14</td>
-                  <td class="text-end">10</td>
-                  <td class="text-end">15.000</td>
-                  <td class="text-center">
-                    <a href="" class="btn btn-warning btn-sm"><i class="bi bi-pencil"></i></a>
-                    <a href="" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></a>
-                  </td>
+                  <?php  
+                    include "koneksi.php";
+                    $no = 1;
+                    $grand_total = 0;
+                    $id = $_GET['detail-id'];
+                    $sql_data = "SELECT * FROM isi_produk_set_marwa AS ipsm
+                                 LEFT JOIN tb_produk_reguler AS tpr ON (ipsm.id_produk = tpr.id_produk_reg)
+                                 LEFT JOIN tb_produk_set_marwa AS tpsm ON (ipsm.id_produk_set = tpsm.id_set_marwa)
+                                 WHERE id_produk_set = '$id'";
+                    $query_data = mysqli_query($connect, $sql_data) OR DIE (mysqli_error($connect, $sql_data));
+                    while ($row = mysqli_fetch_array($query_data)){ 
+                      $harga = $row['harga_produk'];
+                      $qty = $row['qty'];
+                      $jumlah = $qty * $harga;
+                      $grand_total += $jumlah;
+
+                  ?>
+                  <tr>
+                    <td class="text-center"><?php echo $no; ?></td>
+                    <td><?php echo $row['nama_produk']; ?></td>
+                    <td class="text-end"><?php echo $qty; ?></td>
+                    <td class="text-end"><?php echo number_format($jumlah,0,'.','.'); ?></td>
+                    <td class="text-center">
+                      <a href="edit-isi-produk-set-marwa.php?edit-id=<?php echo $row['id_isi_set_marwa'] ?>" class="btn btn-warning btn-sm"><i class="bi bi-pencil"></i></a>
+                      <a href="proses/proses-produk-set-marwa.php?hapus-isi-set=<?php echo $row['id_isi_set_marwa']?>&kode=<?php echo $row['id_produk_set']?>" class="btn btn-danger btn-sm delete-data"><i class="bi bi-trash"></i></a>
+                    </td>
+                  </tr>
+                  <?php $no++; ?>
+                  <?php } ?>
+                  <tr>
+                    <td class="text-end" colspan="3"> Total Harga</td>
+                    <td class="text-end"><?php echo number_format($grand_total,0,'.','.'); ?></td>
+                    <td></td>
+                  </tr>
                 </tbody>
               </table>
             </div>

@@ -122,7 +122,7 @@
                 </div>
                 <div class="mb-3 pt-3 text-end">
                     <button type="submit" name="edit-set-marwa" class="btn btn-primary btn-md"><i class="bx bx-save"></i> Ubah Data</button>
-                    <button type="button" class="btn btn-secondary btn-md" data-bs-dismiss="modal"><i class="bi bi-x"></i> Tutup</button>
+                    <a href="data-produk-set-marwa.php" class="btn btn-secondary btn-md"><i class="bi bi-x"></i> Tutup</a>
                 </div>
             </form>
         </div>  

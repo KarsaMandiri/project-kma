@@ -66,7 +66,7 @@
                     <div class="modal-body">
                         <div class="mb-3">
                         <?php 
-                            $UUID = generate_uuid();
+                          $UUID = generate_uuid();
                         ?>
                         <div class="mb-3">
                             <label class="form-label"><strong>Kode Produk</strong></label>

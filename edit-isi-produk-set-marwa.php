@@ -37,29 +37,35 @@
           <div class="card-body p-3">
             <form action="proses/proses-produk-set-marwa.php" method="post">
               <?php  
-                $id_set = $_GET['id-set'];
-                $UUID = generate_uuid();
+                include "koneksi.php";
+                $id = $_GET['edit-id'];
+                $sql = "SELECT * FROM isi_produk_set_marwa AS ipsm
+                        LEFT JOIN tb_produk_reguler AS tpr ON(ipsm.id_produk = tpr.id_produk_reg)
+                        LEFT JOIN tb_merk AS tm ON (tpr.id_merk = tm.id_merk)
+                        WHERE id_isi_set_marwa = '$id'";
+                $query = mysqli_query($connect, $sql);
+                $data = mysqli_fetch_array($query);
               ?>
-              <input type="hidden" class="form-control" name="id_isi_set_marwa" value="BR-SET-MRW-<?php echo $UUID ?>">
-              <input type="hidden" class="form-control" name="id_produk_set" value="<?php echo $id_set ?>">
+              <input type="text" class="form-control" name="id_isi_set_marwa" value="<?php echo $data['id_isi_set_marwa'] ?>">
+              <input type="text" class="form-control" name="id_produk_set" value="<?php echo $data['id_produk_set'] ?>">
               <div class="mb-3">
                 <div class="row">
                   <div class="col-sm-6">
                     <label>Nama Produk</label>
-                    <input type="hidden" class="form-control" name="id_produk" id="idProduk">
-                    <input type="text" class="form-control" name="nama_produk" id="namaProduk" placeholder="Pilih..." data-bs-toggle="modal" data-bs-target="#modalBarang" readonly>
+                    <input type="text" class="form-control" name="id_produk" id="idProduk" value="<?php echo $data['id_produk'] ?>">
+                    <input type="text" class="form-control" name="nama_produk" id="namaProduk" value="<?php echo $data['nama_produk']?>" data-bs-toggle="modal" data-bs-target="#modalBarang" readonly>
                   </div>
                   <div class="col-sm-4">
                     <label>Merk</label>
-                    <input type="text" class="form-control" name="merk" id="merkProduk" readonly>
+                    <input type="text" class="form-control" name="merk" id="merkProduk" value="<?php echo $data['nama_merk'] ?>" readonly>
                   </div>
                   <div class="col-sm-2">
                     <label>Qty</label>
-                    <input type="text" class="form-control" name="qty" required>
-                    <input type="hidden" class="form-control" name="id_user" value="<?php echo $_SESSION['tiket_id'] ?>" required>
+                    <input type="text" class="form-control" name="qty" value="<?php echo $data['qty'] ?>" required>
+                    <input type="text" class="form-control" name="id_user" value="<?php echo $_SESSION['tiket_id'] ?>" required>
                   </div>
                   <div class="mt-3">
-                    <button type="submit" class="btn btn-primary btn md" name="simpan-isi-set-marwa"><i class="bx bx-save"></i> Simpan</button>
+                    <button type="submit" class="btn btn-primary btn md" name="edit-isi-set-marwa"><i class="bx bx-save"></i> Simpan</button>
                     <a href="detail-set-marwa.php" class="btn btn-secondary btn md"><i class="bi bi-x"></i> Batal</a>
                   </div>
                 </div>
