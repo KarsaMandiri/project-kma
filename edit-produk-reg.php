@@ -154,7 +154,7 @@
                                 <input type="hidden" class="form-control" name="id_kat_produk" id="idKatProduk" value="<?php echo $row['id_kat_produk']?>">
                                 <input type="text" class="form-control" name="nama_kat_produk" id="namaKatProduk" data-bs-toggle="modal" data-bs-target="#modalkatprod" value="<?php echo $row['kat_prod'] ?> - <?php echo $row['nama_merk'] ?>" readonly>
                               </div>
-                              <div class="col-sm">
+                              <div class="col-sm mb-3">
                                 <label class="form-label"><strong>Kategori Penjualan</strong></label>
                                 <select class="form-select" name="kategori_penjualan" required>
                                 <option value="<?php echo $row['id_kat_penjualan']; ?>"><?php echo $row['kat_penj']; ?></option>
@@ -221,7 +221,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="card">
-            <div class="card-body mt-3">
+            <div class="card-body table-responsive mt-3">
                 <table class="table table-bordered table-striped" id="table2">
                     <thead>
                       <tr class="text-white" style="background-color: #051683;">
@@ -271,7 +271,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="card">
-          <div class="card-body mt-3">
+          <div class="card-body table-responsive mt-3">
               <table class="table table-bordered table-striped katProd" id="table3">
                   <thead>
                       <tr class="text-white" style="background-color: #051683;">

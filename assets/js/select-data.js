@@ -26,11 +26,3 @@ $(document).on('click', '#table3 tbody tr', function (e) {
   $('#namaKatProduk').val($(this).data('namakatprod'));
   $('#modalkatprod').modal('hide');
 });
-
-// select Produk Reguler
-$(document).on('click', '#table2 tbody tr', function (e) {
-  $('#idProduk').val($(this).data('idprod'));
-  $('#namaProduk').val($(this).data('namaprod'));
-  $('#merkProduk').val($(this).data('merkprod'));
-  $('#modalBarang').modal('hide');
-});

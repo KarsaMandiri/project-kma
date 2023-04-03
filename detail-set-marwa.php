@@ -46,6 +46,7 @@
               </div>
               <div class="col-sm-4 text-end">
                 <a href="tambah-isi-produk-set-marwa.php?id-set=<?php echo $data['id_set_marwa'] ?>" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Tambah produk</a>
+                <a href="data-produk-set-marwa.php" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
               </div>
             </div>
             <div class="table-responsive">
@@ -111,19 +112,3 @@
   <?php include "page/script.php" ?>
 </body>
 </html>
-
-<!-- Format nominal Indo -->
-<script>
-   const inputBudget = document.getElementById('inputBudget');
-  
-  inputBudget.addEventListener('input', () => {
-    // Remove any non-digit characters
-    let input = inputBudget.value.replace(/[^\d]/g, '');
-    // Convert to a number and format with "Rp" prefix and "." and "," separator
-    let formattedInput = Number(input).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' });
-    // Remove trailing ",00" if present
-    formattedInput = formattedInput.replace(",00", "");
-    // Update the input value with the formatted number
-    inputBudget.value = formattedInput;
-  });
-</script>

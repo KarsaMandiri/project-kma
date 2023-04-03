@@ -1,6 +1,6 @@
 <?php
     $page = 'data';
-    $page2 = 'data-produk';
+    $page2 = 'data-stock-reg';
     include "akses.php";
 ?>
 <!DOCTYPE html>
@@ -36,11 +36,11 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Data Produk Reguler</h1>
+      <h1>Stock Produk Reguler</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
-          <li class="breadcrumb-item active">Data Produk</li>
+          <li class="breadcrumb-item active">Stock Produk Reguler</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -52,7 +52,7 @@
       <div class="container-fluid">
         <div class="card">
           <div class="card-body p-3">
-            <a href="tambah-data-produk-reg.php" class="btn btn-primary btn-md"><i class="bi bi-plus-circle"></i> Tambah data produk</a>
+            <a href="tambah-stock-produk-reg.php" class="btn btn-primary btn-md"><i class="bi bi-plus-circle"></i> Tambah data stock produk</a>
             <div class="table-responsive mt-3">
               <table class="table table-striped table-bordered" id="table1">
                 <thead>
@@ -60,8 +60,7 @@
                     <td class="text-center p-3" style="width: 50px">No</td>
                     <td class="text-center p-3" style="width: 450px">Nama Produk</td>
                     <td class="text-center p-3" style="width: 100px">Merk</td>
-                    <td class="text-center p-3" style="width: 100px">Harga</td>
-                    <td class="text-center p-3" style="width: 100px">Stock</td>
+                    <td class="text-center p-3" style="width: 80px">Stock</td>
                     <td class="text-center p-3" style="width: 50px">Aksi</td>
                   </tr>
                 </thead>
@@ -71,28 +70,9 @@
                     
                     include "koneksi.php";
                     $no = 1;
-                    $sql = "SELECT pr.*,
-                            pr.created_date as 'produk_created',
-                            pr.created_date as 'produk_updated',    
-                            uc.nama_user as user_created, 
-                            uu.nama_user as user_updated,
-                            mr.*,
-                            kp.*,
-                            kj.*,
-                            kp.nama_kategori as kat_prod,
-                            kj.nama_kategori as kat_penj,
-                            gr.*,
-                            lok.*,
-                            spr.*
-                            FROM tb_produk_reguler as pr
-                            LEFT JOIN user uc ON (pr.id_user = uc.id_user)
-                            LEFT JOIN user uu ON (pr.user_updated = uu.id_user)
-                            LEFT JOIN tb_merk mr ON (pr.id_merk = mr.id_merk)
-                            LEFT JOIN tb_kat_produk kp ON (pr.id_kat_produk = kp.id_kat_produk)
-                            LEFT JOIN tb_kat_penjualan kj ON (pr.id_kat_penjualan = kj.id_kat_penjualan)
-                            LEFT JOIN tb_produk_grade gr ON (pr.id_grade = gr.id_grade)
-                            LEFT JOIN tb_lokasi_produk lok ON (pr.id_lokasi = lok.id_lokasi)
-                            LEFT JOIN stock_produk_reguler spr ON (pr.id_produk_reg = spr.id_produk_reg)
+                    $sql = "SELECT * FROM stock_produk_reguler AS spr
+                            LEFT JOIN tb_produk_reguler AS tpr ON (spr.id_produk_reg = tpr.id_produk_reg)
+                            LEFT JOIN tb_merk AS tm ON (tm.id_merk = tpr.id_merk)
                             ";
                     $query = mysqli_query($connect, $sql);
                     while($data = mysqli_fetch_array($query)){
@@ -101,25 +81,9 @@
                     <td class="text-center"><?php echo $no; ?></td>
                     <td><?php echo $data['nama_produk']; ?></td>
                     <td class="text-center"><?php echo $data['nama_merk']; ?></td>
-                    <td class="text-end">
-                      <a style="float:left; color:black;">Rp</a> 
-                      <a style="float:right; color:black;"> <?php echo number_format ($data['harga_produk'],0,',','.'); ?> </a>
-                    </td>
-                    <td class="text-end"><?php echo $data['stock'] ?></td>
+                    <td class="text-end"><?php echo $data['stock']; ?></td>
                     <td class="text-center">
-                      <div class="dropdown">
-                        <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                          Pilih
-                        </a>
-                        <ul class="dropdown-menu mb-3" aria-labelledby="dropdownMenuLink">
-                          <li>
-                            <a class="dropdown-item btn-detail" href="#" data-kode-produk="<?php echo $data['kode_produk'] ?>" data-nama-produk="<?php echo $data['nama_produk']; ?>" data-merk-produk="<?php echo $data['nama_merk']; ?>" data-harga-produk="<?php echo format_rupiah($data['harga_produk']) ?>" 
-                            data-kategori-produk="<?php echo $data['kat_prod'] ?>" data-izin-edar="<?php echo $data['no_izin_edar'] ?>"  data-kategori-penjualan="<?php echo $data['kat_penj'] ?>" data-grade-produk="<?php echo $data['nama_grade'] ?>" data-lokasi-produk="<?php echo $data['nama_lokasi'] ?>" data-lantai-produk="<?php echo $data['no_lantai'] ?>" data-area-produk="<?php echo $data['nama_area'] ?>" data-rak-produk="<?php echo $data['no_rak'] ?>"  data-created-produk="<?php echo $data['produk_created'] ?>" data-user-created="<?php echo $data['user_created'] ?>" data-update-produk="<?php echo $data['produk_updated'] ?>" data-user-update="<?php echo $data['user_updated'] ?>" data-gambar-produk="<?php echo $data['gambar']; ?>">Detail</a>
-                          </li>
-                          <li><a class="dropdown-item" href="edit-produk-reg.php?edit-data=<?php echo $data['id_produk_reg'] ?>">Edit</a></li>
-                          <li><a class="dropdown-item delete-data" href="proses/proses-produk-reg.php?hapus-produk-reg=<?php echo $data['id_produk_reg'] ?>">Hapus</a></li>
-                        </ul>
-                      </div>
+                      <a href="proses/proses-stock-reg.php?hapus-stock-reg=<?php echo $data['id_stock_prod_reg']?>" class="btn btn-sm btn-danger delete-data"><i class="bi bi-trash"></i></a>
                     </td>
                   </tr>
                   <?php $no++; ?>

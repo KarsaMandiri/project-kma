@@ -13,13 +13,9 @@
   <meta content="" name="keywords">
   <?php include "page/head.php"; ?>
   <style>
-    #table2{
-      cursor: pointer;
-    }
-
-    input[type="text"]:read-only {
+     input[type="text"]:read-only {
       background: #e9ecef;
-    }
+      }
   </style>
 </head>
 
@@ -37,50 +33,41 @@
     <section>
       <div class="container-fluid">
         <div class="card">
-          <div class="card-header text-center"><h5>Edit Isi Produk Set Marwa</h5></div>
-          <div class="card-body p-3">
-            <form action="proses/proses-produk-set-marwa.php" method="post">
-              <?php  
-                include "koneksi.php";
-                $id = $_GET['edit-id'];
-                $sql = "SELECT * FROM isi_produk_set_marwa AS ipsm
-                        LEFT JOIN tb_produk_reguler AS tpr ON(ipsm.id_produk = tpr.id_produk_reg)
-                        LEFT JOIN tb_merk AS tm ON (tpr.id_merk = tm.id_merk)
-                        WHERE id_isi_set_marwa = '$id'";
-                $query = mysqli_query($connect, $sql);
-                $data = mysqli_fetch_array($query);
-              ?>
-              <input type="hidden" class="form-control" name="id_isi_set_marwa" value="<?php echo $data['id_isi_set_marwa'] ?>">
-              <input type="hidden" class="form-control" name="id_produk_set" value="<?php echo $data['id_produk_set'] ?>">
-              <div class="mb-3">
-                <div class="row">
-                  <div class="col-sm-6">
-                    <label>Nama Produk</label>
-                    <input type="hidden" class="form-control" name="id_produk" id="idProduk" value="<?php echo $data['id_produk'] ?>">
-                    <input type="text" class="form-control" name="nama_produk" id="namaProduk" value="<?php echo $data['nama_produk']?>" data-bs-toggle="modal" data-bs-target="#modalBarang" readonly>
-                  </div>
-                  <div class="col-sm-4">
-                    <label>Merk</label>
-                    <input type="text" class="form-control" name="merk" id="merkProduk" value="<?php echo $data['nama_merk'] ?>" readonly>
-                  </div>
-                  <div class="col-sm-2">
-                    <label>Qty</label>
-                    <input type="text" class="form-control" name="qty" value="<?php echo $data['qty'] ?>" required>
-                    <input type="hidden" class="form-control" name="id_user" value="<?php echo $_SESSION['tiket_id'] ?>" required>
-                  </div>
-                  <div class="mt-3">
-                    <button type="submit" class="btn btn-primary btn md" name="edit-isi-set-marwa"><i class="bx bx-save"></i> Simpan</button>
-                    <a href="detail-set-marwa.php" class="btn btn-secondary btn md"><i class="bi bi-x"></i> Batal</a>
-                  </div>
-                </div>
-              </div>
-            </form>
+          <div class="card-header text-center">
+            <h4>Tambah Data Produk Set Marwa</h4>
           </div>
-        </div>
-      </div>
+          <div class="card-body p-3">
+            <form action="proses/proses-stock-reg.php" method="POST">
+                <?php 
+                    $UUID = generate_uuid();
+                ?>
+               
+                <input type="hidden" class="form-control" name="id_stock_reg" value="STOCKREG<?php echo $UUID; ?>">
+                <div class="row">
+                    <div class="col-sm-6 mb-3">
+                        <label>Nama Produk</label>
+                        <input type="hidden" class="form-control" name="id_produk" id="idProduk">
+                        <input type="text" class="form-control" name="nama_produk" id="namaProduk" placeholder="Pilih..." data-bs-toggle="modal" data-bs-target="#modalBarang" readonly>
+                    </div>
+                    <div class="col-sm-4 mb-3">
+                        <label>Merk</label>
+                        <input type="text" class="form-control" name="merk" id="merkProduk" readonly>
+                    </div>
+                    <div class="col-sm-2 mb-3">
+                        <label>Stock</label>
+                        <input type="text" class="form-control" name="stock" required>
+                    </div>
+                </div>
+                <input type="hidden" class="form-control" name="id_user" value="<?php echo $_SESSION['tiket_id'] ?>" required>
+                <input type="hidden" class="form-control" name="created_date" id="datetime-input" required>
+                <div class="mb-3 pt-3 text-end">
+                    <button type="submit" name="simpan-stock-reg" class="btn btn-primary btn-md"><i class="bx bx-save"></i> Simpan Data</button>
+                    <a href="stock-produk-reg.php" class="btn btn-secondary btn-md"><i class="bi bi-x"></i> Tutup</a>
+                </div>
+            </form>
+        </div>  
     </section>
   </main><!-- End #main -->
-
   <!-- Footer -->
   <?php include "page/footer.php" ?>
   <!-- End Footer -->
@@ -144,17 +131,40 @@
 <!-- Generat UUID -->
 <?php
   function generate_uuid() {
-    return sprintf( '%04x%04x%04x',
-      mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
-      mt_rand( 0, 0xffff ),
-      mt_rand( 0, 0x0fff ) | 0x4000,
-      mt_rand( 0, 0x3fff ) | 0x8000,
-      mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff )
-    );
-  }
+  return sprintf( '%04x%04x%04x',
+    mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
+    mt_rand( 0, 0xffff ),
+    mt_rand( 0, 0x0fff ) | 0x4000,
+    mt_rand( 0, 0x3fff ) | 0x8000,
+    mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff )
+  );
+}
 ?>
 <!-- End Generate UUID -->
 
+<!-- Clock js -->
+<script>
+  function inputDateTime() {
+    // Get current date and time
+    let currentDate = new Date();
+
+    // Format date and time as yyyy-mm-ddThh:mm:ss
+    let year = currentDate.getFullYear();
+    let month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+    let day = currentDate.getDate().toString().padStart(2, '0');
+    let hours = currentDate.getHours();
+    let minutes = currentDate.getMinutes().toString().padStart(2, '0');
+    let seconds = currentDate.getSeconds().toString().padStart(2, '0');
+    let formattedDateTime = `${day}/${month}/${year}, ${hours}:${minutes}`;
+
+    // Set value of input field to current date and time
+    document.getElementById("datetime-input").setAttribute('value', formattedDateTime);
+
+  }
+
+  // Call updateDateTime function every second
+  setInterval(inputDateTime, 1000);
+</script>
 
 <script>
   // select Produk Reguler

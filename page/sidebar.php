@@ -51,6 +51,11 @@
           </a>
         </li>
         <li>
+          <a class="<?php if($page2 =='data-stock-reg'){echo 'active';} ?>" href="stock-produk-reg.php">
+            <i class="bi bi-circle"></i><span>Stock Produk Reguler</span>
+          </a>
+        </li>
+        <li>
           <a class="<?php if($page2 =='data-produk-set-marwa'){echo 'active';} ?>" href="data-produk-set-marwa.php">
             <i class="bi bi-circle"></i><span>Data Set Produk Reguler</span>
           </a>

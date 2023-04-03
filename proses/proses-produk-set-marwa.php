@@ -68,7 +68,7 @@ if(isset($_POST['simpan-set-marwa'])){
     $idh = $_GET['hapus-set-marwa'];
 
     // perintah queery sql untuk hapus data
-    $sql = "DELETE FROM tb_produk_set_marwa WHERE id_set_marwa='$idh'";
+    $sql = "DELETE a.*, b.* FROM tb_produk_set_marwa a, isi_produk_set_marwa b WHERE a.id_set_marwa='$idh' AND b.id_produk_set='$idh'";
     $query_del = mysqli_query($connect,$sql) or die (mysqli_error($connect));
 
     if($query_del){

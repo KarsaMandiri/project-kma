@@ -16,6 +16,10 @@
     #table2{
       cursor: pointer;
     }
+
+    input[type="text"]:read-only {
+      background: #e9ecef;
+    }
   </style>
 </head>
 
@@ -60,7 +64,7 @@
                   </div>
                   <div class="mt-3">
                     <button type="submit" class="btn btn-primary btn md" name="simpan-isi-set-marwa"><i class="bx bx-save"></i> Simpan</button>
-                    <a href="detail-set-marwa.php" class="btn btn-secondary btn md"><i class="bi bi-x"></i> Batal</a>
+                    <a href="detail-set-marwa.php?detail-id=<?php echo $id_set ?>" class="btn btn-secondary btn md"><i class="bi bi-x"></i> Batal</a>
                   </div>
                 </div>
               </div>
@@ -145,21 +149,12 @@
 ?>
 <!-- End Generate UUID -->
 
-
-<script src="assets/js/select-data.js"></script>
-
-<!-- Format nominal Indo -->
 <script>
-   const inputBudget = document.getElementById('inputBudget');
-  
-  inputBudget.addEventListener('input', () => {
-    // Remove any non-digit characters
-    let input = inputBudget.value.replace(/[^\d]/g, '');
-    // Convert to a number and format with "Rp" prefix and "." and "," separator
-    let formattedInput = Number(input).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' });
-    // Remove trailing ",00" if present
-    formattedInput = formattedInput.replace(",00", "");
-    // Update the input value with the formatted number
-    inputBudget.value = formattedInput;
+  // select Produk Reguler
+  $(document).on('click', '#table2 tbody tr', function (e) {
+    $('#idProduk').val($(this).data('idprod'));
+    $('#namaProduk').val($(this).data('namaprod'));
+    $('#merkProduk').val($(this).data('merkprod'));
+    $('#modalBarang').modal('hide');
   });
 </script>
