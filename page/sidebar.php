@@ -47,7 +47,7 @@
         </li>
         <li>
           <a class="<?php if($page2 =='data-produk'){echo 'active';} ?>" href="data-produk-reg.php">
-            <i class="bi bi-circle"></i><span>Data Produk Reguler</span>
+            <i class="bi bi-circle"></i><span>Produk Reguler</span>
           </a>
         </li>
         <li>
@@ -57,31 +57,26 @@
         </li>
         <li>
           <a class="<?php if($page2 =='data-produk-set-marwa'){echo 'active';} ?>" href="data-produk-set-marwa.php">
-            <i class="bi bi-circle"></i><span>Data Set Produk Reguler</span>
+            <i class="bi bi-circle"></i><span>Set Produk Reguler</span>
           </a>
         </li>
         <li>
           <a href="#">
-            <i class="bi bi-circle"></i><span>Data Produk E-Cat</span>
+            <i class="bi bi-circle"></i><span>Produk E-Cat</span>
           </a>
         </li>
         <li>
           <a href="#">
-            <i class="bi bi-circle"></i><span>Data Set Produk E-Cat</span>
+            <i class="bi bi-circle"></i><span>Set Produk E-Cat</span>
           </a>
         </li>
         <li>
-          <a href="#">
-            <i class="bi bi-circle"></i><span>Perubahan Merk</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
+          <a class="<?php if($page2 =='keterangan-in'){echo 'active';} ?>" href="keterangan-in.php">
             <i class="bi bi-circle"></i><span>Keterangan Barang Masuk</span>
           </a>
         </li>
         <li>
-          <a href="#">
+          <a class="<?php if($page2 =='keterangan-out'){echo 'active';} ?>" href="keterangan-out.php">
             <i class="bi bi-circle"></i><span>Keterangan Barang Keluar</span>
           </a>
         </li>
@@ -89,18 +84,24 @@
     </li><!-- End Data Nav -->
 
     <li class="nav-item">
-      <a class="nav-link active collapsed" data-bs-target="#barang-masuk" data-bs-toggle="collapse" href="#">
+      <a class="nav-link <?php if($page =='br-masuk'){echo 'active-link';} ?>" data-bs-target="#barang-masuk" data-bs-toggle="collapse" href="#">
         <i class="bi bi-file-ruled-fill"></i><span>Barang Masuk</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="barang-masuk" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
+          <a class="<?php if($page2 =='br-masuk-reg'){echo 'active';} ?>" href="barang-masuk-reg.php">
+            <i class="bi bi-circle"></i><span>Reguler</span>
+          </a>
           <a href="#">
-            <i class="bi bi-circle"></i><span>Barang Masuk Reguler</span>
+            <i class="bi bi-circle"></i><span>Set Produk Reguler</span>
           </a>
         </li>
         <li>
           <a href="#">
-            <i class="bi bi-circle"></i><span>Barang Masuk E-Cat</span>
+            <i class="bi bi-circle"></i><span>E-Cat</span>
+          </a>
+          <a href="#">
+            <i class="bi bi-circle"></i><span>Set Produk E-Cat</span>
           </a>
         </li>
       </ul>
@@ -123,6 +124,22 @@
         </li>
       </ul>
     </li><!-- End Barang Keluar Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link  <?php if($page =='perubahan-merk'){echo 'active-link';} ?>" data-bs-target="#perubahan-merk" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-arrow-left-right"></i><span>Perubahan Merk</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="perubahan-merk" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a class="<?php if($page2 =='ganti-merk'){echo 'active';} ?>" href="ganti-merk-reg.php">
+            <i class="bi bi-circle"></i><span>Reguler</span>
+          </a>
+          <a href="#">
+            <i class="bi bi-circle"></i><span>E-Cat</span>
+          </a>
+        </li>
+      </ul>
+    </li><!-- End Perubahan Merk -->
 
     <li class="nav-item">
       <a class="nav-link <?php if($page =='transaksi'){echo 'active-link';} ?>" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">

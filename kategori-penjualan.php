@@ -26,7 +26,13 @@
   
 
   <main id="main" class="main">
-
+     <!-- Loading -->
+     <div class="loader loader">
+      <div class="loading">
+        <img src="img/loading.gif" width="200px" height="auto">
+      </div>
+    </div>
+    <!-- ENd Loading -->
     <div class="pagetitle">
       <h1>Kategori Penjualan</h1>
       <nav>
@@ -50,8 +56,9 @@
                 <thead>
                   <tr class="text-white" style="background-color: #051683;">
                     <td class="text-center p-3 col-1">No</td>
-                    <td class="text-center p-3 col-7">Nama Kategori Penjualan</td>
+                    <td class="text-center p-3 col-5">Nama Kategori Penjualan</td>
                     <td class="text-center p-3 col-2">Minimal Stock</td>
+                    <td class="text-center p-3 col-2">Maximal Stock</td>
                     <td class="text-center p-3 col-2">Aksi</td>
                   </tr>
                 </thead>
@@ -70,7 +77,8 @@
                   <tr>
                     <td class="text-center"><?php echo $no; ?></td>
                     <td><?php echo $data['nama_kategori'] ?></td>
-                    <td class="text-center"><?php echo $data['min_stock'] ?></td>
+                    <td class="text-center"><?php echo number_format($data['min_stock'],0,'.','.') ?></td>
+                    <td class="text-center"><?php echo number_format($data['max_stock'],0,'.','.') ?></td>
                     <td class="text-center">
                       <button  class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modal3" data-user="<?php echo $data['user_created']?>" data-nama="<?php echo $data['nama_kategori'] ?>" data-created="<?php echo $data['created_date'] ?>" data-updated="<?php echo $data['updated_date'] ?>" data-userupdated="<?php echo $data['user_updated'] ?>">
                         <i class="bi bi-info-circle"></i>
@@ -113,7 +121,7 @@
                           </div>
                       </div>
                       <!-- End Info -->
-                      <button  class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modal2" data-id="<?php echo $data['id_kat_penjualan']?>" data-nama="<?php echo $data['nama_kategori'] ?>" data-minstock="<?php echo $data['min_stock'] ?>">
+                      <button  class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modal2" data-id="<?php echo $data['id_kat_penjualan']?>" data-nama="<?php echo $data['nama_kategori'] ?>" data-minstock="<?php echo number_format($data['min_stock'],0,'.','.') ?>" data-maxstock="<?php echo number_format($data['max_stock'],0,'.','.') ?>">
                         <i class="bi bi-pencil"></i>
                       </button>
 
@@ -137,6 +145,10 @@
                                       <div class="mb-3">
                                           <label class="form-label">Minimal Stock</label>
                                           <input type="text" class="form-control" name="min_stock" id="min_stock" required>
+                                      </div>
+                                      <div class="mb-3">
+                                          <label class="form-label">Maksimal Stock</label>
+                                          <input type="text" class="form-control" name="max_stock" id="max_stock" required>
                                           <input type="hidden" class="form-control" name="updated" value="<?php echo date('d/m/Y, G:i') ?>">
                                           <input type="hidden" class="form-control" name="user_updated" value="<?php echo $_SESSION['tiket_id'] ?>">
                                       </div>
@@ -184,7 +196,11 @@
             </div>
             <div class="mb-3">
               <label class="form-label">Minimal Stock</label>
-              <input type="text" class="form-control" name="min_stock" required>
+              <input type="text" class="form-control" name="min_stock" id="min_stock" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Maksimal Stock</label>
+              <input type="text" class="form-control" name="max_stock" id="max_stock" required>
             </div>
           </div>
           <div class="modal-footer">
@@ -220,13 +236,16 @@
 ?>
 <!-- End Generate UUID -->
 
+<!-- Number Format -->
 <script>
-  // delete button
-  $("#table1").on("click", ".delete-button", function () {
-    $(this).closest("tr").remove();
-    if ($("#table1 tbody tr").length === 0) {
-      $("#table1 tbody").append("<tr><td colspan='5' align='center'>Data not found</td></tr>");
-    }
+  $(document).on('input', '#min_stock', function(e) {
+    var minStock = parseInt($(this).val().replace(/\D/g, ''));
+    $(this).val(minStock.toLocaleString('id-ID').replace(',', '.'));
+  });
+
+  $(document).on('input', '#max_stock', function(e) {
+    var maxStock = parseInt($(this).val().replace(/\D/g, ''));
+    $(this).val(maxStock.toLocaleString('id-ID').replace(',', '.'));
   });
 </script>
 
@@ -237,25 +256,35 @@
       var id = button.data('id');
       var nama = button.data('nama');
       var minstock = button.data('minstock');
+      var maxstock = button.data('maxstock');
       var modal = $(this);
       var simpanBtn = modal.find('.modal-footer #simpan');
       var namaInput = modal.find('.modal-body #nama_kategori');
       var minstockInput = modal.find('.modal-body #min_stock');
+      var maxstockInput = modal.find('.modal-body #max_stock');
+
+      var formatOptions = {
+        style: 'decimal',
+        minimumFractionDigits: 0
+      };
       
       // Menampilkan data
       modal.find('.modal-body #id_kat_penjualan').val(id);
       namaInput.val(nama);
       minstockInput.val(minstock);
+      maxstockInput.val(maxstock);
 
       // Pengecekan data, dan buttun disable or enable saat data di ubah
       // dan data kembali ke nilai awal
       var originalNama = namaInput.val();
       var originalMinstock = minstockInput.val();
+      var originalMaxstock = maxstockInput.val();
 
       namaInput.on('input', function () {
           var currentNama = $(this).val();
           var currentMinstock = minstockInput.val();
-          if (currentNama != originalNama || currentMinstock != originalMinstock) {
+          var currentMaxstock = maxstockInput.val();
+          if (currentNama != originalNama || currentMinstock != originalMinstock || currentMaxstock != originalMaxstock) {
               simpanBtn.prop('disabled', false);
           } else {
               simpanBtn.prop('disabled', true);
@@ -263,13 +292,28 @@
       });
 
       minstockInput.on('input', function () {
-          var currentMinstock = $(this).val();
-          var currentNama = namaInput.val();
-          if (currentNama != originalNama || currentMinstock != originalMinstock) {
+        var minStock = parseInt($(this).val().replace(/\D/g, ''));
+        var currentMinstock = minStock.toLocaleString('id-ID', formatOptions);
+        var currentNama = namaInput.val();
+        var currentMaxstock = maxstockInput.val();
+          if (currentNama != originalNama || currentMinstock != originalMinstock || currentMaxstock != originalMaxstock) {
               simpanBtn.prop('disabled', false);
           } else {
               simpanBtn.prop('disabled', true);
           }
+      });
+
+      maxstockInput.on('input', function () {
+        var currentMinstock = minstockInput.val();
+        var currentNama = namaInput.val();
+        var maxStock = parseInt($(this).val().replace(/\D/g, ''));
+        var currentMaxstock = maxStock.toLocaleString('id-ID', formatOptions);
+          if (currentNama != originalNama || currentMinstock != originalMinstock || currentMaxstock != originalMaxstock) {
+              simpanBtn.prop('disabled', false);
+          } else {
+              simpanBtn.prop('disabled', true);
+          }
+          console.log(currentMaxstock);
       });
       
       modal.find('form').on('reset', function () {

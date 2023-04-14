@@ -8,6 +8,9 @@
         $stock = $_POST['stock'];
         $id_user = $_POST['id_user'];
         $created = $_POST['created_date'];
+        $register_value = 1;
+
+        $stock = intval(preg_replace("/[^0-9]/", "", $stock));
 
         $cek_data = "SELECT id_produk_reg FROM stock_produk_reguler WHERE id_produk_reg = '$id_produk'";
         $query = mysqli_query($connect, $cek_data);
@@ -20,6 +23,11 @@
                         (id_stock_prod_reg, id_user, id_produk_reg, stock, created_date)
                         values
                         ('$id_stock_reg', '$id_user', '$id_produk', '$stock', '$created')");
+
+            $update = mysqli_query($connect, "UPDATE tb_produk_reguler 
+                                              SET
+                                              register_value = '$register_value'
+                                              WHERE id_produk_reg='$id_produk'");
             $_SESSION['info'] = 'Disimpan';
             echo "<script>document.location.href='../stock-produk-reg.php'</script>";
         }
@@ -27,6 +35,12 @@
 
     }elseif(isset($_GET['hapus-stock-reg'])){
         $idh = $_GET['hapus-stock-reg'];
+        $idu = $_GET['id_produk'];
+        $register_val = 0;
+        $update = mysqli_query($connect, "UPDATE tb_produk_reguler 
+                                          SET
+                                          register_value = '$register_val'
+                                          WHERE id_produk_reg='$idu'");
 
         $hapus_data = "DELETE FROM stock_produk_reguler WHERE id_stock_prod_reg = '$idh'";
         $query = mysqli_query($connect, $hapus_data);

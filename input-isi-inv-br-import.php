@@ -1,26 +1,39 @@
 <?php
-    $page = 'data';
-    $page2 = 'data-produk-set-marwa';
+    $page = 'br-masuk';
+    $page2 = 'br-masuk-reg';
     include "akses.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Inventory KMA</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
-  <?php include "page/head.php"; ?>
-  <style>
-    #table2{
-      cursor: pointer;
-    }
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    input[type="text"]:read-only {
-      background: #e9ecef;
-    }
-  </style>
+    <title>Inventory KMA</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+    <?php include "page/head.php"; ?>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css">
+
+    <style>
+        #table2{
+            cursor: pointer;
+        }
+        #table3{
+            cursor: pointer;
+        }
+
+        input[type="text"]:read-only {
+        background: #e9ecef;
+        }
+
+        textarea[type="text"]:read-only {
+        background: #e9ecef;
+        }
+    </style>
 </head>
 
 <body>
@@ -34,47 +47,41 @@
   
 
   <main id="main" class="main">
-    <section>
-      <div class="container-fluid">
-        <div class="card">
-          <div class="card-header text-center"><h5>Tambah Isi Produk Set Marwa</h5></div>
-          <div class="card-body p-3">
-            <form action="proses/proses-produk-set-marwa.php" method="post">
-              <?php  
-                $id_set = $_GET['id-set'];
-                $UUID = generate_uuid();
-              ?>
-              <input type="hidden" class="form-control" name="id_isi_set_marwa" value="BR-SET-MRW-<?php echo $UUID ?>">
-              <input type="hidden" class="form-control" name="id_produk_set" value="<?php echo $id_set ?>">
-              <div class="mb-3">
-                <div class="row">
-                  <div class="col-sm-6">
-                    <label>Nama Produk</label>
-                    <input type="hidden" class="form-control" name="id_produk" id="idProduk">
-                    <input type="text" class="form-control" name="nama_produk" id="namaProduk" placeholder="Pilih..." data-bs-toggle="modal" data-bs-target="#modalBarang" readonly>
-                  </div>
-                  <div class="col-sm-4">
-                    <label>Merk</label>
-                    <input type="text" class="form-control" name="merk" id="merkProduk" readonly>
-                  </div>
-                  <div class="col-sm-2">
-                    <label>Qty</label>
-                    <input type="text" class="form-control" name="qty" required>
-                    <input type="hidden" class="form-control" name="id_user" value="<?php echo $_SESSION['tiket_id'] ?>" required>
-                  </div>
-                  <div class="mt-3">
-                    <button type="submit" class="btn btn-primary btn md" name="simpan-isi-set-marwa"><i class="bx bx-save"></i> Simpan</button>
-                    <a href="detail-set-marwa.php?detail-id=<?php echo $id_set ?>" class="btn btn-secondary btn md"><i class="bi bi-x"></i> Batal</a>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
+     <!-- Loading -->
+     <div class="loader loader">
+      <div class="loading">
+        <img src="img/loading.gif" width="200px" height="auto">
       </div>
+    </div>
+    <!-- ENd Loading -->
+    <section>
+        <div class="container-fluid">
+            <?php  
+                $id = $_GET['id'];
+            ?>
+            <form method="post" action="form-multiple-br-import.php" class="form">
+                <div class="row">
+                    <div class="col">
+                        <label for="nama_produk">Nama Produk</label>
+                        <input type="text" class="form-control" name="id_inv_import" id="id_inv_import" value="<?php echo $id ?>">
+                        <input type="text" class="form-control" name="id_produk" id="idProduk">
+                        <input type="text" class="form-control" name="nama_produk" id="namaProduk" placeholder="Pilih..." data-bs-toggle="modal" data-bs-target="#modalBarang" readonly>
+                    </div>
+                    <div class="col">
+                        <label for="start_karton">Nomor Karton Awal</label>
+                        <input type="number" class="form-control" name="start_karton" id="start_karton">
+                    </div>
+                    <div class="col">
+                        <label for="end_karton">Nomor Karton Akhir</label>
+                        <input type="number" class="form-control" name="end_karton" id="end_karton">
+                    </div>
+                </div>
+                <br>
+                <button type="submit" name="submit" class="btn btn-primary">Create Forms</button>
+            </form>     
+        </div>
     </section>
   </main><!-- End #main -->
-
   <!-- Footer -->
   <?php include "page/footer.php" ?>
   <!-- End Footer -->
@@ -134,20 +141,6 @@
   </div>
 </div>
 <!-- End Modal Barang -->
-
-<!-- Generat UUID -->
-<?php
-  function generate_uuid() {
-  return sprintf( '%04x%04x%04x',
-    mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
-    mt_rand( 0, 0xffff ),
-    mt_rand( 0, 0x0fff ) | 0x4000,
-    mt_rand( 0, 0x3fff ) | 0x8000,
-    mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff )
-  );
-}
-?>
-<!-- End Generate UUID -->
 
 <script>
   // select Produk Reguler

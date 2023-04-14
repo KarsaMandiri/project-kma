@@ -15,7 +15,7 @@ $(function () {
     });
 });
 
-    $(document).ready(function() {
+$(document).ready(function() {
     var table = $('#table2').DataTable({
         "lengthChange": false,
         "ordering": false,
@@ -28,5 +28,23 @@ $(document).ready(function() {
       "lengthChange": false,
       "ordering": false,
       "autoWidth": false
+  });
+});
+
+
+$(function () {
+  $("#table4").DataTable({
+    "responsive": true, "lengthChange": false, "autoWidth": false,
+    "buttons": ["csv", "excel", "pdf", "print"]
+  }).buttons().container().appendTo('#table1_wrapper .col-md-6:eq(0)');
+
+  $('#example2').DataTable({
+    "paging": true,
+    "lengthChange": false,
+    "searching": false,
+    "ordering": true,
+    "info": true,
+    "autoWidth": false,
+    "responsive": true,
   });
 });

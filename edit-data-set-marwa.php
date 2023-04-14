@@ -230,7 +230,7 @@
 
 <!-- Format nominal Indo -->
 <script>
-   const inputBudget = document.getElementById('inputBudget');
+  const inputBudget = document.getElementById('inputBudget');
   let formattedValue = Number(inputBudget.value).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' });
   inputBudget.value = formattedValue.replace(",00", "");
   

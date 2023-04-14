@@ -34,7 +34,13 @@
   
 
   <main id="main" class="main">
-
+    <!-- Loading -->
+    <div class="loader loader">
+      <div class="loading">
+        <img src="img/loading.gif" width="200px" height="auto">
+      </div>
+    </div>
+    <!-- ENd Loading -->
     <div class="pagetitle">
       <h1>Data Produk Reguler</h1>
       <nav>
@@ -61,7 +67,8 @@
                     <td class="text-center p-3" style="width: 450px">Nama Produk</td>
                     <td class="text-center p-3" style="width: 100px">Merk</td>
                     <td class="text-center p-3" style="width: 100px">Harga</td>
-                    <td class="text-center p-3" style="width: 100px">Stock</td>
+                    <td class="text-center p-3" style="width: 80px">Stock</td>
+                    <td class="text-center p-3" style="width: 80px">Level</td>
                     <td class="text-center p-3" style="width: 50px">Aksi</td>
                   </tr>
                 </thead>
@@ -73,7 +80,8 @@
                     $no = 1;
                     $sql = "SELECT pr.*,
                             pr.created_date as 'produk_created',
-                            pr.created_date as 'produk_updated',    
+                            pr.created_date as 'produk_updated',
+                            pr.id_produk_reg as 'produk_id',    
                             uc.nama_user as user_created, 
                             uu.nama_user as user_updated,
                             mr.*,
@@ -93,9 +101,19 @@
                             LEFT JOIN tb_produk_grade gr ON (pr.id_grade = gr.id_grade)
                             LEFT JOIN tb_lokasi_produk lok ON (pr.id_lokasi = lok.id_lokasi)
                             LEFT JOIN stock_produk_reguler spr ON (pr.id_produk_reg = spr.id_produk_reg)
-                            ";
+                            ORDER BY nama_produk ASC";
                     $query = mysqli_query($connect, $sql);
                     while($data = mysqli_fetch_array($query)){
+                      $stock = $data['stock'];
+                      $min_stock = $data['min_stock'];
+                      $max_stock = $data['max_stock'];
+                      $low = $min_stock * 0.25;
+                      $low_lev = $min_stock - $low;
+                      $med_lev = $min_stock + $low;
+                      $high = $max_stock * 0.25;
+                      $high_lev = $max_stock - $high;
+                      $stock_status = '';
+                      $tampil_stock = number_format($data['stock'],0,'.','.');
                   ?>
                   <tr>
                     <td class="text-center"><?php echo $no; ?></td>
@@ -105,7 +123,34 @@
                       <a style="float:left; color:black;">Rp</a> 
                       <a style="float:right; color:black;"> <?php echo number_format ($data['harga_produk'],0,',','.'); ?> </a>
                     </td>
-                    <td class="text-end"><?php echo $data['stock'] ?></td>
+                    <?php  
+                      if ($stock <= $low_lev) {
+                        echo "<td class='text-end text-white' style='background-color: #cc0000'>" . ($tampil_stock) . "</td>";
+                      } else if ($stock >= $low_lev && $stock <= $min_stock) {
+                        echo "<td class='text-end' style='background-color: #ff4500'>" . ($tampil_stock) . "</td>";
+                      } else if ($stock >= $min_stock && $stock <= $high_lev ) {
+                        echo "<td class='text-end' style='background-color: #ffff00'>" . ($tampil_stock) . "</td>";
+                      } else if ($stock >= $high_lev && $stock <= $max_stock) {
+                        echo "<td class='text-end text-white' style='background-color: #469536'>" . ($tampil_stock) . "</td>";
+                      } else if ($stock > $max_stock){
+                        echo "<td class='text-end text-white' style='background-color: #006600'>" . ($tampil_stock) . "</td>";
+                      }
+                    ?>
+                    <?php  
+                      if ($stock < 1) {
+                        echo "<td class='text-end'>" . ($stock_status = 'Habis') . "</td>";
+                      } else if ($stock <= $low_lev) {
+                        echo "<td class='text-end'>" . ($stock_status = 'Very Low') . "</td>";
+                      } else if ($stock >= $low_lev && $stock <= $min_stock) {
+                        echo "<td class='text-end'>" . ($stock_status = 'Low') . "</td>";
+                      } else if ($stock >= $min_stock && $stock <= $high_lev ) {
+                        echo "<td class='text-end'>" . ($stock_status = 'Medium') . "</td>";
+                      } else if ($stock >= $high_lev && $stock <= $max_stock) {
+                        echo "<td class='text-end'>" . ($stock_status = 'High') . "</td>";
+                      } else if ($stock > $max_stock){
+                        echo "<td class='text-end'>" . ($stock_status = 'Very High') . "</td>";
+                      }
+                    ?>
                     <td class="text-center">
                       <div class="dropdown">
                         <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
@@ -113,11 +158,11 @@
                         </a>
                         <ul class="dropdown-menu mb-3" aria-labelledby="dropdownMenuLink">
                           <li>
-                            <a class="dropdown-item btn-detail" href="#" data-kode-produk="<?php echo $data['kode_produk'] ?>" data-nama-produk="<?php echo $data['nama_produk']; ?>" data-merk-produk="<?php echo $data['nama_merk']; ?>" data-harga-produk="<?php echo format_rupiah($data['harga_produk']) ?>" 
+                            <a class="dropdown-item btn-detail" href="#" data-kode-produk="<?php echo $data['kode_produk'] ?>" data-nama-produk="<?php echo $data['nama_produk']; ?>" data-merk-produk="<?php echo $data['nama_merk']; ?>" data-harga-produk="<?php echo format_rupiah($data['harga_produk']) ?>" data-stock-produk="<?php echo $data['stock']?>"
                             data-kategori-produk="<?php echo $data['kat_prod'] ?>" data-izin-edar="<?php echo $data['no_izin_edar'] ?>"  data-kategori-penjualan="<?php echo $data['kat_penj'] ?>" data-grade-produk="<?php echo $data['nama_grade'] ?>" data-lokasi-produk="<?php echo $data['nama_lokasi'] ?>" data-lantai-produk="<?php echo $data['no_lantai'] ?>" data-area-produk="<?php echo $data['nama_area'] ?>" data-rak-produk="<?php echo $data['no_rak'] ?>"  data-created-produk="<?php echo $data['produk_created'] ?>" data-user-created="<?php echo $data['user_created'] ?>" data-update-produk="<?php echo $data['produk_updated'] ?>" data-user-update="<?php echo $data['user_updated'] ?>" data-gambar-produk="<?php echo $data['gambar']; ?>">Detail</a>
                           </li>
-                          <li><a class="dropdown-item" href="edit-produk-reg.php?edit-data=<?php echo $data['id_produk_reg'] ?>">Edit</a></li>
-                          <li><a class="dropdown-item delete-data" href="proses/proses-produk-reg.php?hapus-produk-reg=<?php echo $data['id_produk_reg'] ?>">Hapus</a></li>
+                          <li><a class="dropdown-item" href="edit-produk-reg.php?edit-data=<?php echo $data['produk_id'] ?>">Edit</a></li>
+                          <li><a class="dropdown-item delete-data" href="proses/proses-produk-reg.php?hapus-produk-reg=<?php echo $data['produk_id'] ?>">Hapus</a></li>
                         </ul>
                       </div>
                     </td>
@@ -165,6 +210,10 @@
                   <tr>
                     <td>Harga Produk</td>
                     <td id="hargaProduk"></td>
+                  </tr>
+                  <tr>
+                    <td>Stock Produk</td>
+                    <td id="stockProduk"></td>
                   </tr>
                   <tr>
                     <td>Kategori Produk</td>
@@ -222,14 +271,14 @@
     </div>
   </div>
 </div>
+
+<!-- Footer -->
+<?php include "page/footer.php" ?>
+<!-- End Footer -->
 <!-- end modal detail -->
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-  <!-- Footer -->
-  <?php include "page/footer.php" ?>
-  <!-- End Footer -->
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-  <?php include "page/script.php" ?>
+<?php include "page/script.php" ?>
 </body>
 </html>
 
@@ -251,18 +300,8 @@
   function format_rupiah($angka){
     $rupiah = "Rp " . number_format($angka,0,',','.');
     return $rupiah;
-}
+  }
 ?>
-
-<script>
-  // delete button
-  $("#table1").on("click", ".delete-button", function () {
-    $(this).closest("tr").remove();
-    if ($("#table1 tbody tr").length === 0) {
-      $("#table1 tbody").append("<tr><td colspan='9' align='center'>Data not found</td></tr>");
-    }
-  });
-</script>
 
 <script>
   $(document).ready(function() {
@@ -272,6 +311,7 @@
     var namaProduk = $(this).data('nama-produk');
     var merkProduk = $(this).data('merk-produk');
     var hargaProduk = $(this).data('harga-produk');
+    var stockProduk = $(this).data('stock-produk');
     var katProduk = $(this).data('kategori-produk');
     var katPenjualan = $(this).data('kategori-penjualan');
     var katGrade = $(this).data('grade-produk');
@@ -290,6 +330,7 @@
     $('#namaProduk').html(namaProduk);
     $('#merkProduk').html(merkProduk);
     $('#hargaProduk').html(hargaProduk);
+    $('#stockProduk').html(stockProduk);
     $('#katProduk').html(katProduk);
     $('#katPenjualan').html(katPenjualan);
     $('#katGrade').html(katGrade);

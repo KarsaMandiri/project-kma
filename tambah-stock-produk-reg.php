@@ -55,7 +55,7 @@
                     </div>
                     <div class="col-sm-2 mb-3">
                         <label>Stock</label>
-                        <input type="text" class="form-control" name="stock" required>
+                        <input type="text" class="form-control" name="stock" id="stock" required>
                     </div>
                 </div>
                 <input type="hidden" class="form-control" name="id_user" value="<?php echo $_SESSION['tiket_id'] ?>" required>
@@ -82,7 +82,7 @@
   <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Data Produk</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -93,6 +93,7 @@
                 <td class="text-center p-3" style="width: 50px">No</td>
                 <td class="text-center p-3" style="width: 350px">Nama Produk</td>
                 <td class="text-center p-3" style="width: 100px">Merk</td>
+                <td class="text-center p-3" style="width: 100px">Stock</td>
               </tr>
             </thead>
             <tbody>
@@ -101,18 +102,22 @@
                 
                 include "koneksi.php";
                 $no = 1;
-                $sql = "SELECT pr.*,  
-                        mr.*
+                $sql = "SELECT pr.*,
+                        pr.id_produk_reg AS 'produk_id',
+                        mr.*,
+                        spr.*
                         FROM tb_produk_reguler as pr
                         LEFT JOIN tb_merk mr ON (pr.id_merk = mr.id_merk)
-                        ";
+                        LEFT JOIN stock_produk_reguler spr ON (pr.id_produk_reg = spr.id_produk_reg)
+                        WHERE register_value = '0' ";
                 $query = mysqli_query($connect, $sql);
                 while($data = mysqli_fetch_array($query)){
               ?>
-              <tr data-idprod= "<?php echo $data['id_produk_reg'];?>" data-namaprod = "<?php echo $data['nama_produk'];?>" data-merkprod = "<?php echo $data['nama_merk'];?>" data-bs-dismiss="modal">
+              <tr data-idprod= "<?php echo $data['produk_id'];?>" data-namaprod = "<?php echo $data['nama_produk'];?>" data-merkprod = "<?php echo $data['nama_merk'];?>" data-bs-dismiss="modal">
                 <td class="text-center"><?php echo $no; ?></td>
                 <td><?php echo $data['nama_produk']; ?></td>
                 <td class="text-center"><?php echo $data['nama_merk']; ?></td>
+                <td class="text-center"><?php echo $data['stock']; ?></td>
               </tr>
               <?php $no++; ?>
               <?php } ?>
@@ -175,3 +180,11 @@
     $('#modalBarang').modal('hide');
   });
 </script>
+
+<script>
+  $(document).on('input', '#stock', function(e) {
+    var qtyAwal = parseInt($(this).val().replace(/\D/g, ''));
+    $(this).val(qtyAwal.toLocaleString('id-ID').replace(',', '.'));
+  });
+</script>
+

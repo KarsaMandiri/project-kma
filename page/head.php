@@ -45,3 +45,6 @@
 
 <!-- DataTables CSS -->
 <link rel="stylesheet" href="assets/DataTables/dataTables.bootstrap5.min.css">
+
+<!-- animation load data -->
+<link rel="stylesheet" type="text/css" href="assets/css/loading.css">

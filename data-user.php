@@ -29,6 +29,13 @@
   <!-- END SWEET ALERT -->
 
   <main id="main" class="main">
+     <!-- Loading -->
+     <div class="loader loader">
+      <div class="loading">
+        <img src="img/loading.gif" width="200px" height="auto">
+      </div>
+    </div>
+    <!-- ENd Loading -->
     <div class="pagetitle">
       <h1>Dashboard</h1>
       <nav>

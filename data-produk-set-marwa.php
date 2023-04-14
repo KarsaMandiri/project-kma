@@ -25,9 +25,15 @@
   
 
   <main id="main" class="main">
-
+     <!-- Loading -->
+     <div class="loader loader">
+      <div class="loading">
+        <img src="img/loading.gif" width="200px" height="auto">
+      </div>
+    </div>
+    <!-- ENd Loading -->
     <div class="pagetitle">
-      <h1>Data Produk Set Marwa</h1>
+      <h1>Data Produk Set Reguler</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="dasboard.php">Home</a></li>
@@ -45,7 +51,6 @@
           <div class="card-body p-3">
             <form>
               <a href="tambah-data-produk-set-marwa.php" class="btn btn-primary btn-md"><i class="bi bi-plus-circle"></i> Tambah data produk set</a>
-              <a href="tambah-stock-produk-set-marwa.php" class="btn btn-warning btn-md"><i class="bi bi-plus-circle"></i> Tambah stock produk set</a>
               <div class="table-responsive mt-3">
                 <table class="table table-striped table-bordered" id="table1">
                   <thead>
@@ -54,7 +59,8 @@
                       <td class="text-center p-3" style="width: 120px">Kode Produk Set</td>
                       <td class="text-center p-3" style="width: 250px">Nama Set Produk </td>
                       <td class="text-center p-3" style="width: 100px">Merk</td>
-                      <td class="text-center p-3" style="width: 100px">Harga</td>
+                      <td class="text-center p-3" style="width: 100px">Harga Modal</td>
+                      <td class="text-center p-3" style="width: 100px">Harga Jual</td>
                       <td class="text-center p-3" style="width: 50px">Stok</td>
                       <td class="text-center p-3" style="width: 100px">Aksi</td>
                     </tr>
@@ -85,6 +91,23 @@
                       <td><?php echo $data['kode_set_marwa']; ?></td>
                       <td><?php echo $data['nama_set_marwa']; ?></td>
                       <td class="text-center"><?php echo $data['nama_merk']; ?></td>
+                      <?php
+                        $id = $data['id_set_marwa'];
+                        $grand_total = 0;
+                        $sql_data = "SELECT * FROM isi_produk_set_marwa AS ipsm
+                                     LEFT JOIN tb_produk_reguler AS tpr ON (ipsm.id_produk = tpr.id_produk_reg)
+                                     LEFT JOIN tb_produk_set_marwa AS tpsm ON (ipsm.id_produk_set = tpsm.id_set_marwa)
+                                     WHERE id_produk_set = '$id'";
+                        $query_data = mysqli_query($connect, $sql_data) OR DIE (mysqli_error($connect, $sql_data));
+                        while ($row = mysqli_fetch_array($query_data)){ 
+                          $harga = $row['harga_produk'];
+                          $qty = $row['qty'];
+                          $jumlah = $qty * $harga;
+                          $grand_total += $jumlah;
+                      ?>
+                      <?php } ?>
+                      
+                      <td class="text-end"><?php echo number_format($grand_total,0,'.','.'); ?></td>
                       <td class="text-end"><?php echo number_format($data['harga_set_marwa'],0,'.','.'); ?></td>
                       <td class="text-end"><?php echo number_format($data['stock'],0,'.','.'); ?></td>
                       <td class="text-center">

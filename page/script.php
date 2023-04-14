@@ -39,3 +39,6 @@
 
 <!-- Alert -->
 <script src="assets/js/alert.js"></script>
+
+<!-- animate loading -->
+<script src="assets/js/load.js"></script>

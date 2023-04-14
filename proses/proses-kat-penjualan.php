@@ -8,7 +8,11 @@
 		$id_user = $_POST['id_user'];
 		$nama_kategori = $_POST['nama_kategori'];
 		$min_stock = $_POST['min_stock'];
+		$max_stock = $_POST['max_stock'];
 		$created = $_POST['created'];
+
+		$min_stock = intval(preg_replace("/[^0-9]/", "", $min_stock));
+		$max_stock = intval(preg_replace("/[^0-9]/", "", $max_stock));
 
 		$cek_kat = mysqli_query($connect, "SELECT nama_kategori FROM tb_kat_penjualan WHERE nama_kategori = '$nama_kategori'");
 
@@ -17,9 +21,9 @@
             echo "<script>document.location.href='../kategori-penjualan.php'</script>";
 		}else{
 			mysqli_query($connect, "INSERT INTO tb_kat_penjualan
-                      (id_kat_penjualan, id_user, nama_kategori, min_stock, created_date) 
+                      (id_kat_penjualan, id_user, nama_kategori, min_stock, max_stock, created_date) 
                       VALUES 
-                      ('$id_kat_penjualan', '$id_user', '$nama_kategori', '$min_stock', '$created')");
+                      ('$id_kat_penjualan', '$id_user', '$nama_kategori', '$min_stock', '$max_stock', '$created')");
 
 			$_SESSION['info'] = 'Disimpan';
             echo "<script>document.location.href='../kategori-penjualan.php'</script>";
@@ -30,9 +34,12 @@
 		$id_kat_penjualan = $_POST['id_kat_penjualan'];
 		$nama_kategori = $_POST['nama_kategori'];
 		$min_stock = $_POST['min_stock'];
+		$max_stock = $_POST['max_stock'];
 		$updated = $_POST['updated'];
         $user_updated = $_POST['user_updated'];
-
+		
+		$min_stock = intval(preg_replace("/[^0-9]/", "", $min_stock));
+		$max_stock = intval(preg_replace("/[^0-9]/", "", $max_stock));
         // menampilkan data
         $query = "SELECT * FROM tb_kat_penjualan WHERE id_kat_penjualan = '$id_kat_penjualan'";
         $result = mysqli_query($connect, $query);
@@ -44,6 +51,7 @@
 	                SET
 					nama_kategori = '$nama_kategori',
 					min_stock = '$min_stock',
+					max_stock = '$max_stock',
 					updated_date = '$updated',
 					user_updated = '$user_updated'
 	                WHERE id_kat_penjualan='$id_kat_penjualan'");
@@ -63,6 +71,7 @@
 	                SET
 					nama_kategori = '$nama_kategori',
 					min_stock = '$min_stock',
+					max_stock = '$max_stock',
 					updated_date = '$updated',
                     user_updated = '$user_updated'
 	                WHERE id_kat_penjualan='$id_kat_penjualan'");

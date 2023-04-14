@@ -1,6 +1,6 @@
 <?php
     $page = 'data';
-    $page2 = 'data-merk';
+    $page2 = 'ket-out';
     include "akses.php";
 ?>
 <!DOCTYPE html>
@@ -34,11 +34,11 @@
     </div>
     <!-- ENd Loading -->
     <div class="pagetitle">
-      <h1>Merk Produk</h1>
+      <h1>Keterangan Barang Keluar</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
-          <li class="breadcrumb-item active">Merk Produk</li>
+          <li class="breadcrumb-item active">Katerangan Brang Keluar</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -50,15 +50,14 @@
       <div class="container-fluid">
         <div class="card">
           <div class="card-body p-3">
-            <a href="#" class="btn btn-primary btn-md" data-bs-toggle="modal" data-bs-target="#modal1"><i class="bi bi-plus-circle"></i> Tambah data merk</a>
+            <a href="#" class="btn btn-primary btn-md" data-bs-toggle="modal" data-bs-target="#modal1"><i class="bi bi-plus-circle"></i> Tambah Keterangan Barang Keluar</a>
             <div class="table-responsive mt-3">
-              <table class="table table-striped table-bordered" id="table1">
+              <table class="table table-striped table-bordered" id="table2">
                 <thead>
                   <tr class="text-white" style="background-color: #051683;">
                     <td class="text-center p-3 col-1">No</td>
-                    <td class="text-center p-3 col-4">Nama Merk</td>
-                    <td class="text-center p-3 col-3">Dibuat Oleh</td>
-                    <td class="text-center p-3 col-2">Dibuat Tanggal</td>
+                    <td class="text-center p-3 col-6">Nama Keterangan</td>
+                    <td class="text-center p-3 col-3">Dibuat Tanggal</td>
                     <td class="text-center p-3 col-2">Aksi</td>
                   </tr>
                 </thead>
@@ -67,49 +66,47 @@
                     date_default_timezone_set('Asia/Jakarta');
                     include "koneksi.php";
                     $no = 1;
-                    $sql = "SELECT * FROM tb_merk LEFT JOIN user ON(tb_merk.id_user = user.id_user) ORDER BY  nama_merk";
-                    $query = mysqli_query($connect, $sql) or die(mysqli_error($connect, $sql));
+                    $sql = "SELECT * FROM keterangan_out ORDER BY ket_out ASC";
+                    $query = mysqli_query($connect, $sql) or die (mysqli_error($connect));
                     while($data = mysqli_fetch_array($query)){
                   ?>
                   <tr>
                     <td class="text-center"><?php echo $no; ?></td>
-                    <td><?php echo $data['nama_merk']; ?></td>
-                    <td><?php echo $data['nama_user']; ?></td>
-                    <td><?php echo $data['created_date']; ?></td>
+                    <td><?php echo $data['ket_out'] ?></td>
+                    <td class="text-center"><?php echo $data['created_date'] ?></td>
                     <td class="text-center">
-                      <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modal2" data-id="<?php echo $data['id_merk']; ?>" data-nama="<?php echo $data['nama_merk']; ?>">
+                      <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modal2" data-id="<?php echo $data['id_ket_out']; ?>" data-nama="<?php echo $data['ket_out']; ?>">
                         <i class="bi bi-pencil"></i>
                       </button>
-                      <a href="proses/proses-merk.php?hapus-merk=<?php echo $data['id_merk'];?>" class="btn btn-danger btn-sm delete-data"><i class="bi bi-trash"></i></a>
+                      <a href="proses/proses-ket-out.php?hapus-ket-out=<?php echo $data['id_ket_out'] ?>" class="btn btn-danger btn-sm delete-data"><i class="bi bi-trash"></i></a>
                     </td>
-                    <!-- Modal Edit SP -->
+                    <!-- Modal Edit -->
                     <div class="modal fade" id="modal2" tabindex="-1">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5">Edit Data Merk</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <form action="proses/proses-merk.php" method="POST">
-                                    <div class="modal-body">
-                                        <div class="mb-3">
-                                            <div class="mb-3">
-                                            <label class="form-label">Nama Merk</label>
-                                            <input type="hidden" class="form-control" name="id_merk" id="id_merk">
-                                            <input type="text" class="form-control" name="nama_merk" id="nama_merk" required>
-                                        </div>
+                      <div class="modal-dialog modal-dialog-centered">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h1 class="modal-title fs-5">Edit Data Kategori Produk</h1>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <form action="proses/proses-ket-out.php" method="POST">
+                                  <div class="modal-body">
+                                    <div class="mb-3">
+                                      <label class="form-label">Nama Kategori Produk</label>
+                                      <input type="hidden" class="form-control" name="id_ket_out" id="id_ket_out">
+                                      <input type="text" class="form-control" name="nama_ket_out" id="ket_out" required>
                                     </div>
-                                    <div class="modal-footer">
-                                        <button type="submit" name="edit-merk" id="simpan" class="btn btn-primary btn-md" disabled><i class="bx bx-save"></i> Simpan Perubahan</button>
-                                        <button type="button" class="btn btn-secondary btn-md" data-bs-dismiss="modal"><i class="bi bi-x"></i> Tutup</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+                                  </div>
+                                  <div class="modal-footer">
+                                      <button type="submit" name="edit-ket-out" id="simpan" disabled class="btn btn-primary btn-md"><i class="bx bx-save"></i> Simpan Perubahan</button>
+                                      <button type="button" class="btn btn-secondary btn-md" data-bs-dismiss="modal"><i class="bi bi-x"></i> Tutup</button>
+                                  </div>
+                              </form>
+                          </div>
+                      </div>
                     </div>
-                    <!-- End Modal Edit SP -->
+                    <!-- End Modal Edit -->
                   </tr>
-                   <?php $no++ ?>
+                  <?php $no++; ?>
                   <?php } ?>
                 </tbody>
               </table>
@@ -124,25 +121,25 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5">Tambah Data Merk</h1>
+          <h1 class="modal-title fs-5">Tambah Data Kategori Produk</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form action="proses/proses-merk.php" method="POST">
+        <form action="proses/proses-ket-out.php" method="POST">
           <div class="modal-body">
             <div class="mb-3">
               <?php 
                   $UUID = generate_uuid();
               ?>
               <div class="mb-3">
-              <label class="form-label">Nama Merk</label>
-              <input type="hidden" class="form-control" name="id_merk" value="MERK<?php echo $UUID; ?>">
-              <input type="hidden" class="form-control" name="id_user" value="<?php echo $_SESSION['tiket_id']; ?>">
+              <label class="form-label">Nama Keterangan Barang Masuk</label>
+              <input type="hidden" class="form-control" name="id_ket_out" value="KET-OUT-<?php echo $UUID; ?>">
+              <input type="text" class="form-control" name="nama_ket_out" required>
               <input type="hidden" class="form-control" name="created" value="<?php echo date('d/m/Y, G:i') ?>">
-              <input type="text" class="form-control" name="nama_merk" required>
+              <input type="hidden" class="form-control" name="user_created" value="<?php echo $_SESSION['tiket_id'] ?>">
             </div>
           </div>
           <div class="modal-footer">
-            <button type="submit" name="simpan-merk" class="btn btn-primary btn-md"><i class="bx bx-save"></i> Simpan Data</button>
+            <button type="submit" name="simpan-ket-out" class="btn btn-primary btn-md"><i class="bx bx-save"></i> Simpan Data</button>
             <button type="button" class="btn btn-secondary btn-md" data-bs-dismiss="modal"><i class="bi bi-x"></i> Tutup</button>
           </div>
         </form>
@@ -174,14 +171,28 @@
 ?>
 <!-- End Generate UUID -->
 
+<!-- Clock js -->
 <script>
-  // delete button
-  $("#table1").on("click", ".delete-button", function () {
-    $(this).closest("tr").remove();
-    if ($("#table1 tbody tr").length === 0) {
-      $("#table1 tbody").append("<tr><td colspan='5' align='center'>Data not found</td></tr>");
-    }
-  });
+  function inputDateTime() {
+    // Get current date and time
+    let currentDate = new Date();
+
+    // Format date and time as yyyy-mm-ddThh:mm:ss
+    let year = currentDate.getFullYear();
+    let month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+    let day = currentDate.getDate().toString().padStart(2, '0');
+    let hours = currentDate.getHours();
+    let minutes = currentDate.getMinutes().toString().padStart(2, '0');
+    let seconds = currentDate.getSeconds().toString().padStart(2, '0');
+    let formattedDateTime = `${day}/${month}/${year}, ${hours}:${minutes}`;
+
+    // Set value of input field to current date and time
+    document.getElementById("datetime-input").setAttribute('value', formattedDateTime);
+
+  }
+
+  // Call updateDateTime function every second
+  setInterval(inputDateTime, 1000);
 </script>
 
 <!-- Script untuk modal edit -->
@@ -193,9 +204,9 @@
       var nama = button.data('nama');
       var modal = $(this);
       var simpanBtn = modal.find('.modal-footer #simpan');
-      var namaInput = modal.find('.modal-body #nama_merk');
+      var namaInput = modal.find('.modal-body #ket_out');
       
-      modal.find('.modal-body #id_merk').val(id);
+      modal.find('.modal-body #id_ket_out').val(id);
       namaInput.val(nama);
 
       // Pengecekan data, dan buttun disable or enable saat data di ubah
