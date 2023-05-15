@@ -70,26 +70,45 @@ include "akses.php";
           $UUID = generate_uuid();
           $month = date('m');
           $year = date('y');
+          $sql = "SELECT iibi.*, iibi.id_inv_br_import AS id_inv, ibi.*, uc.nama_user as user_created, uu.nama_user as user_updated, tpr.*, mr.*
+                        FROM isi_inv_br_import AS iibi
+                        LEFT JOIN user uc ON (iibi.id_user = uc.id_user)
+                        LEFT JOIN user uu ON (iibi.user_updated = uu.id_user)
+                        LEFT JOIN inv_br_import ibi ON (iibi.id_inv_br_import = ibi.id_inv_br_import)
+                        LEFT JOIN tb_produk_reguler tpr ON (iibi.id_produk_reg = tpr.id_produk_reg)
+                        LEFT JOIN tb_merk mr ON (tpr.id_merk = mr.id_merk)
+                        WHERE iibi.id_isi_inv_br_import = '$id'";
+          $query = mysqli_query($connect, $sql);
+          $data = mysqli_fetch_array($query);
           ?>
           <form method="post" action="proses/proses-br-in-import.php" class="form">
             <div class="row">
-              <input type="hidden" class="form-control" name="id_isi_inv_br_import" value="BR-IMPORT-<?php echo $year ?><?php echo $UUID ?><?php echo $month ?>">
-              <div class="col-sm-9 mb-3">
+              <input type="hidden" class="form-control" name="id_act_br_import" value="ACT-IMPORT-<?php echo $month ?><?php echo $UUID ?><?php echo $year ?>">
+              <input type="hidden" class="form-control" name="id_isi_inv_br_import" value="<?php echo $id ?>">
+              <input type="hidden" class="form-control" name="id_inv_import" value="<?php echo $data['id_inv'] ?>">
+              <div class="col-sm-5 mb-3">
                 <label for="nama_produk">Nama Produk</label>
-                <input type="hidden" class="form-control" name="id_inv_import" id="id_inv_import" value="<?php echo $id ?>">
                 <input type="hidden" class="form-control" name="id_produk" id="idProduk">
-                <input type="text" class="form-control" name="nama_produk" id="namaProduk" placeholder="Pilih..." data-bs-toggle="modal" data-bs-target="#modalBarang" readonly>
+                <input type="text" class="form-control" name="nama_produk" id="namaProduk" data-bs-toggle="modal" data-bs-target="#modalBarang" readonly>
               </div>
               <div class="col-sm-3 mb-3">
-                <label>Qty</label>
-                <input type="text" class="form-control" name="qty" id="qtyInput" disabled>
+                <label>Merk</label>
+                <input type="text" class="form-control" id="merkProduk" readonly>
+              </div>
+              <div class="col-sm-2 mb-3">
+                <label>Qty Order</label>
+                <input type="text" class="form-control" name="qty" value="<?php echo number_format($data['qty'], 0, '.', '.'); ?>" readonly>
+              </div>
+              <div class="col-sm-2 mb-3">
+                <label>Qty Actual</label>
+                <input type="text" class="form-control" name="qty_act" id="qtyInput" value="0" disabled>
               </div>
               <input type="hidden" name="id_user" value="<?php echo $_SESSION['tiket_id'] ?>">
               <input type="hidden" class="form-control" name="created" id="datetime-input">
             </div>
             <div class="text-end">
-              <button type="submit" name="simpan-isi-br-import" id="submitButton" class="btn btn-primary" disabled><i class="bx bx-save" style="color: white; font-size: 18px;"></i> Simpan Data</button>
-              <a href="tampil-br-import.php?id=<?php echo base64_encode($id) ?>" class="btn btn-secondary"><i class="bi bi-arrow-left-square-fill" style="color: white; font-size: 18px;"></i> Tutup</a>
+              <button type="submit" name="simpan-act-br-import" id="submitButton" class="btn btn-primary" disabled><i class="bx bx-save" style="color: white; font-size: 18px;"></i> Simpan Data</button>
+              <a href="tampil-br-import.php?id=<?php echo $data['id_inv'] ?>" class="btn btn-secondary"><i class="bi bi-arrow-left-square-fill" style="color: white; font-size: 18px;"></i> Tutup</a>
             </div>
           </form>
         </div>
@@ -140,25 +159,29 @@ function generate_uuid()
               <tr class="text-white" style="background-color: #051683;">
                 <td class="text-center p-3" style="width: 50px">No</td>
                 <td class="text-center p-3" style="width: 350px">Nama Produk</td>
+                <td class="text-center p-3" style="width: 100px">Merk</td>
+                <td class="text-center p-3" style="width: 100px">Stock</td>
               </tr>
             </thead>
             <tbody>
               <?php
               date_default_timezone_set('Asia/Jakarta');
-
               include "koneksi.php";
+              $id = $_GET['id'];
               $no = 1;
-              $sql = "SELECT pr.*,  
-                        mr.*
+              $sql = "SELECT pr.*,  mr.*, spr.*
                         FROM tb_produk_reguler as pr
                         LEFT JOIN tb_merk mr ON (pr.id_merk = mr.id_merk)
-                        ";
+                        LEFT JOIN stock_produk_reguler spr ON (pr.id_produk_reg = spr.id_produk_reg)
+                        ORDER BY nama_produk ASC";
               $query = mysqli_query($connect, $sql);
               while ($data = mysqli_fetch_array($query)) {
               ?>
                 <tr data-idprod="<?php echo $data['id_produk_reg']; ?>" data-namaprod="<?php echo $data['nama_produk']; ?>" data-merkprod="<?php echo $data['nama_merk']; ?>" data-bs-dismiss="modal">
                   <td class="text-center"><?php echo $no; ?></td>
                   <td><?php echo $data['nama_produk']; ?></td>
+                  <td class="text-center"><?php echo $data['nama_merk']; ?></td>
+                  <td class="text-center"><?php echo $data['stock']; ?></td>
                 </tr>
                 <?php $no++; ?>
               <?php } ?>
@@ -184,6 +207,7 @@ function generate_uuid()
   $(document).on('click', '#table2 tbody tr', function(e) {
     $('#idProduk').val($(this).data('idprod'));
     $('#namaProduk').val($(this).data('namaprod'));
+    $('#merkProduk').val($(this).data('merkprod'));
     $('#modalBarang').modal('hide');
 
     // Aktifkan input qtyActual
@@ -221,15 +245,15 @@ function generate_uuid()
     var qtyAwal = qtyInput ? parseInt(qtyInput) : 0;
     $(this).val(qtyAwal.toLocaleString('id-ID').replace(',', '.'));
 
-    console.log(qtyAwal.toLocaleString('id-ID').replace(',', '.'));
-
     // mendapatkan tombol dengan id "submitButton"
     var submitButton = document.getElementById("submitButton");
 
     // memeriksa apakah nilai qty sudah diisi atau tidak
-    if ($(this).val().trim() !== '' && parseInt($(this).val().replace(/\D/g, '')) > 0) {
+    if ($(this).val() != '' && qtyAwal > 0) {
+      // jika qty sudah diisi dan > 0, maka aktifkan tombol submit
       submitButton.disabled = false;
     } else {
+      // jika qty belum diisi atau = 0, maka nonaktifkan tombol submit
       submitButton.disabled = true;
     }
   });

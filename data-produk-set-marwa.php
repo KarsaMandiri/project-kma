@@ -1,10 +1,11 @@
 <?php
-    $page = 'data';
-    $page2 = 'data-produk-set-marwa';
-    include "akses.php";
+$page = 'data';
+$page2 = 'data-produk-set-marwa';
+include "akses.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -18,19 +19,19 @@
   <!-- nav header -->
   <?php include "page/nav-header.php" ?>
   <!-- end nav header -->
-  
+
   <!-- sidebar  -->
   <?php include "page/sidebar.php"; ?>
   <!-- end sidebar -->
-  
+
 
   <main id="main" class="main">
-     <!-- Loading -->
-     <div class="loader loader">
+    <!-- Loading -->
+    <!-- <div class="loader loader">
       <div class="loading">
         <img src="img/loading.gif" width="200px" height="auto">
       </div>
-    </div>
+    </div> -->
     <!-- ENd Loading -->
     <div class="pagetitle">
       <h1>Data Produk Set Reguler</h1>
@@ -44,7 +45,10 @@
 
     <section>
       <!-- SWEET ALERT -->
-      <div class="info-data" data-infodata="<?php if(isset($_SESSION['info'])){ echo $_SESSION['info']; } unset($_SESSION['info']); ?>"></div>
+      <div class="info-data" data-infodata="<?php if (isset($_SESSION['info'])) {
+                                              echo $_SESSION['info'];
+                                            }
+                                            unset($_SESSION['info']); ?>"></div>
       <!-- END SWEET ALERT -->
       <div class="container-fluid">
         <div class="card">
@@ -67,10 +71,10 @@
                   </thead>
                   <tbody>
                     <?php
-                      include "koneksi.php";
+                    include "koneksi.php";
 
-                      $no = 1;
-                      $sql = "SELECT prs.*,
+                    $no = 1;
+                    $sql = "SELECT prs.*,
                               prs.created_date as 'produk_created',
                               prs.created_date as 'produk_updated',    
                               uc.nama_user as user_created, 
@@ -83,43 +87,44 @@
                               LEFT JOIN tb_merk mr ON (prs.id_merk = mr.id_merk)
                               LEFT JOIN tb_lokasi_produk lok ON (prs.id_lokasi = lok.id_lokasi)
                               ";
-                        $query = mysqli_query($connect, $sql) OR DIE (mysqli_error($connect, $sql));
-                        while ($data = mysqli_fetch_array($query)) {
+                    $query = mysqli_query($connect, $sql) or die(mysqli_error($connect, $sql));
+                    while ($data = mysqli_fetch_array($query)) {
+                      $id_set = base64_encode($data['id_set_marwa']);
                     ?>
-                    <tr>
-                      <td class="text-center"><?php echo $no; ?></td>
-                      <td><?php echo $data['kode_set_marwa']; ?></td>
-                      <td><?php echo $data['nama_set_marwa']; ?></td>
-                      <td class="text-center"><?php echo $data['nama_merk']; ?></td>
-                      <?php
+                      <tr>
+                        <td class="text-center"><?php echo $no; ?></td>
+                        <td><?php echo $data['kode_set_marwa']; ?></td>
+                        <td><?php echo $data['nama_set_marwa']; ?></td>
+                        <td class="text-center"><?php echo $data['nama_merk']; ?></td>
+                        <?php
                         $id = $data['id_set_marwa'];
                         $grand_total = 0;
-                        $sql_data = "SELECT * FROM isi_produk_set_marwa AS ipsm
-                                     LEFT JOIN tb_produk_reguler AS tpr ON (ipsm.id_produk = tpr.id_produk_reg)
-                                     LEFT JOIN tb_produk_set_marwa AS tpsm ON (ipsm.id_produk_set = tpsm.id_set_marwa)
-                                     WHERE id_produk_set = '$id'";
-                        $query_data = mysqli_query($connect, $sql_data) OR DIE (mysqli_error($connect, $sql_data));
-                        while ($row = mysqli_fetch_array($query_data)){ 
+                        $sql_data = "SELECT ipsm.*, tpsm.*, tpr.* FROM isi_produk_set_marwa ipsm
+                                     LEFT JOIN tb_produk_reguler tpr ON (ipsm.id_produk = tpr.id_produk_reg)
+                                     LEFT JOIN tb_produk_set_marwa tpsm ON (ipsm.id_set_marwa = tpsm.id_set_marwa)
+                                     WHERE tpsm.id_set_marwa = '$id'";
+                        $query_data = mysqli_query($connect, $sql_data) or die(mysqli_error($connect, $sql_data));
+                        while ($row = mysqli_fetch_array($query_data)) {
                           $harga = $row['harga_produk'];
                           $qty = $row['qty'];
                           $jumlah = $qty * $harga;
                           $grand_total += $jumlah;
-                      ?>
-                      <?php } ?>
-                      
-                      <td class="text-end"><?php echo number_format($grand_total,0,'.','.'); ?></td>
-                      <td class="text-end"><?php echo number_format($data['harga_set_marwa'],0,'.','.'); ?></td>
-                      <td class="text-end"><?php echo number_format($data['stock'],0,'.','.'); ?></td>
-                      <td class="text-center">
-                        <!-- Lihat Data -->
-                        <a href="detail-set-marwa.php?detail-id=<?php echo $data['id_set_marwa'] ?>" class="btn btn-primary btn-sm"><i class="bi bi-eye-fill"></i></a>
-                        <!-- Edit Data -->
-                        <a href="edit-data-set-marwa.php?edit-set-marwa=<?php echo $data['id_set_marwa'] ?>" class="btn btn-warning btn-sm"><i class="bi bi-pencil"></i></a>
-                        <!-- Hapus Data -->
-                        <a href="proses/proses-produk-set-marwa.php?hapus-set-marwa=<?php echo $data['id_set_marwa']?>" class="btn btn-danger btn-sm delete-data"><i class="bi bi-trash"></i></a>
-                      </td>
-                    </tr>
-                    <?php $no++; ?>
+                        ?>
+                        <?php } ?>
+
+                        <td class="text-end"><?php echo number_format($grand_total, 0, '.', '.'); ?></td>
+                        <td class="text-end"><?php echo number_format($data['harga_set_marwa'], 0, '.', '.'); ?></td>
+                        <td class="text-end"><?php echo number_format($data['stock'], 0, '.', '.'); ?></td>
+                        <td class="text-center">
+                          <!-- Lihat Data -->
+                          <a href="detail-set-marwa.php?detail-id=<?php echo $id_set ?>" class="btn btn-primary btn-sm"><i class="bi bi-eye-fill"></i></a>
+                          <!-- Edit Data -->
+                          <a href="edit-data-set-marwa.php?edit-set-marwa=<?php echo $id_set ?>" class="btn btn-warning btn-sm"><i class="bi bi-pencil"></i></a>
+                          <!-- Hapus Data -->
+                          <a href="proses/proses-produk-set-marwa.php?hapus-set-marwa=<?php echo $id_set ?>" class="btn btn-danger btn-sm delete-data"><i class="bi bi-trash"></i></a>
+                        </td>
+                      </tr>
+                      <?php $no++; ?>
                     <?php } ?>
                   </tbody>
                 </table>
@@ -130,7 +135,7 @@
       </div>
     </section>
   </main><!-- End #main -->
-  
+
   <!-- Modal SP -->
   <div class="modal fade" id="modal1" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -142,8 +147,8 @@
         <form action="proses/proses-produk.php" method="POST">
           <div class="modal-body">
             <div class="mb-3">
-              <?php 
-                  $UUID = generate_uuid();
+              <?php
+              $UUID = generate_uuid();
               ?>
               <div class="mb-3">
                 <label class="form-label"><strong>Kode Produk Set</strong></label>
@@ -157,12 +162,12 @@
               <div class="mb-3">
                 <label class="form-label"><strong>Merk</strong></label>
                 <select class="selectize-js form-select" name="merk" required>
-                  <?php 
-                    include "koneksi.php";
-                    $sql = "SELECT * FROM tb_merk ";
-                    $query = mysqli_query($connect,$sql) or die (mysqli_error($connect));
-                    while ($data = mysqli_fetch_array($query)){?>
-                      <option value="<?php echo $data['id_merk']; ?>"><?php echo $data['nama_merk']; ?></option>
+                  <?php
+                  include "koneksi.php";
+                  $sql = "SELECT * FROM tb_merk ";
+                  $query = mysqli_query($connect, $sql) or die(mysqli_error($connect));
+                  while ($data = mysqli_fetch_array($query)) { ?>
+                    <option value="<?php echo $data['id_merk']; ?>"><?php echo $data['nama_merk']; ?></option>
                   <?php } ?>
                 </select>
               </div>
@@ -173,26 +178,26 @@
               <div class="mb-3">
                 <label class="form-label"><strong>Lokasi Produk</strong></label>
                 <select class="selectize-js form-select" name="lokasi" required>
-                  <?php 
-                    include "koneksi.php";
-                    $sql = "SELECT * FROM tb_lokasi_produk ";
-                    $query = mysqli_query($connect,$sql) or die (mysqli_error($connect));
-                    while ($data = mysqli_fetch_array($query)){?>
-                      <option value="<?php echo $data['id_lokasi']?>>Nama Lokasi= <?php echo $data['nama_lokasi']?> No.Lantai= <?php echo $data['no_lantai']?> Area= <?php echo $data['nama_area']?> No.Rak= <?php echo $data['no_rak']?></option>
+                  <?php
+                  include "koneksi.php";
+                  $sql = "SELECT * FROM tb_lokasi_produk ";
+                  $query = mysqli_query($connect, $sql) or die(mysqli_error($connect));
+                  while ($data = mysqli_fetch_array($query)) { ?>
+                    <option value="<?php echo $data['id_lokasi'] ?>>Nama Lokasi= <?php echo $data['nama_lokasi'] ?> No.Lantai= <?php echo $data['no_lantai'] ?> Area= <?php echo $data['nama_area'] ?> No.Rak= <?php echo $data['no_rak'] ?></option>
                   <?php } ?>
                 </select>
               </div>
-              <div class="mb-3">
-                <label class="form-label"><strong>Kategori Penjualan</strong></label>
-                <select class="selectize-js form-select" name="kategori_penjualan" required>
-                  <?php 
-                    include "koneksi.php";
-                    $sql = "SELECT * FROM user_role ";
-                    $query = mysqli_query($connect,$sql) or die (mysqli_error($connect));
-                    while ($data = mysqli_fetch_array($query)){?>
-                      <option value="<?php echo $data['id_user_role']; ?>"><?php echo $data['role']; ?></option>
-                  <?php } ?>
-                </select>
+              <div class=" mb-3">
+                      <label class="form-label"><strong>Kategori Penjualan</strong></label>
+                      <select class="selectize-js form-select" name="kategori_penjualan" required>
+                        <?php
+                        include "koneksi.php";
+                        $sql = "SELECT * FROM user_role ";
+                        $query = mysqli_query($connect, $sql) or die(mysqli_error($connect));
+                        while ($data = mysqli_fetch_array($query)) { ?>
+                          <option value="<?php echo $data['id_user_role']; ?>"><?php echo $data['role']; ?></option>
+                        <?php } ?>
+                      </select>
               </div>
               <div class="mb-3">
                 <label class="form-label"><strong>Stok</strong></label>
@@ -217,17 +222,23 @@
 
   <?php include "page/script.php" ?>
 </body>
+
 </html>
 
 <!-- Generat UUID -->
 <?php
-  function generate_uuid() {
-  return sprintf( '%04x%04x%04x',
-    mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
-    mt_rand( 0, 0xffff ),
-    mt_rand( 0, 0x0fff ) | 0x4000,
-    mt_rand( 0, 0x3fff ) | 0x8000,
-    mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff )
+function generate_uuid()
+{
+  return sprintf(
+    '%04x%04x%04x',
+    mt_rand(0, 0xffff),
+    mt_rand(0, 0xffff),
+    mt_rand(0, 0xffff),
+    mt_rand(0, 0x0fff) | 0x4000,
+    mt_rand(0, 0x3fff) | 0x8000,
+    mt_rand(0, 0xffff),
+    mt_rand(0, 0xffff),
+    mt_rand(0, 0xffff)
   );
 }
 ?>
@@ -235,7 +246,7 @@
 
 <script>
   // delete button
-  $("#table1").on("click", ".delete-button", function () {
+  $("#table1").on("click", ".delete-button", function() {
     $(this).closest("tr").remove();
     if ($("#table1 tbody tr").length === 0) {
       $("#table1 tbody").append("<tr><td colspan='9' align='center'>Data not found</td></tr>");
@@ -245,13 +256,16 @@
 
 <!-- Format nominal Indo -->
 <script>
-   const inputBudget = document.getElementById('inputBudget');
-  
+  const inputBudget = document.getElementById('inputBudget');
+
   inputBudget.addEventListener('input', () => {
     // Remove any non-digit characters
     let input = inputBudget.value.replace(/[^\d]/g, '');
     // Convert to a number and format with "Rp" prefix and "." and "," separator
-    let formattedInput = Number(input).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' });
+    let formattedInput = Number(input).toLocaleString('id-ID', {
+      style: 'currency',
+      currency: 'IDR'
+    });
     // Remove trailing ",00" if present
     formattedInput = formattedInput.replace(",00", "");
     // Update the input value with the formatted number
